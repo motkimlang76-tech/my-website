@@ -701,21 +701,20 @@ p {
   align-items: center;
   justify-content: center;
   min-height: 12.5rem;
-  padding: 0.6rem;
-  border: 1px solid rgba(255, 255, 255, 0.82);
+  padding: 0.85rem;
+  border: 1px solid rgba(31, 33, 66, 0.08);
   border-radius: 22px;
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(250, 248, 255, 0.9));
+  background: #ffffff;
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 14px 28px rgba(31, 33, 66, 0.08);
+    0 10px 24px rgba(31, 33, 66, 0.06);
 }
 
 .brand-visual img {
   width: 100%;
   aspect-ratio: 1;
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 18px;
+  background: #ffffff;
 }
 
 .brand-tile-copy {
