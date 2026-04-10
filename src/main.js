@@ -99,9 +99,15 @@ app.innerHTML = `
             .map(
               (brand) => `
                 <article class="brand-tile">
-                  <span class="brand-tile-kicker">K-beauty brand</span>
-                  <strong class="brand-tile-name">${brand.name}</strong>
-                  <p>${brand.note}</p>
+                  <div class="brand-visual">
+                    <img src="${brand.image}" alt="${brand.imageAlt}" loading="lazy" />
+                  </div>
+                  <div class="brand-tile-copy">
+                    <span class="brand-tile-kicker">Featured pick</span>
+                    <strong class="brand-tile-name">${brand.name}</strong>
+                    <p class="brand-pick">${brand.pick}</p>
+                    <p>${brand.note}</p>
+                  </div>
                 </article>
               `
             )

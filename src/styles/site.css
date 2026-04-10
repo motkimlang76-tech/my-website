@@ -14,8 +14,9 @@
   --radius-md: 22px;
   --radius-sm: 14px;
   --container: min(1120px, calc(100vw - 2rem));
-  --font-body: "Quicksand", "Helvetica Neue", sans-serif;
-  --font-display: "Cormorant Garamond", Georgia, serif;
+  --font-body: "Mulish", "Helvetica Neue", sans-serif;
+  --font-display: "Playfair Display", Georgia, serif;
+  --font-ui: "Josefin Sans", "Helvetica Neue", sans-serif;
 }
 
 *,
@@ -32,6 +33,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-body);
+  letter-spacing: 0.01em;
   background:
     radial-gradient(circle at top left, rgba(243, 127, 203, 0.22), transparent 32%),
     radial-gradient(circle at 88% 14%, rgba(111, 167, 255, 0.18), transparent 20%),
@@ -187,10 +189,10 @@ code {
   border: 2px solid rgba(255, 255, 255, 0.72);
   box-shadow: 0 12px 26px rgba(111, 167, 255, 0.2);
   color: #fff8ef;
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 1rem;
   font-weight: 700;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.08em;
 }
 
 .brand-mark img {
@@ -206,16 +208,19 @@ code {
 }
 
 .brand-copy strong {
-  font-family: var(--font-display);
+  font-family: var(--font-ui);
   font-size: 1.3rem;
   font-weight: 700;
-  letter-spacing: 0.01em;
+  line-height: 0.96;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  text-wrap: balance;
 }
 
 .brand-copy span {
   color: var(--ink-soft);
   font-size: 0.88rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .nav {
@@ -229,7 +234,12 @@ code {
   padding: 0.72rem 1rem;
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.34);
-  color: var(--ink-soft);
+  color: rgba(31, 33, 66, 0.76);
+  font-family: var(--font-ui);
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
   transition:
     transform 180ms ease,
     background-color 180ms ease,
@@ -359,8 +369,11 @@ code {
   border-radius: 999px;
   background: var(--ink);
   color: #fff8ef;
-  font-size: 0.9rem;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
   font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .spotlight-list {
@@ -404,9 +417,10 @@ code {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.72);
   color: var(--accent-cool);
-  font-size: 0.78rem;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
   font-weight: 700;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
   box-shadow: 0 10px 22px rgba(111, 167, 255, 0.08);
 }
@@ -424,8 +438,11 @@ code {
     linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 245, 253, 0.82)),
     rgba(255, 255, 255, 0.68);
   color: var(--ink);
-  font-size: 0.95rem;
-  font-weight: 600;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   box-shadow: 0 14px 28px rgba(243, 127, 203, 0.12);
 }
 
@@ -444,35 +461,39 @@ h3 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 700;
-  line-height: 0.95;
-  letter-spacing: -0.015em;
+  line-height: 0.96;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }
 
 h1 {
-  max-width: 13ch;
+  max-width: 11ch;
   margin-top: 1rem;
-  font-size: clamp(3.2rem, 8vw, 6.2rem);
+  font-size: clamp(3.45rem, 8vw, 6.15rem);
+  line-height: 0.92;
 }
 
 h2 {
   max-width: 18ch;
-  font-size: clamp(2rem, 4vw, 3rem);
+  font-size: clamp(2.15rem, 4.2vw, 3.2rem);
+  line-height: 0.94;
 }
 
 h3 {
-  font-size: 1.5rem;
+  font-size: 1.56rem;
+  line-height: 1.02;
 }
 
 p {
   margin: 0;
   color: var(--ink-soft);
-  line-height: 1.7;
+  line-height: 1.72;
 }
 
 .lede {
   max-width: 38rem;
   margin-top: 1.4rem;
-  font-size: 1.05rem;
+  font-size: 1.08rem;
 }
 
 .hero-charm-row {
@@ -493,8 +514,8 @@ p {
     linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 247, 253, 0.68)),
     linear-gradient(135deg, rgba(243, 127, 203, 0.1), rgba(111, 167, 255, 0.12));
   color: var(--ink);
-  font-size: 0.92rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 700;
   box-shadow: 0 12px 24px rgba(243, 127, 203, 0.08);
 }
 
@@ -515,8 +536,11 @@ p {
   border-radius: 999px;
   border: 1px solid transparent;
   cursor: pointer;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  font-family: var(--font-ui);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
   transition:
     transform 180ms ease,
     box-shadow 180ms ease,
@@ -564,6 +588,7 @@ p {
   font-family: var(--font-display);
   font-size: 1.5rem;
   font-weight: 800;
+  line-height: 1;
 }
 
 .section-heading {
@@ -671,19 +696,52 @@ p {
     box-shadow 180ms ease;
 }
 
+.brand-visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 12.5rem;
+  padding: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 60%),
+    linear-gradient(180deg, rgba(255, 245, 251, 0.9), rgba(241, 246, 255, 0.78));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.85);
+}
+
+.brand-visual img {
+  width: 100%;
+  max-height: 10.25rem;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 28px rgba(31, 33, 66, 0.16));
+}
+
+.brand-tile-copy {
+  display: grid;
+  gap: 0.45rem;
+}
+
 .brand-tile-kicker {
   color: var(--accent-cool);
+  font-family: var(--font-ui);
   font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
 }
 
 .brand-tile-name {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.7rem;
-  line-height: 1;
+  font-size: 1.72rem;
+  line-height: 0.98;
+}
+
+.brand-pick {
+  color: var(--ink);
+  font-size: 0.96rem;
+  font-weight: 700;
 }
 
 .project-header {
@@ -748,8 +806,8 @@ p {
   border-radius: 999px;
   background: linear-gradient(135deg, rgba(243, 127, 203, 0.18), rgba(111, 167, 255, 0.18));
   color: var(--ink);
-  font-size: 0.9rem;
-  font-weight: 600;
+  font-size: 0.88rem;
+  font-weight: 700;
 }
 
 .tag-soft {
@@ -775,8 +833,9 @@ p {
 .product-price {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.55rem;
+  font-size: 1.62rem;
   font-weight: 800;
+  line-height: 1;
 }
 
 .social-link {
@@ -787,6 +846,10 @@ p {
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.7);
   background: linear-gradient(135deg, rgba(243, 127, 203, 0.12), rgba(111, 167, 255, 0.12));
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .social-link-muted {
@@ -838,7 +901,7 @@ p {
 .cart-summary-row strong,
 .cart-total-row strong {
   font-family: var(--font-display);
-  font-size: 1.5rem;
+  font-size: 1.56rem;
 }
 
 .cart-items {
@@ -983,7 +1046,7 @@ p {
 .contact-status strong {
   color: var(--ink);
   font-family: var(--font-display);
-  font-size: 1.1rem;
+  font-size: 1.16rem;
 }
 
 .contact-status span {
@@ -1005,6 +1068,10 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.72);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.58);
+  font-family: var(--font-ui);
+  font-size: 0.76rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .site-footer p {
@@ -1100,11 +1167,11 @@ p {
   }
 
   h1 {
-    font-size: clamp(2.7rem, 13vw, 4rem);
+    font-size: clamp(2.75rem, 13vw, 4.15rem);
   }
 
   h2 {
-    font-size: clamp(1.8rem, 8vw, 2.5rem);
+    font-size: clamp(1.9rem, 8vw, 2.65rem);
   }
 
   .cart-item {
