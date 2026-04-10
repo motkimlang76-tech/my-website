@@ -2,19 +2,20 @@ export const siteData = {
   seo: {
     title: "ROLANG BEAUTY | Korean Beauty Shop",
     description:
-      "ROLANG BEAUTY is a Korean beauty shop in Kuala Lumpur with curated K-beauty skincare now and more Korean products coming later.",
+      "ROLANG BEAUTY is a Korean beauty shop in Phnom Penh City, Cambodia with curated K-beauty skincare now and more Korean products coming later.",
   },
   profile: {
     name: "ROLANG BEAUTY",
     role: "Online Korean beauty shop",
-    location: "Kuala Lumpur",
+    location: "Phnom Penh City, Cambodia",
     brandImage: "src/assets/rolang-brand-photo-badge.jpeg",
     brandImageAlt: "ROLANG BEAUTY brand photo",
-    availability: "K-beauty orders open now • More Korean products coming soon",
+    availability: "Cute K-beauty orders open now • More Korean products coming soon",
     intro:
-      "Shop Korean beauty online with a pink-and-blue store made for glow.",
+      "Cute Korean beauty picks in a pink-and-blue shop made for glow.",
     summary:
-      "ROLANG BEAUTY is an online Korean beauty shop based in Kuala Lumpur. The store highlights SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB, with more Korean skincare and beauty products coming later.",
+      "ROLANG BEAUTY is an online Korean beauty shop based in Phnom Penh City, Cambodia. The store highlights SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB with soft-glow skincare picks now and more Korean beauty products coming later.",
+    charms: ["Soft glow picks", "Cute packaging mood", "K-beauty favorites"],
     email: "motkimlang76@gmail.com",
     primaryLink: {
       label: "Shop Korean picks",
@@ -36,17 +37,17 @@ export const siteData = {
   sections: {
     about: {
       eyebrow: "About",
-      title: "A pink-and-blue Korean beauty shop with a growing K-beauty collection.",
+      title: "A cute pink-and-blue Korean beauty shop with a growing K-beauty collection.",
     },
     brands: {
       eyebrow: "Brands",
-      title: "Korean skincare brands you want to sell at ROLANG BEAUTY.",
+      title: "Cute Korean skincare brands you want to sell at ROLANG BEAUTY.",
       description:
         "These are the key Korean skincare brands featured on the shop right now, with space to add even more later.",
     },
     shop: {
       eyebrow: "Shop",
-      title: "Add Korean beauty products to your cart and checkout online by email.",
+      title: "Cute Korean beauty picks you can add to your cart and checkout by email.",
     },
     cart: {
       eyebrow: "Cart",

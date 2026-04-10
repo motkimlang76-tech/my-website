@@ -33,6 +33,8 @@ body {
   background:
     radial-gradient(circle at top left, rgba(243, 127, 203, 0.22), transparent 32%),
     radial-gradient(circle at 88% 14%, rgba(111, 167, 255, 0.18), transparent 20%),
+    radial-gradient(circle at 22% 24%, rgba(255, 255, 255, 0.68), transparent 14%),
+    radial-gradient(circle at 76% 34%, rgba(255, 255, 255, 0.55), transparent 12%),
     linear-gradient(180deg, #fdf7ff 0%, var(--bg) 54%, #eef3ff 100%);
   color: var(--ink);
 }
@@ -65,6 +67,40 @@ code {
 .page-shell {
   position: relative;
   overflow: clip;
+}
+
+.page-shell::before,
+.page-shell::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.page-shell::before {
+  top: 10rem;
+  right: 8%;
+  width: 8rem;
+  height: 8rem;
+  border-radius: 32px;
+  background:
+    radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.78), transparent 20%),
+    linear-gradient(135deg, rgba(243, 127, 203, 0.28), rgba(111, 167, 255, 0.18));
+  transform: rotate(12deg);
+}
+
+.page-shell::after {
+  top: 38rem;
+  left: 5%;
+  width: 6rem;
+  height: 6rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at 34% 34%, rgba(255, 255, 255, 0.86), transparent 18%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.18), rgba(243, 127, 203, 0.16));
+  box-shadow:
+    1.6rem 1.2rem 0 -1.5rem rgba(111, 167, 255, 0.45),
+    0 0 0 1px rgba(255, 255, 255, 0.42);
 }
 
 .ambient {
@@ -124,7 +160,9 @@ code {
   padding: 1rem 1.25rem;
   border: 1px solid rgba(255, 255, 255, 0.45);
   border-radius: 999px;
-  background: rgba(255, 249, 241, 0.72);
+  background:
+    linear-gradient(135deg, rgba(255, 250, 252, 0.86), rgba(248, 244, 255, 0.76)),
+    rgba(255, 249, 241, 0.72);
   backdrop-filter: blur(18px);
   box-shadow: var(--shadow);
 }
@@ -184,6 +222,7 @@ code {
 .nav-link {
   padding: 0.72rem 1rem;
   border-radius: 999px;
+  background: rgba(255, 255, 255, 0.34);
   color: var(--ink-soft);
   transition:
     transform 180ms ease,
@@ -214,6 +253,7 @@ code {
 .toolbox-card,
 .contact-card {
   position: relative;
+  overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.42);
   background: var(--surface);
   box-shadow: var(--shadow);
@@ -228,12 +268,44 @@ code {
     linear-gradient(140deg, rgba(243, 127, 203, 0.12), transparent 42%);
 }
 
+.hero-copy::after {
+  content: "";
+  position: absolute;
+  right: -1.2rem;
+  bottom: -1.8rem;
+  width: 9rem;
+  height: 9rem;
+  border-radius: 30px;
+  background:
+    radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.82), transparent 18%),
+    linear-gradient(135deg, rgba(243, 127, 203, 0.2), rgba(111, 167, 255, 0.18));
+  transform: rotate(16deg);
+  opacity: 0.7;
+}
+
 .hero-panel {
   display: grid;
   align-content: start;
   gap: 1rem;
   padding: 2rem;
   border-radius: var(--radius-lg);
+}
+
+.hero-panel::before {
+  content: "Cute shelf";
+  position: absolute;
+  top: 1.1rem;
+  right: 1.1rem;
+  z-index: 1;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.75);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  color: var(--ink);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .spotlight-card {
@@ -243,7 +315,7 @@ code {
   overflow: hidden;
   padding: 1.4rem;
   border: 1px solid rgba(255, 255, 255, 0.75);
-  border-radius: calc(var(--radius-lg) - 4px);
+  border-radius: calc(var(--radius-lg) + 2px);
   background:
     radial-gradient(circle at top right, rgba(243, 127, 203, 0.22), transparent 30%),
     linear-gradient(145deg, rgba(255, 255, 255, 0.92), rgba(255, 249, 241, 0.74)),
@@ -317,12 +389,20 @@ code {
 }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
   margin: 0;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
   color: var(--accent-cool);
   font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.13em;
   text-transform: uppercase;
+  box-shadow: 0 10px 22px rgba(111, 167, 255, 0.08);
 }
 
 .status-pill {
@@ -332,11 +412,15 @@ code {
   width: fit-content;
   margin: 0 0 1rem;
   padding: 0.65rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.68);
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.86), rgba(255, 245, 253, 0.82)),
+    rgba(255, 255, 255, 0.68);
   color: var(--ink);
   font-size: 0.95rem;
   font-weight: 600;
+  box-shadow: 0 14px 28px rgba(243, 127, 203, 0.12);
 }
 
 .status-pill::before {
@@ -383,6 +467,29 @@ p {
   max-width: 38rem;
   margin-top: 1.4rem;
   font-size: 1.05rem;
+}
+
+.hero-charm-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+}
+
+.charm-chip {
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.55rem;
+  padding: 0.6rem 0.95rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(255, 247, 253, 0.68)),
+    linear-gradient(135deg, rgba(243, 127, 203, 0.1), rgba(111, 167, 255, 0.12));
+  color: var(--ink);
+  font-size: 0.92rem;
+  font-weight: 600;
+  box-shadow: 0 12px 24px rgba(243, 127, 203, 0.08);
 }
 
 .hero-actions,
@@ -439,8 +546,11 @@ p {
   gap: 0.2rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.44);
+  border-radius: 26px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 253, 0.6)),
+    rgba(255, 255, 255, 0.44);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.72);
 }
 
 .stat-card strong {
@@ -457,6 +567,10 @@ p {
 
 .section-heading h2 {
   max-width: 18ch;
+}
+
+.section-heading p:last-child {
+  max-width: 42rem;
 }
 
 .principle-grid,
@@ -490,7 +604,22 @@ p {
   align-content: start;
   gap: 1rem;
   padding: 1.5rem;
-  border-radius: var(--radius-lg);
+  border-radius: calc(var(--radius-lg) + 2px);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.principle-card:hover,
+.principle-card:focus-within,
+.project-card:hover,
+.project-card:focus-within,
+.brand-tile:hover,
+.toolbox-card:hover,
+.contact-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 52px rgba(31, 33, 66, 0.14);
 }
 
 .brand-board {
@@ -507,6 +636,17 @@ p {
   backdrop-filter: blur(16px);
 }
 
+.brand-board::before {
+  content: "";
+  position: absolute;
+  right: -1.2rem;
+  top: -1.2rem;
+  width: 7rem;
+  height: 7rem;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(243, 127, 203, 0.2), transparent 66%);
+}
+
 .brand-tile {
   display: grid;
   align-content: start;
@@ -519,6 +659,9 @@ p {
     linear-gradient(160deg, rgba(255, 255, 255, 0.88), rgba(255, 249, 255, 0.62)),
     linear-gradient(135deg, rgba(243, 127, 203, 0.1), rgba(111, 167, 255, 0.12));
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .brand-tile-kicker {
@@ -539,6 +682,27 @@ p {
 .project-header {
   display: grid;
   gap: 0.8rem;
+}
+
+.project-card {
+  background:
+    radial-gradient(circle at top right, rgba(243, 127, 203, 0.14), transparent 28%),
+    linear-gradient(155deg, rgba(255, 255, 255, 0.88), rgba(255, 248, 253, 0.64));
+}
+
+.project-card::after,
+.toolbox-card::after,
+.contact-card::after,
+.cart-card::after {
+  content: "";
+  position: absolute;
+  right: 1rem;
+  top: 1rem;
+  width: 0.9rem;
+  height: 0.9rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(243, 127, 203, 0.72), rgba(111, 167, 255, 0.72));
+  box-shadow: 0 0 0 7px rgba(243, 127, 203, 0.08);
 }
 
 .project-outcomes {
@@ -575,7 +739,7 @@ p {
 .tag {
   padding: 0.6rem 0.8rem;
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(243, 127, 203, 0.14), rgba(111, 167, 255, 0.14));
+  background: linear-gradient(135deg, rgba(243, 127, 203, 0.18), rgba(111, 167, 255, 0.18));
   color: var(--ink);
   font-size: 0.9rem;
   font-weight: 600;
@@ -614,6 +778,7 @@ p {
   min-height: 2.6rem;
   padding: 0.55rem 0.9rem;
   border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
   background: linear-gradient(135deg, rgba(243, 127, 203, 0.12), rgba(111, 167, 255, 0.12));
 }
 
@@ -627,6 +792,9 @@ p {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.82), rgba(255, 249, 255, 0.68)),
     linear-gradient(135deg, rgba(243, 127, 203, 0.07), rgba(111, 167, 255, 0.08));
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .cart-shell {
@@ -645,8 +813,10 @@ p {
 .cart-panel {
   padding: 1.2rem;
   border: 1px solid var(--line);
-  border-radius: var(--radius-lg);
-  background: rgba(255, 255, 255, 0.52);
+  border-radius: calc(var(--radius-lg) + 2px);
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.86), rgba(255, 248, 253, 0.6)),
+    rgba(255, 255, 255, 0.52);
 }
 
 .cart-summary-row,
@@ -676,8 +846,10 @@ p {
   align-items: center;
   padding: 1rem;
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.62);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 248, 253, 0.66)),
+    rgba(255, 255, 255, 0.62);
 }
 
 .cart-item-copy {
@@ -769,6 +941,9 @@ p {
   background:
     linear-gradient(135deg, rgba(255, 255, 255, 0.8), rgba(255, 249, 241, 0.62)),
     linear-gradient(135deg, rgba(111, 167, 255, 0.09), rgba(243, 127, 203, 0.06));
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .contact-copy {
@@ -792,8 +967,10 @@ p {
   gap: 0.4rem;
   padding: 1rem 1.1rem;
   border: 1px solid var(--line);
-  border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.44);
+  border-radius: 24px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.88), rgba(255, 248, 253, 0.62)),
+    rgba(255, 255, 255, 0.44);
 }
 
 .contact-status strong {
@@ -814,6 +991,13 @@ p {
   justify-content: space-between;
   gap: 0.8rem;
   padding-bottom: 2.5rem;
+}
+
+.site-footer a {
+  padding: 0.55rem 0.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.72);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.58);
 }
 
 .site-footer p {
@@ -885,6 +1069,10 @@ p {
   .nav {
     width: 100%;
     justify-content: flex-start;
+  }
+
+  .hero-charm-row {
+    gap: 0.55rem;
   }
 
   .hero-copy,

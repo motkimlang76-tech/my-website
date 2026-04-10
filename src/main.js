@@ -46,6 +46,9 @@ app.innerHTML = `
         <p class="eyebrow">${siteData.profile.location}</p>
         <h1>${siteData.profile.intro}</h1>
         <p class="lede">${siteData.profile.summary}</p>
+        <div class="hero-charm-row">
+          ${siteData.profile.charms.map((item) => `<span class="charm-chip">${item}</span>`).join("")}
+        </div>
         <div class="hero-actions">
           <a class="button button-primary" href="${siteData.profile.primaryLink.href}">
             ${siteData.profile.primaryLink.label}
