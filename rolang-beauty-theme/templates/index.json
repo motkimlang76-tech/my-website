@@ -1,0 +1,167 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "rolang-home",
+      "settings": {
+        "eyebrow": "Phnom Penh City, Cambodia",
+        "heading": "The first Rolang Beauty launch edit is ready to shop.",
+        "description": "Start with a focused Korean skincare assortment instead of an oversized catalog. The first storefront now leads with calming care, daily sunscreen, cleansing staples, and targeted treatment picks.",
+        "primary_label": "Shop the launch",
+        "primary_url": "/collections/launch-edit",
+        "secondary_label": "Email the shop",
+        "secondary_url": "mailto:motkimlang76@gmail.com?subject=Rolang%20Beauty%20store%20question",
+        "panel_eyebrow": "Launch set",
+        "panel_title": "A balanced first drop for calm skin, glow, and daily SPF.",
+        "panel_description": "The store launches with a tighter assortment so the storefront feels curated, easier to browse, and easier to manage as the catalog grows.",
+        "panel_items": "Centella Ampoule\nSnail 96 Mucin Essence\nDaily sunscreen picks",
+        "steps_eyebrow": "How to shop",
+        "steps_heading": "A simpler first storefront.",
+        "steps_description": "Start with the launch collection, compare a few products, then build your cart in Shopify instead of emailing for every item.",
+        "brands_eyebrow": "Launch brands",
+        "brands_heading": "Five Korean skincare brands in the first live drop.",
+        "brands_description": "SKIN1004, COSRX, Isntree, ANUA, and Medicube form the opening assortment while the broader catalog is staged for later expansion.",
+        "collection_eyebrow": "Launch edit",
+        "collection_heading": "The first products now loaded into Shopify.",
+        "collection_description": "These items are connected to real Shopify product pages with prices, images, cart, and collection browsing.",
+        "featured_collection": "launch-edit",
+        "products_to_show": 8,
+        "contact_eyebrow": "Support",
+        "contact_heading": "Questions about products or orders?",
+        "contact_description": "Use email for routine help, wholesale questions, or store support while the product range continues to grow.",
+        "contact_email": "motkimlang76@gmail.com",
+        "contact_link_label": "View collections",
+        "contact_link_url": "/collections"
+      },
+      "blocks": {
+        "note_launch": {
+          "type": "note",
+          "settings": {
+            "text": "11 launch products live"
+          }
+        },
+        "note_mix": {
+          "type": "note",
+          "settings": {
+            "text": "Calming care + SPF + treatment picks"
+          }
+        },
+        "note_growth": {
+          "type": "note",
+          "settings": {
+            "text": "More products from the original guide coming next"
+          }
+        },
+        "stat_products": {
+          "type": "stat",
+          "settings": {
+            "value": "11 products",
+            "label": "in the first Shopify launch assortment"
+          }
+        },
+        "stat_brands": {
+          "type": "stat",
+          "settings": {
+            "value": "5 brands",
+            "label": "SKIN1004, COSRX, Isntree, ANUA, and Medicube in the opening drop"
+          }
+        },
+        "stat_collections": {
+          "type": "stat",
+          "settings": {
+            "value": "4 collections",
+            "label": "cleansers, sunscreen, calming hydration, and targeted treatment"
+          }
+        },
+        "step_browse": {
+          "type": "step",
+          "settings": {
+            "title": "Start with the launch edit",
+            "description": "The homepage and featured collection focus attention on a smaller set of products instead of overwhelming a first-time shopper."
+          }
+        },
+        "step_compare": {
+          "type": "step",
+          "settings": {
+            "title": "Use product pages to compare",
+            "description": "Each product page now has its own image, description, pricing, and cart flow inside Shopify."
+          }
+        },
+        "step_support": {
+          "type": "step",
+          "settings": {
+            "title": "Keep a direct support line",
+            "description": "Email stays available for skincare questions, order help, and future wholesale or restock requests."
+          }
+        },
+        "brand_skin1004": {
+          "type": "brand",
+          "settings": {
+            "name": "SKIN1004",
+            "title": "Centella-led calming essentials",
+            "note": "The first drop includes the signature ampoule, a light cleansing oil, and a daily SPF pick."
+          }
+        },
+        "brand_cosrx": {
+          "type": "brand",
+          "settings": {
+            "name": "COSRX",
+            "title": "Barrier-friendly daily staples",
+            "note": "Launch products focus on cleansing, snail mucin hydration, and a simple breakout patch."
+          }
+        },
+        "brand_isntree": {
+          "type": "brand",
+          "settings": {
+            "name": "Isntree",
+            "title": "Easy daily sunscreen",
+            "note": "The launch keeps Isntree focused on a reliable hydrating SPF to strengthen the morning routine."
+          }
+        },
+        "brand_anua": {
+          "type": "brand",
+          "settings": {
+            "name": "ANUA",
+            "title": "Heartleaf calm and peach glow",
+            "note": "A soothing toner and niacinamide serum bring calming and brightening into the first wave."
+          }
+        },
+        "brand_medicube": {
+          "type": "brand",
+          "settings": {
+            "name": "Medicube",
+            "title": "Treatment-led finishing steps",
+            "note": "The launch includes a collagen jelly cream and pore-care pads to anchor the treatment section."
+          }
+        }
+      },
+      "block_order": [
+        "note_launch",
+        "note_mix",
+        "note_growth",
+        "stat_products",
+        "stat_brands",
+        "stat_collections",
+        "step_browse",
+        "step_compare",
+        "step_support",
+        "brand_skin1004",
+        "brand_cosrx",
+        "brand_isntree",
+        "brand_anua",
+        "brand_medicube"
+      ]
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

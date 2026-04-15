@@ -1,0 +1,592 @@
+{% liquid
+  assign note_blocks = section.blocks | where: 'type', 'note'
+  assign stat_blocks = section.blocks | where: 'type', 'stat'
+  assign step_blocks = section.blocks | where: 'type', 'step'
+  assign brand_blocks = section.blocks | where: 'type', 'brand'
+  assign hero_products = section.settings.hero_products
+  assign featured_collection = section.settings.featured_collection
+  assign panel_items = section.settings.panel_items | newline_to_br | split: '<br />'
+%}
+
+<div class="rolang-section-frame">
+  <div class="rolang-home-shell">
+    <section class="rolang-hero">
+      <div class="rolang-hero-copy">
+        <p class="rolang-eyebrow">{{ section.settings.eyebrow }}</p>
+        <h1 class="rolang-heading">{{ section.settings.heading }}</h1>
+        <p class="rolang-lede">{{ section.settings.description }}</p>
+
+        {% if note_blocks.size > 0 %}
+          <div class="rolang-chip-row">
+            {% for block in note_blocks %}
+              <span class="rolang-chip" {{ block.shopify_attributes }}>{{ block.settings.text }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <div class="rolang-hero-actions">
+          {% if section.settings.primary_label != blank and section.settings.primary_url != blank %}
+            <a class="rolang-button" href="{{ section.settings.primary_url }}">{{ section.settings.primary_label }}</a>
+          {% endif %}
+          {% if section.settings.secondary_label != blank and section.settings.secondary_url != blank %}
+            <a class="rolang-button-secondary" href="{{ section.settings.secondary_url }}">
+              {{ section.settings.secondary_label }}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <aside class="rolang-hero-panel">
+        <div>
+          <p class="rolang-eyebrow">{{ section.settings.panel_eyebrow }}</p>
+          <h2 class="rolang-panel-heading">{{ section.settings.panel_title }}</h2>
+          <p class="rolang-panel-copy">{{ section.settings.panel_description }}</p>
+        </div>
+
+        <div class="rolang-showcase-grid">
+          {% if hero_products != blank %}
+            {% for product in hero_products limit: 3 %}
+              <article class="rolang-showcase-card">
+                <div class="rolang-showcase-media">
+                  {% if product.featured_image %}
+                    {% render 'image', image: product.featured_image, width: 320, height: 320, crop: 'center' %}
+                  {% endif %}
+                </div>
+                <div class="rolang-showcase-copy">
+                  <strong>{{ product.vendor | default: shop.name }}</strong>
+                  <span>{{ product.title }}</span>
+                </div>
+              </article>
+            {% endfor %}
+          {% else %}
+            <article class="rolang-showcase-card">
+              <div class="rolang-showcase-media">
+                <img
+                  src="{{ 'skin1004-centella-ampoule.png' | asset_url }}"
+                  alt="SKIN1004 Madagascar Centella Ampoule bottle"
+                  loading="lazy"
+                  width="320"
+                  height="320"
+                >
+              </div>
+              <div class="rolang-showcase-copy">
+                <strong>SKIN1004</strong>
+                <span>Centella Ampoule</span>
+              </div>
+            </article>
+
+            <article class="rolang-showcase-card">
+              <div class="rolang-showcase-media">
+                <img
+                  src="{{ 'cosrx-advanced-snail-96-mucin-essence.jpg' | asset_url }}"
+                  alt="COSRX Advanced Snail 96 Mucin Essence bottle"
+                  loading="lazy"
+                  width="320"
+                  height="320"
+                >
+              </div>
+              <div class="rolang-showcase-copy">
+                <strong>COSRX</strong>
+                <span>Snail 96 Mucin Essence</span>
+              </div>
+            </article>
+
+            <article class="rolang-showcase-card">
+              <div class="rolang-showcase-media">
+                <img
+                  src="{{ 'medicube-collagen-niacinamide-jelly-cream.jpg' | asset_url }}"
+                  alt="Medicube Collagen Niacinamide Jelly Cream jar"
+                  loading="lazy"
+                  width="320"
+                  height="320"
+                >
+              </div>
+              <div class="rolang-showcase-copy">
+                <strong>Medicube</strong>
+                <span>Collagen Niacinamide Jelly Cream</span>
+              </div>
+            </article>
+          {% endif %}
+        </div>
+
+        {% if section.settings.panel_items != blank %}
+          <ul class="rolang-panel-list">
+            {% for item in panel_items %}
+              {% assign clean_item = item | strip %}
+              {% if clean_item != blank %}
+                <li>{{ clean_item }}</li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </aside>
+    </section>
+
+    {% if stat_blocks.size > 0 %}
+      <section class="rolang-stats-grid">
+        {% for block in stat_blocks %}
+          <article class="rolang-soft-card" {{ block.shopify_attributes }}>
+            <strong class="rolang-stat-value">{{ block.settings.value }}</strong>
+            <p class="rolang-stat-label">{{ block.settings.label }}</p>
+          </article>
+        {% endfor %}
+      </section>
+    {% endif %}
+
+    <section class="rolang-content-cluster">
+      {% if step_blocks.size > 0 %}
+        <div>
+          <div class="rolang-section-heading">
+            <p class="rolang-eyebrow">{{ section.settings.steps_eyebrow }}</p>
+            <h2>{{ section.settings.steps_heading }}</h2>
+            <p>{{ section.settings.steps_description }}</p>
+          </div>
+          <div class="rolang-steps-grid">
+            {% for block in step_blocks %}
+              <article class="rolang-soft-card rolang-step-card" {{ block.shopify_attributes }}>
+                <span class="rolang-step-number">{{ forloop.index }}</span>
+                <h3>{{ block.settings.title }}</h3>
+                <p>{{ block.settings.description }}</p>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+
+      {% if brand_blocks.size > 0 %}
+        <div>
+          <div class="rolang-section-heading">
+            <p class="rolang-eyebrow">{{ section.settings.brands_eyebrow }}</p>
+            <h2>{{ section.settings.brands_heading }}</h2>
+            <p>{{ section.settings.brands_description }}</p>
+          </div>
+          <div class="rolang-brands-grid">
+            {% for block in brand_blocks %}
+              <article class="rolang-soft-card rolang-brand-card" {{ block.shopify_attributes }}>
+                <span class="rolang-brand-pill">{{ block.settings.name }}</span>
+                <h3>{{ block.settings.title }}</h3>
+                <p class="rolang-brand-note">{{ block.settings.note }}</p>
+              </article>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="rolang-collection-card">
+      <div class="rolang-section-heading">
+        <p class="rolang-eyebrow">{{ section.settings.collection_eyebrow }}</p>
+        <h2>{{ section.settings.collection_heading }}</h2>
+        <p>{{ section.settings.collection_description }}</p>
+      </div>
+
+      {% if featured_collection != blank %}
+        <div class="rolang-product-grid">
+          {% for product in featured_collection.products limit: section.settings.products_to_show %}
+            <article class="rolang-product-card">
+              <div class="rolang-product-card-image">
+                {% if product.featured_image %}
+                  {% render 'image',
+                    image: product.featured_image,
+                    url: product.url,
+                    width: 640,
+                    height: 640,
+                    crop: 'center'
+                  %}
+                {% endif %}
+              </div>
+              <div class="rolang-product-card-copy">
+                <span class="rolang-product-meta">{{ product.vendor | default: shop.name }}</span>
+                <strong>{{ product.title }}</strong>
+                <div class="rolang-price-row">
+                  <span class="rolang-price">{{ product.price | money }}</span>
+                  {% if product.compare_at_price > product.price %}
+                    <span class="rolang-compare-price">{{ product.compare_at_price | money }}</span>
+                  {% endif %}
+                </div>
+                <div class="rolang-tag-row">
+                  {% for tag in product.tags limit: 3 %}
+                    <span class="rolang-chip">{{ tag }}</span>
+                  {% endfor %}
+                </div>
+                <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
+              </div>
+            </article>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="rolang-collection-placeholder">
+          Pick a featured collection in the theme editor after your products are imported into Shopify.
+        </div>
+      {% endif %}
+    </section>
+
+    <section class="rolang-contact-card">
+      <div>
+        <p class="rolang-eyebrow">{{ section.settings.contact_eyebrow }}</p>
+        <h2>{{ section.settings.contact_heading }}</h2>
+        <p>{{ section.settings.contact_description }}</p>
+      </div>
+      <div class="rolang-contact-actions">
+        {% if section.settings.contact_email != blank %}
+          <a class="rolang-button rolang-contact-email" href="mailto:{{ section.settings.contact_email }}">
+            {{ section.settings.contact_email }}
+          </a>
+        {% endif %}
+        {% if section.settings.contact_link_label != blank and section.settings.contact_link_url != blank %}
+          <a class="rolang-button-secondary" href="{{ section.settings.contact_link_url }}">
+            {{ section.settings.contact_link_label }}
+          </a>
+        {% endif %}
+      </div>
+    </section>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "ROLANG home",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Hero eyebrow",
+      "default": "Phnom Penh City, Cambodia"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Hero heading",
+      "default": "A softer way to shop Korean skincare online."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Hero description",
+      "default": "ROLANG BEAUTY is an online Korean beauty shop based in Phnom Penh City, Cambodia. Use Shopify collections, real product pages, and checkout to turn the original product guide into a working storefront."
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Primary button label",
+      "default": "Shop all products"
+    },
+    {
+      "type": "url",
+      "id": "primary_url",
+      "label": "Primary button link",
+      "default": "/collections/all"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Secondary button label",
+      "default": "Contact the shop"
+    },
+    {
+      "type": "url",
+      "id": "secondary_url",
+      "label": "Secondary button link"
+    },
+    {
+      "type": "text",
+      "id": "panel_eyebrow",
+      "label": "Panel eyebrow",
+      "default": "Starter set"
+    },
+    {
+      "type": "text",
+      "id": "panel_title",
+      "label": "Panel title",
+      "default": "Three steps for a clean, calm everyday routine."
+    },
+    {
+      "type": "textarea",
+      "id": "panel_description",
+      "label": "Panel description",
+      "default": "Start with soothing care, layer in hydration, and finish with lightweight daily protection. You can keep the curated look of the original site while using Shopify products and checkout."
+    },
+    {
+      "type": "textarea",
+      "id": "panel_items",
+      "label": "Panel list items",
+      "default": "Centella Light Cleansing Oil\nMadagascar Centella Ampoule\nHyalu-Cica Water-Fit Sun Serum"
+    },
+    {
+      "type": "product_list",
+      "id": "hero_products",
+      "label": "Hero products"
+    },
+    {
+      "type": "text",
+      "id": "steps_eyebrow",
+      "label": "Steps eyebrow",
+      "default": "Start here"
+    },
+    {
+      "type": "text",
+      "id": "steps_heading",
+      "label": "Steps heading",
+      "default": "Guide customers from first impression to checkout."
+    },
+    {
+      "type": "textarea",
+      "id": "steps_description",
+      "label": "Steps description",
+      "default": "Use the homepage to explain the shop quickly, then move customers into collections, products, cart, and checkout."
+    },
+    {
+      "type": "text",
+      "id": "brands_eyebrow",
+      "label": "Brands eyebrow",
+      "default": "Brands"
+    },
+    {
+      "type": "text",
+      "id": "brands_heading",
+      "label": "Brands heading",
+      "default": "Featured Korean skincare brands in the current shop edit."
+    },
+    {
+      "type": "textarea",
+      "id": "brands_description",
+      "label": "Brands description",
+      "default": "Keep the curated K-beauty positioning of the original site while attaching real products to each collection."
+    },
+    {
+      "type": "text",
+      "id": "collection_eyebrow",
+      "label": "Collection eyebrow",
+      "default": "Shop the edit"
+    },
+    {
+      "type": "text",
+      "id": "collection_heading",
+      "label": "Collection heading",
+      "default": "A featured collection that can actually sell products."
+    },
+    {
+      "type": "textarea",
+      "id": "collection_description",
+      "label": "Collection description",
+      "default": "Select a collection in the theme editor after you import products. The cards below will then show real product images, prices, and product pages."
+    },
+    {
+      "type": "collection",
+      "id": "featured_collection",
+      "label": "Featured collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "label": "Products to show",
+      "min": 4,
+      "max": 12,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "text",
+      "id": "contact_eyebrow",
+      "label": "Contact eyebrow",
+      "default": "Contact"
+    },
+    {
+      "type": "text",
+      "id": "contact_heading",
+      "label": "Contact heading",
+      "default": "Need help with an order or a skincare routine?"
+    },
+    {
+      "type": "textarea",
+      "id": "contact_description",
+      "label": "Contact description",
+      "default": "Use the storefront for products, cart, and checkout. Keep a direct contact path for questions, wholesale requests, or custom recommendations."
+    },
+    {
+      "type": "text",
+      "id": "contact_email",
+      "label": "Contact email",
+      "default": "motkimlang76@gmail.com"
+    },
+    {
+      "type": "text",
+      "id": "contact_link_label",
+      "label": "Secondary contact link label",
+      "default": "Browse collections"
+    },
+    {
+      "type": "url",
+      "id": "contact_link_url",
+      "label": "Secondary contact link URL",
+      "default": "/collections"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "note",
+      "name": "Hero note",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text"
+        }
+      ]
+    },
+    {
+      "type": "stat",
+      "name": "Stat",
+      "settings": [
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label"
+        }
+      ]
+    },
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Description"
+        }
+      ]
+    },
+    {
+      "type": "brand",
+      "name": "Brand note",
+      "settings": [
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Brand name"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title"
+        },
+        {
+          "type": "textarea",
+          "id": "note",
+          "label": "Note"
+        }
+      ]
+    }
+  ],
+  "max_blocks": 20,
+  "presets": [
+    {
+      "name": "ROLANG home",
+      "blocks": [
+        {
+          "type": "note",
+          "settings": {
+            "text": "48 products added"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "text": "Dry / Oily / Sensitive filter"
+          }
+        },
+        {
+          "type": "note",
+          "settings": {
+            "text": "SKIN1004 + COSRX + Isntree + ANUA + Medicube + APLB"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "48 products",
+            "label": "ready to import into Shopify from the current guide"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "6 brands",
+            "label": "SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB"
+          }
+        },
+        {
+          "type": "stat",
+          "settings": {
+            "value": "Cart + checkout",
+            "label": "enabled through Shopify instead of email-only ordering"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Browse the edit",
+            "description": "Keep the hero, brand story, and curated presentation that already work on the static site."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Import real products",
+            "description": "Load the catalog into Shopify so each product has a real page, price, cart action, and checkout flow."
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Launch collections",
+            "description": "Use collections and tags to group brands, skin types, and featured routines without rebuilding the whole site."
+          }
+        },
+        {
+          "type": "brand",
+          "settings": {
+            "name": "SKIN1004",
+            "title": "Calming first-step skincare",
+            "note": "Centella-led products, lightweight daily care, and easy starter routines for sensitive or acne-prone skin."
+          }
+        },
+        {
+          "type": "brand",
+          "settings": {
+            "name": "COSRX",
+            "title": "Barrier support and pore care",
+            "note": "Simple bestsellers for cleansing, acne care, daily sunscreen, and glow-focused serums."
+          }
+        },
+        {
+          "type": "brand",
+          "settings": {
+            "name": "ANUA",
+            "title": "Glow products with soothing basics",
+            "note": "Heartleaf calming care, peach glow favorites, and hydration-focused daily products."
+          }
+        },
+        {
+          "type": "brand",
+          "settings": {
+            "name": "Medicube",
+            "title": "Treatment-led K-beauty picks",
+            "note": "Collagen, pore-care, and PDRN-led products for customers who want a more active routine."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

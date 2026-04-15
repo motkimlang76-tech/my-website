@@ -1,0 +1,77 @@
+{% if cart.item_count == 0 %}
+  <div class="rolang-empty-state">
+    <p class="rolang-eyebrow">Cart</p>
+    <h1>Your cart is empty.</h1>
+    <p>Add a few Korean beauty products to start the order and move into Shopify checkout.</p>
+    <div class="rolang-cart-actions">
+      <a class="rolang-button" href="{{ routes.all_products_collection_url }}">Browse products</a>
+    </div>
+  </div>
+{% else %}
+  <form action="{{ routes.cart_url }}" method="post">
+    <div class="rolang-cart-shell">
+      <div class="rolang-cart-items">
+        {% for item in cart.items %}
+          <article class="rolang-cart-item">
+            <div class="rolang-cart-item-image">
+              {% if item.image %}
+                {% render 'image', image: item.image, url: item.url, width: 480, height: 480, crop: 'center' %}
+              {% endif %}
+            </div>
+
+            <div class="rolang-cart-item-details">
+              <div class="rolang-cart-item-meta">
+                <a class="rolang-inline-link" href="{{ item.url }}">{{ item.product.title }}</a>
+                <span class="rolang-muted">{{ item.variant.title }}</span>
+                <span class="rolang-price">{{ item.final_line_price | money }}</span>
+              </div>
+
+              <div class="rolang-qty-form">
+                <label for="CartItem-{{ item.index | plus: 1 }}">Quantity</label>
+                <input
+                  class="rolang-qty-input"
+                  id="CartItem-{{ item.index | plus: 1 }}"
+                  type="number"
+                  name="updates[]"
+                  value="{{ item.quantity }}"
+                  min="0"
+                >
+                <a class="rolang-inline-link" href="{{ item.url_to_remove }}">Remove</a>
+              </div>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+
+      <aside class="rolang-cart-summary">
+        <div class="rolang-cart-summary-body">
+          <div>
+            <p class="rolang-eyebrow">Summary</p>
+            <h2>Ready for checkout</h2>
+          </div>
+
+          <div class="rolang-cart-summary-row">
+            <span>Subtotal</span>
+            <strong>{{ cart.total_price | money }}</strong>
+          </div>
+
+          <p class="rolang-cart-note">
+            Shipping, taxes, and payment options are finalized during Shopify checkout.
+          </p>
+
+          <div class="rolang-cart-actions">
+            <button class="rolang-button rolang-button--wide" type="submit" name="checkout">Checkout</button>
+            <button class="rolang-button-secondary rolang-button--wide" type="submit">Update cart</button>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </form>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Cart",
+  "settings": []
+}
+{% endschema %}

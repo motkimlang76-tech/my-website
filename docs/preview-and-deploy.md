@@ -2,10 +2,10 @@
 
 ## Preview Locally
 
-From the project root:
+Static catalog preview from the project root:
 
 ```bash
-cd /Users/KimlangStudy/work/personal-website
+cd /path/to/rolang-beauty
 python3 -m http.server 8000
 ```
 
@@ -16,6 +16,13 @@ http://localhost:8000
 ```
 
 Stop the preview server with `Ctrl+C`.
+
+Shopify theme preview:
+
+```bash
+cd /path/to/rolang-beauty/rolang-beauty-theme
+shopify theme dev --store s1gxej-hs.myshopify.com
+```
 
 ## Edit The Content
 
@@ -32,9 +39,13 @@ Update your shop content:
 - featured brands
 - contact links
 
+Shopify theme changes live in:
+
+`rolang-beauty-theme/`
+
 ## Deploy With GitHub Pages
 
-1. Create a GitHub repository for this folder.
+1. Push the repository to GitHub.
 2. Push the project to the `main` branch.
 3. In GitHub, open `Settings > Pages`.
 4. Under `Build and deployment`, set `Source` to `GitHub Actions`.
@@ -42,3 +53,10 @@ Update your shop content:
 6. Open the live site URL shown in the Pages settings.
 
 The workflow copies only the site files into the Pages artifact, so notes in `docs/` stay out of the deployed site.
+
+## Deploy With Shopify
+
+```bash
+cd /path/to/rolang-beauty/rolang-beauty-theme
+shopify theme push --store s1gxej-hs.myshopify.com --live
+```

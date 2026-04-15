@@ -3,5 +3,7 @@ node_modules/
 dist/
 coverage/
 .vite/
+.shopify/
 .env
 .env.*
+shopify-import/rolang-launch-report.json

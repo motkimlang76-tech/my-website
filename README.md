@@ -1,46 +1,49 @@
 # ROLANG BEAUTY
 
+Shopify storefront and product catalog source for Rolang Beauty.
+
 ## Working Directory
 
-`/Users/KimlangStudy/work/personal-website`
+`rolang-beauty`
 
 ## Structure
 
-- `index.html` main site entry point
-- `404.html` fallback page
-- `src/data/site-data.js` store content, brand text, products, and links
-- `src/components/` rendering helpers
-- `src/styles/site.css` full styling
-- `src/utils/` small client-side helpers
-- `src/assets/` store images and icons
-- `docs/preview-and-deploy.md` preview and deploy notes
-- `.github/workflows/deploy.yml` GitHub Pages deployment workflow
+- `rolang-beauty-theme/` Shopify theme source
+- `scripts/` Shopify sync and export utilities
+- `shopify-import/` generated CSV imports and launch reports
+- `src/data/site-data.js` catalog content, pricing, and product metadata
+- `src/assets/` product imagery used by the legacy catalog and Shopify imports
+- `docs/preview-and-deploy.md` local preview and deployment notes
+- `.github/workflows/deploy.yml` GitHub Pages workflow for the legacy static catalog
 
 ## Preview
 
+Static catalog preview:
+
 ```bash
-cd /Users/KimlangStudy/work/personal-website
+cd /path/to/rolang-beauty
 python3 -m http.server 8000
 ```
 
 Then open `http://localhost:8000`.
 
-## Update The Store
+Shopify theme preview:
 
-Edit:
+```bash
+cd /path/to/rolang-beauty/rolang-beauty-theme
+shopify theme dev --store s1gxej-hs.myshopify.com
+```
 
-`src/data/site-data.js`
+## Main Content Sources
 
-That file controls the main shop content:
-
-- brand name and intro
-- email and links
-- products and prices
-- featured brands
-- contact and cart text
+- `src/data/site-data.js` controls catalog copy, brands, and product details
+- `scripts/export-shopify-products.mjs` generates the Shopify CSV import
+- `scripts/sync-shopify-launch.mjs` syncs the launch assortment into Shopify
 
 ## Deploy
 
-Push the repository to GitHub, then enable GitHub Pages with the included workflow in:
+Primary commerce deployment is Shopify.
+
+GitHub Pages remains available for the legacy static catalog through:
 
 `Settings > Pages > Source > GitHub Actions`

@@ -1,0 +1,58 @@
+<div class="rolang-collection-template">
+  <div class="rolang-collection-hero">
+    <p class="rolang-eyebrow">Collections</p>
+    <h1>{{ 'collections.title' | t }}</h1>
+    <p class="rolang-collection-copy">
+      Shop the current Rolang Beauty assortment by routine step, skin goal, or everyday use.
+    </p>
+  </div>
+
+  {% paginate collections by section.settings.collections_per_page %}
+    <div class="rolang-collections-grid">
+      {% for collection in collections %}
+        <a class="rolang-collection-list-card" href="{{ collection.url }}">
+          {% if collection.featured_image %}
+            <div class="rolang-collection-list-card-image">
+              {% render 'image',
+                image: collection.featured_image,
+                width: 720,
+                height: 720,
+                crop: 'center'
+              %}
+            </div>
+          {% endif %}
+
+          <div class="rolang-collection-list-card-copy">
+            <span class="rolang-product-meta">{{ collection.all_products_count }} products</span>
+            <strong>{{ collection.title }}</strong>
+            {% if collection.description != blank %}
+              <p>{{ collection.description | strip_html | truncatewords: 20 }}</p>
+            {% else %}
+              <p>Browse the curated edit for this category.</p>
+            {% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+
+    {{ paginate | default_pagination }}
+  {% endpaginate %}
+</div>
+
+{% schema %}
+{
+  "name": "t:general.collections_grid",
+  "settings": [
+    {
+      "type": "range",
+      "id": "collections_per_page",
+      "label": "Collections per page",
+      "min": 4,
+      "max": 24,
+      "step": 4,
+      "default": 12
+    }
+  ],
+  "presets": [{ "name": "t:general.collections_grid" }]
+}
+{% endschema %}

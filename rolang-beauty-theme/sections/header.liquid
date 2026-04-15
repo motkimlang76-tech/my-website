@@ -1,0 +1,68 @@
+{% assign brand_name = settings.brand_name | default: shop.name %}
+{% assign brand_tagline = settings.brand_tagline | default: section.settings.tagline %}
+
+<header class="rolang-site-header">
+  <a class="rolang-brand" href="{{ routes.root_url }}">
+    <span class="rolang-brand-mark">
+      <img src="{{ 'rolang-brand-photo-badge.jpeg' | asset_url }}" alt="{{ brand_name }}" width="160" height="160">
+    </span>
+    <span class="rolang-brand-copy">
+      <strong>{{ brand_name }}</strong>
+      <span>{{ brand_tagline }}</span>
+    </span>
+  </a>
+
+  <nav class="rolang-main-nav" aria-label="Primary">
+    <div class="rolang-nav-links">
+      {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
+        {% for link in section.settings.menu.links %}
+          <a href="{{ link.url }}">{{ link.title }}</a>
+        {% endfor %}
+      {% else %}
+        <a href="{{ routes.root_url }}">Home</a>
+        <a href="{{ routes.all_products_collection_url }}">Products</a>
+        <a href="{{ routes.collections_url }}">Collections</a>
+      {% endif %}
+    </div>
+
+    <div class="rolang-header-actions">
+      {% if shop.customer_accounts_enabled %}
+        <a class="rolang-icon-link" href="{{ routes.account_url }}" aria-label="Account">
+          {{ 'icon-account.svg' | inline_asset_content }}
+        </a>
+      {% endif %}
+
+      <a class="rolang-icon-link" href="{{ routes.cart_url }}" aria-label="Cart">
+        {% if cart.item_count > 0 %}
+          <span class="rolang-cart-count">{{ cart.item_count }}</span>
+        {% endif %}
+        {{ 'icon-cart.svg' | inline_asset_content }}
+      </a>
+    </div>
+  </nav>
+</header>
+
+{% schema %}
+{
+  "name": "t:general.header",
+  "settings": [
+    {
+      "type": "text",
+      "id": "tagline",
+      "label": "Tagline",
+      "default": "Curated Korean skincare shop"
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu"
+    },
+    {
+      "type": "link_list",
+      "id": "customer_account_menu",
+      "label": "t:labels.customer_account_menu",
+      "default": "customer-account-main-menu"
+    }
+  ]
+}
+{% endschema %}

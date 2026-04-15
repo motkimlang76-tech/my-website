@@ -1,0 +1,67 @@
+{% assign brand_name = settings.brand_name | default: shop.name %}
+
+<footer class="rolang-site-footer">
+  <div class="rolang-footer-brand">
+    <strong>{{ brand_name }}</strong>
+    <span>{{ section.settings.footer_copy }}</span>
+    <p>
+      &copy;
+      {{ 'now' | date: '%Y' }}
+      {{ brand_name }}
+    </p>
+  </div>
+
+  <div class="rolang-footer-links">
+    {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
+      {% for link in section.settings.menu.links %}
+        <a href="{{ link.url }}">{{ link.title }}</a>
+      {% endfor %}
+    {% else %}
+      <a href="{{ routes.root_url }}">Home</a>
+      <a href="{{ routes.all_products_collection_url }}">Products</a>
+      <a href="{{ routes.cart_url }}">Cart</a>
+    {% endif %}
+  </div>
+
+  <div class="rolang-footer-meta">
+    <p>{{ section.settings.footer_note }}</p>
+    {% if section.settings.show_payment_icons %}
+      <div class="rolang-footer-payment">
+        {% for type in shop.enabled_payment_types %}
+          {{ type | payment_type_svg_tag }}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "t:general.footer",
+  "settings": [
+    {
+      "type": "textarea",
+      "id": "footer_copy",
+      "label": "Footer copy",
+      "default": "K-beauty collections, product pages, cart, and checkout now run on Shopify instead of a static catalog."
+    },
+    {
+      "type": "textarea",
+      "id": "footer_note",
+      "label": "Footer note",
+      "default": "Update the footer links, payment icons, and store policies inside Shopify admin before going live."
+    },
+    {
+      "type": "link_list",
+      "id": "menu",
+      "label": "t:labels.menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_payment_icons",
+      "label": "t:labels.show_payment_icons",
+      "default": true
+    }
+  ]
+}
+{% endschema %}

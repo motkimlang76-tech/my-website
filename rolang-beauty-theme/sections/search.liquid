@@ -1,0 +1,79 @@
+<div class="rolang-search-shell">
+  <div class="rolang-page-hero">
+    <p class="rolang-eyebrow">Search</p>
+    <h1>{{ 'search.title' | t }}</h1>
+    <p class="rolang-collection-copy">Search products, pages, and store content from one clean results screen.</p>
+  </div>
+
+  <form class="rolang-search-form" action="{{ routes.search_url }}" method="get" role="search">
+    <input
+      class="rolang-search-input"
+      type="search"
+      size="50"
+      name="q"
+      value="{{ search.terms | escape }}"
+      placeholder="{{ 'search.placeholder' | t }}"
+    >
+    <button class="rolang-button" type="submit">{{ 'search.submit' | t }}</button>
+  </form>
+
+  {% if search.performed %}
+    {% if search.results_count == 0 %}
+      <div class="rolang-empty-state">
+        <p class="rolang-eyebrow">No results</p>
+        <h2>No matches for “{{ search.terms | escape }}”.</h2>
+        <p>Try a product name, brand, or collection keyword.</p>
+      </div>
+    {% else %}
+      <p class="rolang-search-summary">
+        {{ 'search.results_for_html' | t: terms: search.terms, count: search.results_count }}
+      </p>
+
+      {% paginate search.results by 16 %}
+        <div class="rolang-search-grid">
+          {% for result in search.results %}
+            {% assign featured_image = result.featured_image | default: result.image %}
+
+            {% if result.object_type == 'product' %}
+              <article class="rolang-product-card">
+                <div class="rolang-product-card-image">
+                  {% if featured_image %}
+                    {% render 'image', image: featured_image, url: result.url, width: 640, height: 640, crop: 'center' %}
+                  {% endif %}
+                </div>
+                <div class="rolang-product-card-copy">
+                  <span class="rolang-product-meta">{{ result.vendor | default: 'Product' }}</span>
+                  <strong>{{ result.title }}</strong>
+                  <div class="rolang-price-row">
+                    <span class="rolang-price">{{ result.price | money }}</span>
+                  </div>
+                  <a class="rolang-inline-link" href="{{ result.url }}">View product</a>
+                </div>
+              </article>
+            {% else %}
+              <article class="rolang-soft-card rolang-search-card">
+                <span class="rolang-product-meta">{{ result.object_type | replace: '_', ' ' }}</span>
+                <strong>{{ result.title }}</strong>
+                {% if result.content != blank %}
+                  <p>{{ result.content | strip_html | truncatewords: 28 }}</p>
+                {% else %}
+                  <p>Open this result to continue browsing the store.</p>
+                {% endif %}
+                <a class="rolang-inline-link" href="{{ result.url }}">Open result</a>
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+
+        {{ paginate | default_pagination }}
+      {% endpaginate %}
+    {% endif %}
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "t:general.search",
+  "settings": []
+}
+{% endschema %}

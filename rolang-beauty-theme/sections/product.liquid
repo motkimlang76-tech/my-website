@@ -1,0 +1,115 @@
+{% assign current_variant = product.selected_or_first_available_variant %}
+
+<div class="rolang-product-template">
+  <div class="rolang-product-gallery">
+    {% if product.featured_image %}
+      <div class="rolang-product-primary-media">
+        {% render 'image', image: product.featured_image, width: 1200, height: 1200, crop: 'center' %}
+      </div>
+    {% endif %}
+
+    {% if product.images.size > 1 %}
+      <div class="rolang-product-thumb-grid">
+        {% for image in product.images offset: 1 limit: 6 %}
+          <div class="rolang-product-thumb">
+            {% render 'image', image: image, width: 480, height: 480, crop: 'center' %}
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="rolang-product-summary">
+    <p class="rolang-eyebrow">{{ product.vendor | default: shop.name }}</p>
+    <h1>{{ product.title }}</h1>
+
+    <div class="rolang-price-stack">
+      <span class="rolang-price">{{ current_variant.price | money }}</span>
+      {% if current_variant.compare_at_price > current_variant.price %}
+        <span class="rolang-compare-price">{{ current_variant.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    {% if product.tags.size > 0 %}
+      <div class="rolang-tag-row">
+        {% for tag in product.tags limit: 6 %}
+          <span class="rolang-chip">{{ tag }}</span>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <div class="rolang-rte">
+      {{ product.description }}
+    </div>
+
+    <div class="rolang-product-form-card">
+      {% form 'product', product %}
+        <div class="rolang-product-form-fields">
+          {% unless product.has_only_default_variant %}
+            <div class="rolang-field-group">
+              <label for="Variant-{{ section.id }}">Variant</label>
+              <select id="Variant-{{ section.id }}" name="id">
+                {% for variant in product.variants %}
+                  <option
+                    value="{{ variant.id }}"
+                    {% if variant == current_variant %}
+                      selected="selected"
+                    {% endif %}
+                    {% unless variant.available %}
+                      disabled="disabled"
+                    {% endunless %}
+                  >
+                    {{ variant.title }} - {{ variant.price | money }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          {% else %}
+            <input type="hidden" name="id" value="{{ current_variant.id }}">
+          {% endunless %}
+
+          <div class="rolang-field-group">
+            <label for="Quantity-{{ section.id }}">Quantity</label>
+            <input id="Quantity-{{ section.id }}" type="number" name="quantity" min="1" value="1">
+          </div>
+
+          <div class="rolang-product-form-actions">
+            <button
+              class="rolang-button rolang-button--wide"
+              type="submit"
+              {% unless current_variant.available %}
+                disabled
+              {% endunless %}
+            >
+              {% if current_variant.available %}
+                Add to cart
+              {% else %}
+                Sold out
+              {% endif %}
+            </button>
+            {% if section.settings.show_dynamic_checkout %}
+              {{ form | payment_button }}
+            {% endif %}
+          </div>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dynamic_checkout",
+      "label": "Show dynamic checkout button",
+      "default": true
+    }
+  ],
+  "disabled_on": {
+    "groups": ["header", "footer"]
+  }
+}
+{% endschema %}

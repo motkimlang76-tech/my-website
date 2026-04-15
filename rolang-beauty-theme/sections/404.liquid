@@ -1,0 +1,16 @@
+<div class="rolang-empty-state">
+  <p class="rolang-eyebrow">404</p>
+  <h1>{{ '404.title' | t }}</h1>
+  <p>{{ '404.not_found' | t }}</p>
+  <div class="rolang-cart-actions">
+    <a class="rolang-button" href="{{ routes.all_products_collection_url }}">{{ '404.back_to_shopping' | t }}</a>
+    <a class="rolang-button-secondary" href="{{ routes.collections_url }}">Browse collections</a>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.404",
+  "settings": []
+}
+{% endschema %}

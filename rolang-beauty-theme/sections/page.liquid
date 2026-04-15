@@ -1,0 +1,21 @@
+<div class="rolang-page-template">
+  <div class="rolang-page-hero">
+    <p class="rolang-eyebrow">Store page</p>
+    <h1>{{ page.title }}</h1>
+  </div>
+
+  <div class="rolang-page-body rolang-rte">
+    {% if page.content != blank %}
+      {{ page.content }}
+    {% else %}
+      <p>Add page content in Shopify admin to publish this section.</p>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "t:general.page",
+  "settings": []
+}
+{% endschema %}
