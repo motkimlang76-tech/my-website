@@ -10,7 +10,7 @@ export const siteData = {
     location: "Phnom Penh City, Cambodia",
     brandImage: "src/assets/rolang-brand-photo-badge.jpeg",
     brandImageAlt: "ROLANG BEAUTY brand photo",
-    availability: "Online orders open now • 54-product SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB guide",
+    availability: "Online orders open now • 66-product SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB guide",
     intro: "A softer way to shop Korean skincare online.",
     summary:
       "ROLANG BEAUTY is an online Korean beauty shop based in Phnom Penh City, Cambodia. The current homepage now leads with a clean product guide for SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB so customers can understand each item faster by ingredient, skin concern, and skin type.",
@@ -25,7 +25,7 @@ export const siteData = {
     },
   },
   home: {
-    notes: ["54 products added", "Dry / Oily / Sensitive filter", "SKIN1004 + COSRX + Isntree + ANUA + Medicube + APLB"],
+    notes: ["66 products added", "Dry / Oily / Sensitive filter", "SKIN1004 + COSRX + Isntree + ANUA + Medicube + APLB"],
     spotlightTitle: "Three steps for a clean, calm everyday routine.",
     spotlightDescription:
       "Start with soothing care, layer in hydration, and finish with lightweight daily protection. The homepage highlights an easy first order instead of overwhelming the customer.",
@@ -101,7 +101,7 @@ export const siteData = {
     ],
   },
   stats: [
-    { value: "54 products", label: "now shown in the product guide section" },
+    { value: "66 products", label: "now shown in the product guide section" },
     { value: "6 brands", label: "SKIN1004, COSRX, Isntree, ANUA, Medicube, and APLB featured in the current edit" },
     { value: "Skin-type filter", label: "customers can narrow the guide by dry, oily, or sensitive" },
   ],
@@ -113,7 +113,7 @@ export const siteData = {
     image: "src/assets/products/medicube/collagen-niacinamide-jelly-cream.jpg",
     imageAlt: "Medicube Collagen Niacinamide Jelly Cream jar",
     highlights: [
-      "54 products across 6 Korean skincare brands",
+      "66 products across 6 Korean skincare brands",
       "Filter by dry, oily, or sensitive skin",
       "Strong base for adding prices later",
     ],
@@ -1469,6 +1469,379 @@ export const siteData = {
       ],
       stack: ["COSRX", "Night care", "Glow"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Ultimate%20Nourishing%20Rice%20Overnight%20Spa%20Mask",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "skin1004-probio-cica-intensive-ampoule",
+      brand: "SKIN1004",
+      productName: "Probio-Cica Intensive Ampoule",
+      skinTypes: ["dry", "sensitive"],
+      title: "SKIN1004 Probio-Cica Intensive Ampoule",
+      category: "Barrier support ampoule",
+      meta: "MYR 89",
+      image: "src/assets/products/skin1004/probio-cica-intensive-ampoule.png",
+      imageAlt: "SKIN1004 Probio-Cica Intensive Ampoule bottle",
+      imageBadge: "Barrier glow",
+      cardTag: "Firm + Calm",
+      description:
+        "A fermented centella ampoule that gives dry or sensitive skin deeper hydration, a calmer feel, and a stronger-looking barrier without a heavy finish.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value:
+            "Lactobacillus Centella Ferment Filtrate + Centella Asiatica Extract + Ceramide NP + Madecassic Acid",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps calm irritation, support the skin barrier, improve moisture retention, and leave the skin looking firmer and glowier.",
+        },
+        { label: "Best For", value: "Dry / Sensitive / Barrier-weakened skin" },
+      ],
+      stack: ["SKIN1004", "Barrier care", "Calming glow"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20SKIN1004%20Probio-Cica%20Intensive%20Ampoule",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "skin1004-madagascar-centella-soothing-cream",
+      brand: "SKIN1004",
+      productName: "Madagascar Centella Soothing Cream",
+      skinTypes: ["dry", "sensitive"],
+      title: "SKIN1004 Madagascar Centella Soothing Cream",
+      category: "Light soothing gel cream",
+      meta: "MYR 69",
+      image: "src/assets/products/skin1004/centella-soothing-cream.png",
+      imageAlt: "SKIN1004 Madagascar Centella Soothing Cream tube",
+      imageBadge: "Soothing care",
+      cardTag: "Cool + Calm",
+      description:
+        "A lightweight gel cream that cools, hydrates, and comforts skin that feels red, hot, or easily irritated.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "Centella Asiatica Extract + Trehalose + Sodium Hyaluronate + Ceramide NP + Cholesterol",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps reduce the feeling of irritation, replenish hydration, and seal in lightweight moisture without a sticky finish.",
+        },
+        { label: "Best For", value: "Normal / Dry / Sensitive skin" },
+      ],
+      stack: ["SKIN1004", "Moisturizer", "Sensitive skin"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20SKIN1004%20Madagascar%20Centella%20Soothing%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "skin1004-tea-trica-b5-cream",
+      brand: "SKIN1004",
+      productName: "Tea-Trica B5 Cream",
+      skinTypes: ["oily", "sensitive"],
+      title: "SKIN1004 Tea-Trica B5 Cream",
+      category: "Breakout calming cream",
+      meta: "MYR 79",
+      image: "src/assets/products/skin1004/tea-trica-b5-cream.png",
+      imageAlt: "SKIN1004 Tea-Trica B5 Cream tube",
+      imageBadge: "Breakout care",
+      cardTag: "B5 + Cica",
+      description:
+        "A soothing gel cream built for blemish-prone skin that needs hydration, redness support, and a cleaner non-greasy finish.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "5% Panthenol + Tea Tree Extract + Tea Tree Oil + Ceramide NP + Centella-derived Cica Exosome",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps calm active breakouts, reduce the look of redness, support a stressed barrier, and keep oily skin comfortably hydrated.",
+        },
+        { label: "Best For", value: "Oily / Combination / Acne-prone / Sensitive skin" },
+      ],
+      stack: ["SKIN1004", "Breakouts", "Oil balance"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20SKIN1004%20Tea-Trica%20B5%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "cosrx-advanced-snail-92-all-in-one-cream",
+      brand: "COSRX",
+      productName: "Advanced Snail 92 All In One Cream",
+      skinTypes: ["dry", "sensitive"],
+      title: "COSRX Advanced Snail 92 All In One Cream",
+      category: "Repairing moisturizer",
+      meta: "MYR 85",
+      image: "src/assets/products/cosrx/advanced-snail-92-all-in-one-cream.png",
+      imageAlt: "COSRX Advanced Snail 92 All In One Cream jar",
+      imageBadge: "Snail repair",
+      cardTag: "Soft + Bouncy",
+      description:
+        "A cult-favorite snail cream that cushions dehydrated skin with lasting moisture and a smoother, more comfortable finish.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "92% Snail Secretion Filtrate + Sodium Hyaluronate + Allantoin + Panthenol",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps repair the look of a stressed barrier, improve softness, smooth rough texture, and lock in hydration for longer.",
+        },
+        { label: "Best For", value: "Dry / Sensitive / Dehydrated skin" },
+      ],
+      stack: ["COSRX", "Barrier care", "Snail mucin"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Advanced%20Snail%2092%20All%20In%20One%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "cosrx-the-niacinamide-15-serum",
+      brand: "COSRX",
+      productName: "The Niacinamide 15 Serum",
+      skinTypes: ["oily"],
+      title: "COSRX The Niacinamide 15 Serum",
+      category: "Oil-control serum",
+      meta: "MYR 79",
+      image: "src/assets/products/cosrx/the-niacinamide-15-serum.png",
+      imageAlt: "COSRX The Niacinamide 15 Serum bottle",
+      imageBadge: "Pore care",
+      cardTag: "Clear + Balance",
+      description:
+        "A high-strength niacinamide serum for oily or blemish-prone skin that needs better balance, clearer pores, and a more even tone.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "15% Niacinamide + Zinc PCA + Acetyl Glucosamine + Allantoin",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps reduce excess sebum, refine the look of pores, calm breakouts, and improve the look of post-acne marks.",
+        },
+        { label: "Best For", value: "Oily / Combination / Blemish-prone skin" },
+      ],
+      stack: ["COSRX", "Niacinamide", "Pore care"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20The%20Niacinamide%2015%20Serum",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "cosrx-advanced-snail-peptide-eye-cream",
+      brand: "COSRX",
+      productName: "Advanced Snail Peptide Eye Cream",
+      skinTypes: ["dry", "sensitive"],
+      title: "COSRX Advanced Snail Peptide Eye Cream",
+      category: "Brightening eye cream",
+      meta: "MYR 99",
+      image: "src/assets/products/cosrx/advanced-snail-peptide-eye-cream.png",
+      imageAlt: "COSRX Advanced Snail Peptide Eye Cream tube",
+      imageBadge: "Eye care",
+      cardTag: "Bright Eyes",
+      description:
+        "A lightweight eye cream that hydrates the eye area while helping tired under-eyes look smoother, brighter, and less puffy.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "73.6% Snail Secretion Filtrate + Peptide Complex + Niacinamide",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps reduce the look of dark circles, puffiness, and fine lines while keeping the eye area comfortably hydrated.",
+        },
+        { label: "Best For", value: "All skin types, especially Dry / Tired under-eyes" },
+      ],
+      stack: ["COSRX", "Eye care", "Brightening"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Advanced%20Snail%20Peptide%20Eye%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "anua-3-ceramide-panthenol-moisture-barrier-cream",
+      brand: "ANUA",
+      productName: "3 Ceramide Panthenol Moisture Barrier Cream",
+      skinTypes: ["dry", "sensitive"],
+      title: "ANUA 3 Ceramide Panthenol Moisture Barrier Cream",
+      category: "Barrier moisturizer",
+      meta: "MYR 89",
+      image: "src/assets/products/anua/3-ceramide-panthenol-moisture-barrier-cream.png",
+      imageAlt: "ANUA 3 Ceramide Panthenol Moisture Barrier Cream jar",
+      imageBadge: "Barrier cream",
+      cardTag: "Comfort Cream",
+      description:
+        "A comforting daily cream that wraps dry or sensitive skin in soft moisture while helping the barrier stay stronger and calmer.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "3 Ceramides + Panthenol + Barrier-supporting moisturizing agents",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps soothe dryness, support a compromised moisture barrier, and keep sensitive skin feeling more comfortable throughout the day.",
+        },
+        { label: "Best For", value: "Dry / Sensitive / Barrier-damaged skin" },
+      ],
+      stack: ["ANUA", "Barrier care", "Deep comfort"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20ANUA%203%20Ceramide%20Panthenol%20Moisture%20Barrier%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "anua-niacinamide-10-txa-4-dark-spot-corrector-serum",
+      brand: "ANUA",
+      productName: "Niacinamide 10% + TXA 4% Dark Spot Corrector Serum",
+      skinTypes: ["dry", "oily", "sensitive"],
+      title: "ANUA Niacinamide 10% + TXA 4% Dark Spot Corrector Serum",
+      category: "Brightening spot serum",
+      meta: "MYR 95",
+      image: "src/assets/products/anua/niacinamide-10-txa-4-serum.png",
+      imageAlt: "ANUA Niacinamide 10% + TXA 4% Dark Spot Corrector Serum bottle",
+      imageBadge: "Dark spots",
+      cardTag: "Tone Corrector",
+      description:
+        "A high-performance brightening serum made to target stubborn dark spots, post-acne marks, and overall uneven tone.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "10% Niacinamide + 4% Tranexamic Acid + 2% Arbutin",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps visibly fade pigmentation, improve clarity, and make the skin look brighter, more balanced, and more radiant.",
+        },
+        { label: "Best For", value: "All skin types, especially Dull / Uneven / Mark-prone skin" },
+      ],
+      stack: ["ANUA", "Dark spots", "Brightening"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20ANUA%20Niacinamide%2010%25%20%2B%20TXA%204%25%20Dark%20Spot%20Corrector%20Serum",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "anua-heartleaf-centella-red-spot-cream",
+      brand: "ANUA",
+      productName: "Heartleaf Centella Red Spot Cream",
+      skinTypes: ["oily", "sensitive"],
+      title: "ANUA Heartleaf Centella Red Spot Cream",
+      category: "Targeted calming cream",
+      meta: "MYR 79",
+      image: "src/assets/products/anua/heartleaf-centella-red-spot-cream.png",
+      imageAlt: "ANUA Heartleaf Centella Red Spot Cream tube",
+      imageBadge: "Redness care",
+      cardTag: "Spot + Soothe",
+      description:
+        "A lightweight calming cream for irritated areas, post-breakout redness, and skin that needs targeted soothing without heavy residue.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "Heartleaf Extract + Centella Asiatica + Hydrating soothing agents",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps calm the look of redness, reduce discomfort on irritated spots, and deliver moisture without cloggy heaviness.",
+        },
+        { label: "Best For", value: "Combination / Oily / Sensitive / Redness-prone skin" },
+      ],
+      stack: ["ANUA", "Redness care", "Targeted soothing"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20ANUA%20Heartleaf%20Centella%20Red%20Spot%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "medicube-triple-collagen-serum",
+      brand: "Medicube",
+      productName: "Triple Collagen Serum",
+      skinTypes: ["dry"],
+      title: "Medicube Triple Collagen Serum",
+      category: "Firming glow serum",
+      meta: "MYR 95",
+      image: "src/assets/products/medicube/triple-collagen-serum.jpg",
+      imageAlt: "Medicube Triple Collagen Serum bottle",
+      imageBadge: "Elasticity care",
+      cardTag: "Glass Glow",
+      description:
+        "A glow-focused collagen serum designed to make dull skin look bouncier, smoother, and more elastic with regular use.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "Hydrolyzed Collagen + Atelo Collagen + Soluble Collagen",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps improve the look of elasticity, boost hydration, and give the skin a plumper, glassier finish.",
+        },
+        { label: "Best For", value: "Dry / Mature / Glow-seeking skin" },
+      ],
+      stack: ["Medicube", "Collagen", "Elasticity"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20Medicube%20Triple%20Collagen%20Serum",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "medicube-pdrn-pink-collagen-capsule-cream",
+      brand: "Medicube",
+      productName: "PDRN Pink Collagen Capsule Cream",
+      skinTypes: ["dry", "sensitive"],
+      title: "Medicube PDRN Pink Collagen Capsule Cream",
+      category: "Tone and texture cream",
+      meta: "MYR 99",
+      image: "src/assets/products/medicube/pdrn-pink-collagen-capsule-cream.jpg",
+      imageAlt: "Medicube PDRN Pink Collagen Capsule Cream jar",
+      imageBadge: "Glow cream",
+      cardTag: "Capsule Glow",
+      description:
+        "A dual-texture pink capsule cream that helps tired or uneven skin look more radiant, smoother, and better hydrated.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "Salmon DNA PDRN + Collagen + Hyaluronic Acid + Niacinamide",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps improve uneven tone and texture, soften the look of pores, and support a brighter, healthier-looking glow.",
+        },
+        { label: "Best For", value: "All skin types, especially Dry / Uneven / Dull skin" },
+      ],
+      stack: ["Medicube", "Glow cream", "Tone care"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20Medicube%20PDRN%20Pink%20Collagen%20Capsule%20Cream",
+      ctaLabel: "Ask about this product",
+      cartEnabled: false,
+    },
+    {
+      id: "medicube-pdrn-pink-collagen-gel-toner-pad",
+      brand: "Medicube",
+      productName: "PDRN Pink Collagen Gel Toner Pad",
+      skinTypes: ["oily", "sensitive"],
+      title: "Medicube PDRN Pink Collagen Gel Toner Pad",
+      category: "Brightening gel toner pads",
+      meta: "MYR 99",
+      image: "src/assets/products/medicube/pdrn-pink-collagen-gel-toner-pad.jpg",
+      imageAlt: "Medicube PDRN Pink Collagen Gel Toner Pad jar",
+      imageBadge: "Toner pads",
+      cardTag: "Pad + Glow",
+      description:
+        "Bouncy gel toner pads that make it easier to target dullness, dark marks, and rough tone while keeping the routine simple.",
+      details: [
+        {
+          label: "Best Ingredients",
+          value: "Salmon DNA PDRN + Collagen + Niacinamide + Madecassoside",
+        },
+        {
+          label: "What It Helps With",
+          value:
+            "Helps brighten post-acne marks, soften uneven texture, hydrate the skin, and support a clearer-looking finish.",
+        },
+        { label: "Best For", value: "All skin types, especially Acne-prone / Dull / Uneven skin" },
+      ],
+      stack: ["Medicube", "Toner pads", "Brightening"],
+      href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20Medicube%20PDRN%20Pink%20Collagen%20Gel%20Toner%20Pad",
       ctaLabel: "Ask about this product",
       cartEnabled: false,
     },
