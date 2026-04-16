@@ -217,9 +217,11 @@ async function includeInOnlineStore(page) {
   }
 
   await managePublishing.click({ force: true });
+  const dialog = page.locator('dialog[open], [role="dialog"]').last();
+  await dialog.waitFor({ state: 'visible', timeout: 15000 });
   await wait(1200);
 
-  const searchInput = page
+  const searchInput = dialog
     .locator('input[placeholder="Search channels"], s-internal-search-field input')
     .last();
   if ((await searchInput.count()) > 0) {
@@ -228,42 +230,31 @@ async function includeInOnlineStore(page) {
     await wait(1200);
   }
 
-  const onlineStoreText = page.getByText(/^Online Store$/).last();
-  if ((await onlineStoreText.count()) > 0) {
-    const onlineStoreCheckbox = onlineStoreText
-      .locator('xpath=ancestor::*[.//input[@type="checkbox"]][1]')
-      .locator('input[type="checkbox"]')
-      .first();
+  let checkboxes = dialog.locator('input[type="checkbox"]');
+  let checkboxCount = await checkboxes.count();
 
-    if ((await onlineStoreCheckbox.count()) > 0) {
-      if (!(await onlineStoreCheckbox.isChecked())) {
-        await onlineStoreCheckbox.check({ force: true });
-      }
-    } else {
-      await onlineStoreText.click({ force: true });
-    }
-  } else {
-    let checkboxes = page.locator('input[type="checkbox"]');
-    let checkboxCount = await checkboxes.count();
+  if (checkboxCount === 0) {
+    await wait(2000);
+    checkboxes = dialog.locator('input[type="checkbox"]');
+    checkboxCount = await checkboxes.count();
+  }
 
-    if (checkboxCount === 0) {
-      await wait(2000);
-      checkboxes = page.locator('input[type="checkbox"]');
-      checkboxCount = await checkboxes.count();
-    }
+  if (checkboxCount === 0) {
+    throw new Error('Publishing dialog opened, but no sales channel checkbox was found.');
+  }
 
-    if (checkboxCount > 0) {
-      const onlineStoreCheckbox = checkboxes.last();
-      if (!(await onlineStoreCheckbox.isChecked())) {
-        await onlineStoreCheckbox.check({ force: true });
-      }
-    } else {
-      throw new Error('Publishing dialog opened, but no sales channel checkbox was found.');
+  for (let index = 0; index < checkboxCount; index += 1) {
+    const checkbox = checkboxes.nth(index);
+    if (!(await checkbox.isChecked())) {
+      await checkbox.check({ force: true });
     }
   }
 
-  await page.getByRole('button', { name: /^Done$/ }).last().click({ force: true });
+  await dialog.getByRole('button', { name: /^Done$/ }).last().click({ force: true });
+  await dialog.waitFor({ state: 'hidden', timeout: 15000 }).catch(() => {});
   await savePage(page);
+  await page.reload({ waitUntil: 'domcontentloaded', timeout: 30000 }).catch(() => {});
+  await page.waitForLoadState('networkidle', { timeout: 15000 }).catch(() => {});
 
   const afterText = await page.locator('body').innerText();
   if (/Not included in any sales channels/i.test(afterText)) {
