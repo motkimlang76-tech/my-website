@@ -1,20 +1,27 @@
 {% assign brand_name = settings.brand_name | default: shop.name %}
 {% assign brand_tagline = settings.brand_tagline | default: section.settings.tagline %}
-{% assign support_email = settings.support_email | default: shop.email %}
-{% assign support_phone = settings.support_phone %}
+{% assign support_whatsapp_url = settings.support_whatsapp_url %}
+{% assign support_instagram_url = settings.support_instagram_url %}
+{% assign support_facebook_url = settings.support_facebook_url %}
 {% assign announcement_text = settings.announcement_text %}
 {% assign announcement_link_label = section.settings.announcement_link_label %}
 {% assign announcement_link_url = section.settings.announcement_link_url %}
 {% assign shipping_policy = shop.shipping_policy %}
 {% assign refund_policy = shop.refund_policy %}
 {% assign has_announcement = false %}
+{% assign primary_menu = section.settings.menu %}
+
+{% if primary_menu == blank and linklists['main-menu'] != blank and linklists['main-menu'].links.size > 0 %}
+  {% assign primary_menu = linklists['main-menu'] %}
+{% endif %}
 
 {% if announcement_text != blank
-  or support_email != blank
-  or support_phone != blank
   or shipping_policy.body != blank
   or refund_policy.body != blank
   or announcement_link_label != blank
+  or support_whatsapp_url != blank
+  or support_instagram_url != blank
+  or support_facebook_url != blank
 %}
   {% assign has_announcement = true %}
 {% endif %}
@@ -25,11 +32,14 @@
       {% if announcement_text != blank %}
         <span>{{ announcement_text }}</span>
       {% endif %}
-      {% if support_email != blank %}
-        <a href="mailto:{{ support_email }}">Email support</a>
+      {% if support_whatsapp_url != blank %}
+        <a href="{{ support_whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a>
       {% endif %}
-      {% if support_phone != blank %}
-        <a href="tel:{{ support_phone | replace: ' ', '' }}">{{ support_phone }}</a>
+      {% if support_instagram_url != blank %}
+        <a href="{{ support_instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+      {% endif %}
+      {% if support_facebook_url != blank %}
+        <a href="{{ support_facebook_url }}" target="_blank" rel="noopener">Facebook</a>
       {% endif %}
     </div>
 
@@ -50,7 +60,7 @@
 <header class="rolang-site-header">
   <a class="rolang-brand" href="{{ routes.root_url }}">
     <span class="rolang-brand-mark">
-      <img src="{{ 'rolang-brand-photo-badge.jpeg' | asset_url }}" alt="{{ brand_name }}" width="160" height="160">
+      <img src="{{ 'favicon.svg' | asset_url }}" alt="" width="64" height="64">
     </span>
     <span class="rolang-brand-copy">
       <strong>{{ brand_name }}</strong>
@@ -60,8 +70,8 @@
 
   <nav class="rolang-main-nav" aria-label="Primary">
     <div class="rolang-nav-links">
-      {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
-        {% for link in section.settings.menu.links %}
+      {% if primary_menu != blank and primary_menu.links.size > 0 %}
+        {% for link in primary_menu.links %}
           <a
             class="rolang-nav-link{% if link.current or link.active %} is-active{% endif %}"
             href="{{ link.url }}"
@@ -148,7 +158,7 @@
       "type": "text",
       "id": "announcement_link_label",
       "label": "Announcement link label",
-      "default": "Shop launch"
+      "default": "Shop all products"
     },
     {
       "type": "url",

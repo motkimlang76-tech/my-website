@@ -2,16 +2,40 @@
   <div class="rolang-empty-state">
     <p class="rolang-eyebrow">Cart</p>
     <h1>Your cart is empty.</h1>
-    <p>Add a few Korean beauty products to start the order and move into Shopify checkout.</p>
+    <p>Build your routine with a few products, then continue to secure Shopify checkout.</p>
     <div class="rolang-cart-actions">
       <a class="rolang-button" href="{{ routes.all_products_collection_url }}">Browse products</a>
     </div>
   </div>
 {% else %}
+  <div class="rolang-product-form-card">
+    <div class="rolang-product-form-fields">
+      <div>
+        <p class="rolang-eyebrow">Cart</p>
+        <h1>Your cart</h1>
+        <p>
+          {% if cart.item_count == 1 %}
+            1 item is ready for checkout.
+          {% else %}
+            {{ cart.item_count }} items are ready for checkout.
+          {% endif %}
+        </p>
+      </div>
+    </div>
+  </div>
+
   <form action="{{ routes.cart_url }}" method="post">
     <div class="rolang-cart-shell">
       <div class="rolang-cart-items">
         {% for item in cart.items %}
+          {% assign cart_item_index = item.index | plus: 1 %}
+          {% assign show_variant_title = false %}
+          {% if item.variant.title != blank and item.variant.title != 'Default Title' %}
+            {% assign show_variant_title = true %}
+          {% endif %}
+          {% capture cart_item_name %}
+            {{ item.product.title }}{% if show_variant_title %}, {{ item.variant.title }}{% endif %}
+          {% endcapture %}
           <article class="rolang-cart-item">
             <div class="rolang-cart-item-image">
               {% if item.image %}
@@ -22,21 +46,40 @@
             <div class="rolang-cart-item-details">
               <div class="rolang-cart-item-meta">
                 <a class="rolang-inline-link" href="{{ item.url }}">{{ item.product.title }}</a>
-                <span class="rolang-muted">{{ item.variant.title }}</span>
-                <span class="rolang-price">{{ item.final_line_price | money }}</span>
+                {% if show_variant_title %}
+                  <span class="rolang-muted">{{ item.variant.title }}</span>
+                {% endif %}
+                {% if item.quantity > 1 %}
+                  <span class="rolang-muted">{{ item.quantity }} x {{ item.final_price | money }} each</span>
+                  <div class="rolang-price-row">
+                    <span class="rolang-muted">Line total</span>
+                    <span class="rolang-price">{{ item.final_line_price | money }}</span>
+                  </div>
+                {% else %}
+                  <span class="rolang-price">{{ item.final_line_price | money }}</span>
+                {% endif %}
               </div>
 
               <div class="rolang-qty-form">
-                <label for="CartItem-{{ item.index | plus: 1 }}">Quantity</label>
+                <label for="CartItem-{{ cart_item_index }}">Quantity</label>
                 <input
                   class="rolang-qty-input"
-                  id="CartItem-{{ item.index | plus: 1 }}"
+                  id="CartItem-{{ cart_item_index }}"
                   type="number"
                   name="updates[]"
                   value="{{ item.quantity }}"
                   min="0"
+                  step="1"
+                  inputmode="numeric"
+                  aria-label="Quantity for {{ cart_item_name | strip | escape }}"
                 >
-                <a class="rolang-inline-link" href="{{ item.url_to_remove }}">Remove</a>
+                <a
+                  class="rolang-inline-link"
+                  href="{{ item.url_to_remove }}"
+                  aria-label="Remove {{ cart_item_name | strip | escape }} from cart"
+                >
+                  Remove
+                </a>
               </div>
             </div>
           </article>

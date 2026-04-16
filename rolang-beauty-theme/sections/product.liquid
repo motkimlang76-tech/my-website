@@ -1,10 +1,58 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
 {% assign support_email = settings.support_email | default: shop.email %}
+{% assign support_whatsapp_url = settings.support_whatsapp_url %}
+{% assign support_instagram_url = settings.support_instagram_url %}
+{% assign support_facebook_url = settings.support_facebook_url %}
 {% assign support_location = settings.support_location %}
 {% assign shipping_note = settings.shipping_note %}
 {% assign returns_note = settings.returns_note %}
 {% assign shipping_policy = shop.shipping_policy %}
 {% assign refund_policy = shop.refund_policy %}
+{% assign has_support_contact = false %}
+{% if support_whatsapp_url != blank
+  or support_instagram_url != blank
+  or support_facebook_url != blank
+  or support_email != blank
+%}
+  {% assign has_support_contact = true %}
+{% endif %}
+{% capture shipping_guidance %}
+  {% if shipping_note != blank %}
+    {{ shipping_note }}
+  {% elsif shipping_policy.body != blank %}
+    Shipping destinations, delivery timing, and final rates are shown in the shipping policy and at checkout before payment is completed.
+  {% endif %}
+{% endcapture %}
+{% capture returns_guidance %}
+  {% if refund_policy.body != blank and returns_note != blank %}
+    {{ returns_note }}
+  {% elsif refund_policy.body != blank %}
+    Return and refund details stay available through the refund policy and support links below.
+  {% elsif has_support_contact %}
+    Questions about returns or refunds can be sent through the support links below before checkout.
+  {% endif %}
+{% endcapture %}
+{% capture current_variant_availability %}
+  {% if current_variant.available %}
+      {% if current_variant.inventory_management != blank %}
+        {% if current_variant.inventory_quantity > 0 %}
+          {% if current_variant.inventory_quantity <= 5 %}
+            Only {{ current_variant.inventory_quantity }} left
+          {% else %}
+            In stock
+          {% endif %}
+        {% elsif current_variant.inventory_policy == 'continue' %}
+          In stock
+        {% else %}
+          Currently sold out
+        {% endif %}
+      {% else %}
+        In stock
+      {% endif %}
+  {% else %}
+    Currently sold out
+  {% endif %}
+{% endcapture %}
 
 <div class="rolang-product-template" data-product-section="{{ section.id }}">
   <div class="rolang-product-gallery">
@@ -45,13 +93,7 @@
     </div>
 
     <div class="rolang-detail-row">
-      <span class="rolang-detail-pill" data-product-availability>
-        {% if current_variant.available %}
-          Available for checkout
-        {% else %}
-          Currently sold out
-        {% endif %}
-      </span>
+      <span class="rolang-detail-pill" data-product-availability role="status" aria-live="polite" aria-atomic="true">{{ current_variant_availability | strip }}</span>
       <span
         class="rolang-detail-pill"
         data-product-sku
@@ -68,13 +110,7 @@
       {% endif %}
     </div>
 
-    {% if product.tags.size > 0 %}
-      <div class="rolang-tag-row">
-        {% for tag in product.tags limit: 6 %}
-          <span class="rolang-chip">{{ tag }}</span>
-        {% endfor %}
-      </div>
-    {% endif %}
+    {% render 'product-tag-chips', product: product, limit: 6 %}
 
     <div class="rolang-rte">
       {{ product.description }}
@@ -88,12 +124,33 @@
               <label for="Variant-{{ section.id }}">Variant</label>
               <select id="Variant-{{ section.id }}" name="id">
                 {% for variant in product.variants %}
+                  {% capture variant_availability %}
+                    {% if variant.available %}
+                      {% if variant.inventory_management != blank %}
+                        {% if variant.inventory_quantity > 0 %}
+                          {% if variant.inventory_quantity <= 5 %}
+                            Only {{ variant.inventory_quantity }} left
+                          {% else %}
+                            In stock
+                          {% endif %}
+                        {% elsif variant.inventory_policy == 'continue' %}
+                          In stock
+                        {% else %}
+                          Currently sold out
+                        {% endif %}
+                      {% else %}
+                        In stock
+                      {% endif %}
+                    {% else %}
+                      Currently sold out
+                    {% endif %}
+                  {% endcapture %}
                   <option
                     value="{{ variant.id }}"
                     data-price="{{ variant.price | money | escape }}"
                     data-compare-price="{% if variant.compare_at_price > variant.price %}{{ variant.compare_at_price | money | escape }}{% endif %}"
                     data-available="{{ variant.available }}"
-                    data-availability="{% if variant.available %}Available for checkout{% else %}Currently sold out{% endif %}"
+                    data-availability="{{ variant_availability | strip | escape }}"
                     data-sku="{{ variant.sku | escape }}"
                     {% if variant == current_variant %}
                       selected="selected"
@@ -143,14 +200,14 @@
     </div>
 
     <div class="rolang-trust-card">
-      <p class="rolang-eyebrow">Before you order</p>
+      <p class="rolang-eyebrow">Store support</p>
       <ul class="rolang-trust-list">
-        <li>Checkout and order confirmation are handled through Shopify.</li>
-        {% if shipping_note != blank %}
-          <li>{{ shipping_note }}</li>
+        <li>Secure checkout and order confirmation are handled through Shopify.</li>
+        {% if shipping_guidance != blank %}
+          <li>{{ shipping_guidance | strip }}</li>
         {% endif %}
-        {% if returns_note != blank %}
-          <li>{{ returns_note }}</li>
+        {% if returns_guidance != blank %}
+          <li>{{ returns_guidance | strip }}</li>
         {% endif %}
         {% if support_location != blank %}
           <li>Store support base: {{ support_location }}</li>
@@ -163,6 +220,15 @@
         {% endif %}
         {% if refund_policy.body != blank %}
           <a class="rolang-inline-link" href="{{ refund_policy.url }}">Refund policy</a>
+        {% endif %}
+        {% if support_whatsapp_url != blank %}
+          <a class="rolang-inline-link" href="{{ support_whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a>
+        {% endif %}
+        {% if support_instagram_url != blank %}
+          <a class="rolang-inline-link" href="{{ support_instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+        {% endif %}
+        {% if support_facebook_url != blank %}
+          <a class="rolang-inline-link" href="{{ support_facebook_url }}" target="_blank" rel="noopener">Facebook</a>
         {% endif %}
         {% if support_email != blank %}
           <a class="rolang-inline-link" href="mailto:{{ support_email }}">Email support</a>

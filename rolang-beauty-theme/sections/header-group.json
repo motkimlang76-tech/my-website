@@ -14,10 +14,10 @@
     "header": {
       "type": "header",
       "settings": {
-        "tagline": "Korean skincare launch edit",
+        "tagline": "Curated Korean skincare",
         "menu": "",
-        "announcement_link_label": "Shop launch",
-        "announcement_link_url": "/collections/launch-edit"
+        "announcement_link_label": "Shop all products",
+        "announcement_link_url": "/collections/all"
       }
     }
   },

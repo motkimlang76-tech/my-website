@@ -112,6 +112,21 @@
         "label": "Support phone"
       },
       {
+        "type": "url",
+        "id": "support_whatsapp_url",
+        "label": "WhatsApp URL"
+      },
+      {
+        "type": "url",
+        "id": "support_instagram_url",
+        "label": "Instagram URL"
+      },
+      {
+        "type": "url",
+        "id": "support_facebook_url",
+        "label": "Facebook URL"
+      },
+      {
         "type": "text",
         "id": "support_location",
         "label": "Support location",
@@ -121,19 +136,19 @@
         "type": "text",
         "id": "support_hours",
         "label": "Support note",
-        "default": "Email support for product questions, order updates, and policy help."
+        "default": "Support is available for product questions, order updates, and shipping help."
       },
       {
         "type": "text",
         "id": "announcement_text",
         "label": "Announcement text",
-        "default": "Orders open now from the first Rolang Beauty launch edit."
+        "default": "Secure Shopify checkout for Malaysia and Cambodia."
       },
       {
         "type": "textarea",
         "id": "shipping_note",
         "label": "Shipping note",
-        "default": "Shipping rates and delivery windows are shown at checkout before payment is completed."
+        "default": "Orders currently ship to Malaysia and Cambodia. Delivery timing and final rates are shown at checkout before payment is completed."
       },
       {
         "type": "textarea",

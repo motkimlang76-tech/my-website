@@ -80,29 +80,34 @@ const LAUNCH_PRODUCTS = [
 
 const COLLECTIONS = {
   'launch-edit': {
-    title: 'Launch Edit',
+    title: 'Rolang Edit',
     descriptionHtml:
-      '<p>The first Rolang Beauty drop: a focused mix of calming care, everyday cleansing, targeted treatments, and daily SPF.</p>',
+      '<p>A focused edit of everyday Korean skincare for cleansing, soothing hydration, daily SPF, and targeted treatment.</p>',
+    imageSrc: 'src/assets/products/skin1004/centella-ampoule.png',
   },
   cleansers: {
     title: 'Cleansers',
     descriptionHtml:
-      '<p>Gentle first-step options to remove sunscreen, oil, and daily buildup without making the routine feel harsh.</p>',
+      '<p>Gentle oil and gel cleansers chosen to remove sunscreen, makeup, and daily buildup without making skin feel stripped.</p>',
+    imageSrc: 'src/assets/products/skin1004/centella-light-cleansing-oil.png',
   },
   'daily-sunscreen': {
     title: 'Daily Sunscreen',
     descriptionHtml:
-      '<p>Lightweight Korean SPF picks for comfortable everyday protection and easier morning routines.</p>',
+      '<p>Comfortable Korean SPF picks for daily protection, easy layering, and finishes that stay light through the day.</p>',
+    imageSrc: 'src/assets/products/isntree/hyaluronic-acid-watery-sun-gel.png',
   },
   'calming-hydration': {
     title: 'Calming Hydration',
     descriptionHtml:
-      '<p>Centella, snail mucin, and heartleaf-led products to calm skin and support a softer barrier-focused routine.</p>',
+      '<p>Centella, snail mucin, and heartleaf-led products that help keep skin calm, hydrated, and comfortably supported.</p>',
+    imageSrc: 'src/assets/products/anua/heartleaf-77-soothing-toner.png',
   },
   'targeted-treatment': {
     title: 'Targeted Treatment',
     descriptionHtml:
-      '<p>Focused products for breakouts, texture, tone, pore care, and treatment-led glow.</p>',
+      '<p>Focused products for breakouts, visible pores, texture, and tone when the routine needs a more targeted step.</p>',
+    imageSrc: 'src/assets/products/medicube/zero-pore-pad-2.0-clean.png',
   },
 };
 
@@ -148,7 +153,7 @@ function buildTags(product) {
 
   return Array.from(
     new Set([
-      'Launch Edit',
+      'Rolang Edit',
       product.brand,
       product.category,
       ...(product.stack ?? []).slice(0, 2),
@@ -518,6 +523,14 @@ async function upsertCollection(handle, config, productIds) {
     handle,
     descriptionHtml: config.descriptionHtml,
     sortOrder: 'MANUAL',
+    ...(config.imageSrc
+      ? {
+          image: {
+            altText: `${config.title} collection image`,
+            src: `${RAW_BASE}${config.imageSrc}`,
+          },
+        }
+      : {}),
     seo: {
       title: `${config.title} | ROLANG BEAUTY`,
       description: config.descriptionHtml.replace(/<[^>]+>/g, '').slice(0, 320),

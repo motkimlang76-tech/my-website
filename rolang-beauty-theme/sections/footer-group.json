@@ -14,8 +14,8 @@
     "footer": {
       "type": "footer",
       "settings": {
-        "footer_copy": "The first Rolang Beauty launch runs on Shopify with real product pages, a live cart, and a curated K-beauty edit.",
-        "footer_note": "More products from the original catalog are staged for later drops while the first launch stays focused and easy to shop.",
+        "footer_copy": "Curated Korean skincare with secure checkout and product pages that are easy to compare.",
+        "footer_note": "Questions about orders, shipping, or returns? Use the policy links and support details below.",
         "menu": "",
         "show_payment_icons": true
       }

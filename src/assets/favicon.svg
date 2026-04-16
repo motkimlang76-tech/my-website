@@ -1,15 +1,15 @@
 <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="rolang-favicon-bg" x1="10" y1="8" x2="54" y2="56" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#FFFDFC"/>
-      <stop offset="1" stop-color="#F8EFE9"/>
+    <linearGradient id="rolang-favicon-bg" x1="8" y1="8" x2="56" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9F5"/>
+      <stop offset="1" stop-color="#F3E7DF"/>
     </linearGradient>
   </defs>
   <rect x="4" y="4" width="56" height="56" rx="18" fill="url(#rolang-favicon-bg)"/>
-  <rect x="5" y="5" width="54" height="54" rx="17" stroke="#E8D7CF" stroke-width="2"/>
-  <circle cx="47.5" cy="16.5" r="4.5" fill="#C57172"/>
-  <path
-    d="M18 14C18 12.9 18.9 12 20 12H35.75C44.67 12 50 17.08 50 25.5C50 32.67 45.74 37.32 38.25 39.15L48.79 49.69C49.57 50.47 49.57 51.73 48.79 52.51C48.01 53.29 46.75 53.29 45.97 52.51L34.21 40.75H26V50C26 51.1 25.1 52 24 52H20C18.9 52 18 51.1 18 50V14ZM26 20V32.75H35.1C39.8 32.75 42.75 30.11 42.75 26.35C42.75 22.58 39.8 20 35.1 20H26Z"
-    fill="#2D2224"
-  />
+  <rect x="5" y="5" width="54" height="54" rx="17" stroke="#E5D2C8" stroke-width="2"/>
+  <circle cx="32" cy="22.75" r="6.75" fill="#CF8E8C"/>
+  <circle cx="41.25" cy="32" r="6.75" fill="#CF8E8C"/>
+  <circle cx="32" cy="41.25" r="6.75" fill="#CF8E8C"/>
+  <circle cx="22.75" cy="32" r="6.75" fill="#CF8E8C"/>
+  <circle cx="32" cy="32" r="4.5" fill="#7B555C"/>
 </svg>

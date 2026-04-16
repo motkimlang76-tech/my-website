@@ -244,10 +244,13 @@ export const siteData = {
       cardTag: "Featured Pick",
       featured: true,
       description:
-        "The signature SKIN1004 ampoule and the best first product for customers who want a simple soothing step.",
+        "A straightforward centella ampoule for calming visible redness and keeping sensitive skin comfortable.",
       details: [
         { label: "Key Ingredient", value: "100% Centella Asiatica" },
-        { label: "What It Helps With", value: "Soothes redness, supports acne-prone skin, and helps repair the skin barrier." },
+        {
+          label: "What It Helps With",
+          value: "Helps soothe visible redness, support the skin barrier, and keep stressed skin feeling balanced.",
+        },
         { label: "Best Skin Type", value: "All / Sensitive / Acne-prone" },
       ],
       stack: ["SKIN1004", "Sensitive skin", "Barrier care"],
@@ -268,11 +271,14 @@ export const siteData = {
       imageBadge: "SPF 50",
       cardTag: "Bestseller",
       description:
-        "A sunscreen for customers who want hydration and daily sun protection without a sticky finish.",
+        "A lightweight daily sunscreen with hydrating texture and comfortable broad-spectrum protection.",
       details: [
         { label: "Key Ingredient", value: "Hyaluronic Acid + Centella" },
-        { label: "What It Helps With", value: "Deep hydration plus SPF 50 protection without feeling sticky." },
-        { label: "Best Skin Type", value: "Dry / Dehydrated" },
+        {
+          label: "What It Helps With",
+          value: "Hydrates while protecting skin with SPF 50+ coverage and a comfortable, non-sticky finish.",
+        },
+        { label: "Best Skin Type", value: "All / Dry / Dehydrated" },
       ],
       stack: ["Sun protection", "Hydration", "Daily use"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20SKIN1004%20Hyalu-Cica%20Water-Fit%20Sun%20Serum",
@@ -364,11 +370,14 @@ export const siteData = {
       imageBadge: "Cleanse",
       cardTag: "Gentle Cleanser",
       description:
-        "A lightweight first cleanse for customers who want something gentle but effective on makeup and sunscreen.",
+        "A lightweight oil cleanser that lifts sunscreen, makeup, and daily buildup without leaving skin stripped.",
       details: [
         { label: "Key Ingredient", value: "Centella Oil" },
-        { label: "What It Helps With", value: "Melts away makeup and blackheads gently." },
-        { label: "Best Skin Type", value: "All (Even Sensitive)" },
+        {
+          label: "What It Helps With",
+          value: "Dissolves sunscreen, makeup, and excess oil while keeping the cleanse soft and comfortable.",
+        },
+        { label: "Best Skin Type", value: "All / Sensitive" },
       ],
       stack: ["Makeup removal", "Gentle cleanse", "Sensitive skin"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20SKIN1004%20Centella%20Light%20Cleansing%20Oil",
@@ -388,11 +397,11 @@ export const siteData = {
       imageBadge: "Essence",
       cardTag: "Global Bestseller",
       description:
-        "A bestselling COSRX essence for customers who want repair support, extra hydration, and a glass-skin glow.",
+        "A hydration-first essence that helps skin feel smoother, calmer, and better supported after cleansing.",
       details: [
         { label: "Key Ingredient", value: "96% Snail Mucin" },
-        { label: "What It Helps With", value: "Repairs skin damage and creates a \"glass skin\" glow." },
-        { label: "Best Skin Type", value: "All / Dehydrated" },
+        { label: "What It Helps With", value: "Boosts hydration and helps skin look smoother, softer, and more rested." },
+        { label: "Best Skin Type", value: "All / Dehydrated / Compromised" },
       ],
       stack: ["COSRX", "Glow care", "Hydration"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Advanced%20Snail%2096%20Mucin%20Essence",
@@ -412,11 +421,11 @@ export const siteData = {
       imageBadge: "Cleanser",
       cardTag: "Daily Essential",
       description:
-        "A gentle daily COSRX cleanser for customers who want clean skin without stripping away natural moisture.",
+        "A balanced daily gel cleanser that refreshes skin without over-cleansing.",
       details: [
         { label: "Key Ingredient", value: "Tea Tree Oil + BHA" },
-        { label: "What It Helps With", value: "Cleanses gently without stripping your skin's natural oils." },
-        { label: "Best Skin Type", value: "All / Sensitive" },
+        { label: "What It Helps With", value: "Removes daily buildup while keeping the cleanse gentle and low-stripping." },
+        { label: "Best Skin Type", value: "All / Sensitive / Combination" },
       ],
       stack: ["COSRX", "Daily cleanse", "Balanced skin"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Low%20pH%20Good%20Morning%20Gel%20Cleanser",
@@ -508,11 +517,14 @@ export const siteData = {
       imageBadge: "SOS care",
       cardTag: "Overnight Fix",
       description:
-        "A quick SOS option for active pimples when customers want a simple overnight spot-care step.",
+        "A hydrocolloid patch for active spots when you want a clean, low-effort treatment step.",
       details: [
         { label: "Key Ingredient", value: "Hydrocolloid" },
-        { label: "What It Helps With", value: "An \"overnight miracle\" that sucks the gunk out of pimples." },
-        { label: "Best Skin Type", value: "Acne-prone / SOS Care" },
+        {
+          label: "What It Helps With",
+          value: "Helps protect active blemishes, absorb surface fluid, and keep hands off healing spots.",
+        },
+        { label: "Best Skin Type", value: "Acne-prone / Combination / Oily" },
       ],
       stack: ["COSRX", "Spot care", "Breakouts"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20COSRX%20Acne%20Pimple%20Master%20Patch",
@@ -532,10 +544,13 @@ export const siteData = {
       imageBadge: "SPF care",
       cardTag: "Moisture SPF",
       description:
-        "A lightweight Isntree sunscreen for customers who want high SPF protection with a moisturizer-like finish and no white cast.",
+        "A hydrating sunscreen with a lotion-like finish and high daily protection.",
       details: [
         { label: "Key Ingredient", value: "8 types of Hyaluronic Acid" },
-        { label: "What It Helps With", value: "Feels like a moisturizer, zero white cast, and high SPF protection." },
+        {
+          label: "What It Helps With",
+          value: "Delivers broad-spectrum SPF with a fresh, moisturized finish and no heavy cast.",
+        },
         { label: "Best Skin Type", value: "All / Dry / Dehydrated" },
       ],
       stack: ["Isntree", "Hydration", "Daily SPF"],
@@ -628,11 +643,14 @@ export const siteData = {
       imageBadge: "Calming care",
       cardTag: "Calming Toner",
       description:
-        "A soothing ANUA toner for customers who want calmer skin, balanced pH, and a gentle daily first step.",
+        "A calming daily toner that helps settle skin after cleansing and prep the next steps.",
       details: [
         { label: "Key Ingredient", value: "77% Heartleaf" },
-        { label: "What It Helps With", value: "Calms redness and balances pH level." },
-        { label: "Best Skin Type", value: "Sensitive / Acne-prone" },
+        {
+          label: "What It Helps With",
+          value: "Helps calm visible redness and keeps skin feeling balanced, hydrated, and comfortable.",
+        },
+        { label: "Best Skin Type", value: "Sensitive / Combination / Acne-prone" },
       ],
       stack: ["ANUA", "Calming care", "Daily toner"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20ANUA%20Heartleaf%2077%25%20Soothing%20Toner",
@@ -724,11 +742,11 @@ export const siteData = {
       imageBadge: "Glow care",
       cardTag: "Peach Glow",
       description:
-        "A brightening ANUA serum for customers who want more glow, softer skin, and a fresh peach-finish look.",
+        "A brightening serum designed to boost glow and improve the look of uneven tone.",
       details: [
         { label: "Key Ingredient", value: "Peach + Niacinamide" },
-        { label: "What It Helps With", value: "Brightens dull skin and gives a \"Peach Glow.\"" },
-        { label: "Best Skin Type", value: "Dull / All Skin" },
+        { label: "What It Helps With", value: "Helps brighten dull-looking skin and supports a smoother, more even finish." },
+        { label: "Best Skin Type", value: "All / Dull / Uneven tone" },
       ],
       stack: ["ANUA", "Glow", "Brightening"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20ANUA%20Peach%2070%25%20Niacinamide%20Serum",
@@ -892,11 +910,11 @@ export const siteData = {
       imageBadge: "Glass skin",
       cardTag: "Glass Skin",
       description:
-        "A bouncy Medicube jelly cream for customers who want instant glass-skin hydration with a smoother, tighter-looking finish.",
+        "A lightweight jelly cream for bouncy hydration and a smoother-looking finish.",
       details: [
         { label: "Key Ingredient", value: "Collagen + Niacinamide" },
-        { label: "What It Helps With", value: "Gives a glass-skin glow, adds hydration and bounce, and helps pores look tighter." },
-        { label: "Best Skin Type", value: "All / Dull Skin" },
+        { label: "What It Helps With", value: "Adds hydration, supports glow, and leaves skin looking plumper and more refined." },
+        { label: "Best Skin Type", value: "All / Dull / Dehydrated" },
       ],
       stack: ["Medicube", "Glow care", "Jelly texture"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20Medicube%20Collagen%20Niacinamide%20Jelly%20Cream",
@@ -1060,11 +1078,11 @@ export const siteData = {
       imageBadge: "Pore care",
       cardTag: "Zero Pore",
       description:
-        "A swipe-on Medicube pad for customers focused on sebum control and a smaller-looking pore finish.",
+        "A treatment pad for oilier skin when you want a cleaner pore-care step with minimal effort.",
       details: [
         { label: "Key Ingredient", value: "AHA + BHA" },
-        { label: "What It Helps With", value: "Wipes away sebum and shrinks the look of pores." },
-        { label: "Best Skin Type", value: "Oily / Combination" },
+        { label: "What It Helps With", value: "Helps sweep away excess oil, smooth texture, and refine the look of pores." },
+        { label: "Best Skin Type", value: "Oily / Combination / Texture-prone" },
       ],
       stack: ["Medicube", "Pores", "Oil control"],
       href: "mailto:motkimlang76@gmail.com?subject=Ask%20about%20Medicube%20Zero%20Pore%20Pad%202.0",

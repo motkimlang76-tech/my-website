@@ -5,24 +5,33 @@
     {% if collection.description != blank %}
       <div class="rolang-collection-copy">{{ collection.description }}</div>
     {% else %}
-      <p class="rolang-collection-copy">
-        Use Shopify collections to group products by brand, skin type, or routine without rebuilding the storefront.
-      </p>
+      <p class="rolang-collection-copy">Shop products grouped by brand, routine step, or skin concern.</p>
     {% endif %}
   </div>
 
   {% paginate collection.products by section.settings.products_per_page %}
     {% assign current_sort = collection.sort_by | default: collection.default_sort_by %}
+    {% assign total_products = paginate.items %}
+    {% assign visible_products = collection.products.size %}
+    {% if total_products > 0 %}
+      {% assign visible_start = paginate.current_offset | plus: 1 %}
+      {% assign visible_end = paginate.current_offset | plus: visible_products %}
+    {% endif %}
 
     <div class="rolang-product-form-card">
       <div class="rolang-product-form-fields">
         <div>
-          <p class="rolang-eyebrow">Collection tools</p>
-          <p>
-            {% if paginate.items == 1 %}
-              1 product available in this collection.
+          <p class="rolang-eyebrow">Sort and browse</p>
+          <p aria-live="polite">
+            {% if total_products == 1 %}
+              Showing 1 product in this collection.
+            {% elsif visible_products < total_products %}
+              Showing {{ visible_start }}-{{ visible_end }} of {{ total_products }} products in this collection.
             {% else %}
-              {{ paginate.items }} products available in this collection.
+              {{ total_products }} products available in this collection.
+            {% endif %}
+            {% if paginate.pages > 1 %}
+              Page {{ paginate.current_page }} of {{ paginate.pages }}.
             {% endif %}
           </p>
         </div>
@@ -59,11 +68,12 @@
         <div class="rolang-product-form-fields">
           <div>
             <p class="rolang-eyebrow">Nothing here yet</p>
-            <p>This collection does not have any products yet. Browse the full catalog while it is being updated.</p>
+            <p>This collection is being updated. Browse the full catalog while new products are added.</p>
           </div>
 
           <div class="rolang-cart-actions">
             <a class="rolang-button" href="{{ routes.all_products_collection_url }}">Browse all products</a>
+            <a class="rolang-button-secondary" href="{{ routes.search_url }}">Search the catalog</a>
           </div>
         </div>
       </div>
@@ -98,22 +108,12 @@
                 {% endif %}
               </div>
               <div class="rolang-detail-row">
-                <span class="rolang-detail-pill">
-                  {% if product.available %}
-                    Available for checkout
-                  {% else %}
-                    Sold out
-                  {% endif %}
-                </span>
+                <span class="rolang-detail-pill">{% if product.available %}In stock{% else %}Sold out{% endif %}</span>
                 {% if product.price_varies %}
                   <span class="rolang-detail-pill">{{ product.variants.size }} options</span>
                 {% endif %}
               </div>
-              <div class="rolang-tag-row">
-                {% for tag in product.tags limit: 3 %}
-                  <span class="rolang-chip">{{ tag }}</span>
-                {% endfor %}
-              </div>
+              {% render 'product-tag-chips', product: product, limit: 3 %}
               <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
             </div>
           </article>

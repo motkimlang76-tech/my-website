@@ -5,9 +5,19 @@
   assign brand_blocks = section.blocks | where: 'type', 'brand'
   assign hero_products = section.settings.hero_products
   assign featured_collection = section.settings.featured_collection
+  assign spotlight_collection_one = section.settings.spotlight_collection_one
+  assign spotlight_collection_two = section.settings.spotlight_collection_two
+  assign spotlight_collection_three = section.settings.spotlight_collection_three
+  assign spotlight_collection_four = section.settings.spotlight_collection_four
+  if featured_collection == blank and collections['all'] != blank and collections['all'].products_count > 0
+    assign featured_collection = collections['all']
+  endif
   assign panel_items_markup = section.settings.panel_items | replace: '\n', '<br />' | newline_to_br
   assign panel_items = panel_items_markup | split: '<br />'
   assign support_email = section.settings.contact_email | default: settings.support_email | default: shop.email
+  assign support_whatsapp_url = settings.support_whatsapp_url
+  assign support_instagram_url = settings.support_instagram_url
+  assign support_facebook_url = settings.support_facebook_url
   assign support_location = settings.support_location
   assign support_hours = settings.support_hours
   assign shipping_policy = shop.shipping_policy
@@ -17,6 +27,10 @@
   assign hero_highlights = hero_highlights_markup | split: '<br />'
   assign trust_items_markup = section.settings.trust_items | replace: '\n', '<br />' | newline_to_br
   assign trust_items = trust_items_markup | split: '<br />'
+  assign has_social_cta = false
+  if support_whatsapp_url != blank or support_instagram_url != blank or support_facebook_url != blank
+    assign has_social_cta = true
+  endif
 %}
 
 <div class="rolang-section-frame">
@@ -100,7 +114,7 @@
               </a>
             {% endfor %}
           {% else %}
-            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the launch collection">
+            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the featured collection">
               <div class="rolang-showcase-media">
                 <img
                   src="{{ 'skin1004-centella-ampoule.png' | asset_url }}"
@@ -116,7 +130,7 @@
               </div>
             </a>
 
-            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the launch collection">
+            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the featured collection">
               <div class="rolang-showcase-media">
                 <img
                   src="{{ 'cosrx-advanced-snail-96-mucin-essence.jpg' | asset_url }}"
@@ -132,7 +146,7 @@
               </div>
             </a>
 
-            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the launch collection">
+            <a class="rolang-showcase-card rolang-showcase-card-link" href="{{ showcase_fallback_url }}" aria-label="Browse the featured collection">
               <div class="rolang-showcase-media">
                 <img
                   src="{{ 'medicube-collagen-niacinamide-jelly-cream.jpg' | asset_url }}"
@@ -162,6 +176,112 @@
         {% endif %}
       </aside>
     </section>
+
+    {% if spotlight_collection_one != blank or spotlight_collection_two != blank or spotlight_collection_three != blank or spotlight_collection_four != blank %}
+      <section class="rolang-collection-spotlight">
+        <div class="rolang-section-heading">
+          <p class="rolang-eyebrow">{{ section.settings.spotlight_eyebrow }}</p>
+          <h2>{{ section.settings.spotlight_heading }}</h2>
+          {% if section.settings.spotlight_description != blank %}
+            <p>{{ section.settings.spotlight_description }}</p>
+          {% endif %}
+        </div>
+
+        <div class="rolang-collections-spotlight-grid">
+          {% if spotlight_collection_one != blank %}
+            {% assign spotlight_image = spotlight_collection_one.featured_image %}
+            {% if spotlight_image == blank and spotlight_collection_one.products_count > 0 %}
+              {% assign spotlight_image = spotlight_collection_one.products.first.featured_image %}
+            {% endif %}
+            <a class="rolang-collection-spotlight-card" href="{{ spotlight_collection_one.url }}">
+              {% if spotlight_image %}
+                <div class="rolang-collection-spotlight-image">
+                  {% render 'image', image: spotlight_image, width: 720, height: 720, crop: 'center' %}
+                </div>
+              {% endif %}
+              <div class="rolang-collection-spotlight-copy">
+                <span class="rolang-product-meta">{{ spotlight_collection_one.all_products_count }} products</span>
+                <strong>{{ spotlight_collection_one.title }}</strong>
+                {% if spotlight_collection_one.description != blank %}
+                  <p>{{ spotlight_collection_one.description | strip_html | truncatewords: 16 }}</p>
+                {% else %}
+                  <p>Shop this curated collection.</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+
+          {% if spotlight_collection_two != blank %}
+            {% assign spotlight_image = spotlight_collection_two.featured_image %}
+            {% if spotlight_image == blank and spotlight_collection_two.products_count > 0 %}
+              {% assign spotlight_image = spotlight_collection_two.products.first.featured_image %}
+            {% endif %}
+            <a class="rolang-collection-spotlight-card" href="{{ spotlight_collection_two.url }}">
+              {% if spotlight_image %}
+                <div class="rolang-collection-spotlight-image">
+                  {% render 'image', image: spotlight_image, width: 720, height: 720, crop: 'center' %}
+                </div>
+              {% endif %}
+              <div class="rolang-collection-spotlight-copy">
+                <span class="rolang-product-meta">{{ spotlight_collection_two.all_products_count }} products</span>
+                <strong>{{ spotlight_collection_two.title }}</strong>
+                {% if spotlight_collection_two.description != blank %}
+                  <p>{{ spotlight_collection_two.description | strip_html | truncatewords: 16 }}</p>
+                {% else %}
+                  <p>Shop this curated collection.</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+
+          {% if spotlight_collection_three != blank %}
+            {% assign spotlight_image = spotlight_collection_three.featured_image %}
+            {% if spotlight_image == blank and spotlight_collection_three.products_count > 0 %}
+              {% assign spotlight_image = spotlight_collection_three.products.first.featured_image %}
+            {% endif %}
+            <a class="rolang-collection-spotlight-card" href="{{ spotlight_collection_three.url }}">
+              {% if spotlight_image %}
+                <div class="rolang-collection-spotlight-image">
+                  {% render 'image', image: spotlight_image, width: 720, height: 720, crop: 'center' %}
+                </div>
+              {% endif %}
+              <div class="rolang-collection-spotlight-copy">
+                <span class="rolang-product-meta">{{ spotlight_collection_three.all_products_count }} products</span>
+                <strong>{{ spotlight_collection_three.title }}</strong>
+                {% if spotlight_collection_three.description != blank %}
+                  <p>{{ spotlight_collection_three.description | strip_html | truncatewords: 16 }}</p>
+                {% else %}
+                  <p>Shop this curated collection.</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+
+          {% if spotlight_collection_four != blank %}
+            {% assign spotlight_image = spotlight_collection_four.featured_image %}
+            {% if spotlight_image == blank and spotlight_collection_four.products_count > 0 %}
+              {% assign spotlight_image = spotlight_collection_four.products.first.featured_image %}
+            {% endif %}
+            <a class="rolang-collection-spotlight-card" href="{{ spotlight_collection_four.url }}">
+              {% if spotlight_image %}
+                <div class="rolang-collection-spotlight-image">
+                  {% render 'image', image: spotlight_image, width: 720, height: 720, crop: 'center' %}
+                </div>
+              {% endif %}
+              <div class="rolang-collection-spotlight-copy">
+                <span class="rolang-product-meta">{{ spotlight_collection_four.all_products_count }} products</span>
+                <strong>{{ spotlight_collection_four.title }}</strong>
+                {% if spotlight_collection_four.description != blank %}
+                  <p>{{ spotlight_collection_four.description | strip_html | truncatewords: 16 }}</p>
+                {% else %}
+                  <p>Shop this curated collection.</p>
+                {% endif %}
+              </div>
+            </a>
+          {% endif %}
+        </div>
+      </section>
+    {% endif %}
 
     {% if trust_items.size > 0 and trust_items.first != blank %}
       <section class="rolang-trust-grid">
@@ -288,11 +408,7 @@
                     <span class="rolang-compare-price">{{ product.compare_at_price | money }}</span>
                   {% endif %}
                 </div>
-                <div class="rolang-tag-row">
-                  {% for tag in product.tags limit: 3 %}
-                    <span class="rolang-chip">{{ tag }}</span>
-                  {% endfor %}
-                </div>
+                {% render 'product-tag-chips', product: product, limit: 3 %}
                 <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
               </div>
             </article>
@@ -300,7 +416,7 @@
         </div>
       {% else %}
         <div class="rolang-collection-placeholder">
-          Pick a featured collection in the theme editor after your products are imported into Shopify.
+          Import products into Shopify or choose a featured collection in the theme editor to populate this section.
         </div>
       {% endif %}
     </section>
@@ -334,15 +450,34 @@
         {% endif %}
       </div>
       <div class="rolang-contact-actions">
-        {% if support_email != blank %}
-          <a class="rolang-button rolang-contact-email" href="mailto:{{ support_email }}">
-            {{ support_email }}
+        {% if support_whatsapp_url != blank %}
+          <a class="rolang-button" href="{{ support_whatsapp_url }}" target="_blank" rel="noopener">
+            Chat on WhatsApp
+          </a>
+        {% endif %}
+        {% if support_instagram_url != blank %}
+          <a class="rolang-button-secondary" href="{{ support_instagram_url }}" target="_blank" rel="noopener">
+            Instagram
+          </a>
+        {% endif %}
+        {% if support_facebook_url != blank %}
+          <a class="rolang-button-secondary" href="{{ support_facebook_url }}" target="_blank" rel="noopener">
+            Facebook
           </a>
         {% endif %}
         {% if section.settings.contact_link_label != blank and section.settings.contact_link_url != blank %}
-          <a class="rolang-button-secondary" href="{{ section.settings.contact_link_url }}">
+          <a
+            class="{% if has_social_cta %}rolang-button-secondary{% else %}rolang-button{% endif %}"
+            href="{{ section.settings.contact_link_url }}"
+          >
             {{ section.settings.contact_link_label }}
           </a>
+        {% endif %}
+        {% if support_email != blank %}
+          <p class="rolang-small-copy">
+            Email support:
+            <a class="rolang-inline-link" href="mailto:{{ support_email }}">{{ support_email }}</a>
+          </p>
         {% endif %}
       </div>
     </section>
@@ -369,7 +504,7 @@
       "type": "textarea",
       "id": "description",
       "label": "Hero description",
-      "default": "ROLANG BEAUTY is an online Korean beauty shop based in Phnom Penh City, Cambodia. Use Shopify collections, real product pages, and checkout to turn the original product guide into a working storefront."
+      "default": "ROLANG BEAUTY is an online Korean beauty shop based in Phnom Penh City, Cambodia. Browse Korean skincare collections, real product pages, and Shopify checkout for Malaysia and Cambodia."
     },
     {
       "type": "text",
@@ -398,13 +533,13 @@
       "type": "text",
       "id": "hero_highlights_heading",
       "label": "Hero highlights heading",
-      "default": "Focused for your first order"
+      "default": "What is live now"
     },
     {
       "type": "textarea",
       "id": "hero_highlights",
       "label": "Hero highlights (one per line)",
-      "default": "Curated launch assortment\nShopify checkout ready\nSupport from Phnom Penh"
+      "default": "48 products live\nMalaysia + Cambodia support\nShopify checkout ready"
     },
     {
       "type": "text",
@@ -451,13 +586,13 @@
       "type": "textarea",
       "id": "trust_description",
       "label": "Trust description",
-      "default": "Each launch product includes clear descriptions, ingredient context, and direct support from the Rolang team."
+      "default": "Each product page includes clear descriptions, ingredient context, and direct support from the Rolang team."
     },
     {
       "type": "textarea",
       "id": "trust_items",
       "label": "Trust items (title||description per line)",
-      "default": "Local support||Questions and order updates are handled by the Rolang team from Phnom Penh.\nFocused first drop||The launch stays intentionally tight so products are easier to compare and restock.\nPolicy-backed checkout||Shipping and return details stay linked from Shopify during checkout."
+      "default": "Malaysia + Cambodia||The store is currently set up to support shoppers in Malaysia and Cambodia.\nClear collection paths||Browse by cleanser, sunscreen, toner, serum, cream, calming care, brightening, or targeted treatment.\nPolicy-backed checkout||Shipping and return details stay linked from Shopify during checkout."
     },
     {
       "type": "text",
@@ -523,7 +658,7 @@
       "type": "text",
       "id": "collection_cta_label",
       "label": "Collection CTA label",
-      "default": "View the launch collection"
+      "default": "Browse all products"
     },
     {
       "type": "url",
@@ -534,6 +669,44 @@
       "type": "collection",
       "id": "featured_collection",
       "label": "Featured collection"
+    },
+    {
+      "type": "text",
+      "id": "spotlight_eyebrow",
+      "label": "Spotlight eyebrow",
+      "default": "Shop by collection"
+    },
+    {
+      "type": "text",
+      "id": "spotlight_heading",
+      "label": "Spotlight heading",
+      "default": "Browse by routine step."
+    },
+    {
+      "type": "textarea",
+      "id": "spotlight_description",
+      "label": "Spotlight description",
+      "default": "Start with the collection that matches your routine."
+    },
+    {
+      "type": "collection",
+      "id": "spotlight_collection_one",
+      "label": "Spotlight collection 1"
+    },
+    {
+      "type": "collection",
+      "id": "spotlight_collection_two",
+      "label": "Spotlight collection 2"
+    },
+    {
+      "type": "collection",
+      "id": "spotlight_collection_three",
+      "label": "Spotlight collection 3"
+    },
+    {
+      "type": "collection",
+      "id": "spotlight_collection_four",
+      "label": "Spotlight collection 4"
     },
     {
       "type": "range",

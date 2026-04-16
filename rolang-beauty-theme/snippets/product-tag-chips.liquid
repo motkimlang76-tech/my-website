@@ -1,0 +1,52 @@
+{% liquid
+  assign tag_limit = limit | default: 3
+  assign vendor_tag = product.vendor | downcase | strip
+  assign product_type_tag = product.type | downcase | strip
+  assign visible_tag_count = 0
+  assign rendered_labels = '|'
+  assign tags_markup = ''
+%}
+
+{% for tag in product.tags %}
+  {% assign normalized_tag = tag | downcase | strip %}
+  {% assign hide_tag = false %}
+
+  {% if normalized_tag == blank or normalized_tag == vendor_tag or normalized_tag == product_type_tag %}
+    {% assign hide_tag = true %}
+  {% endif %}
+
+  {% if normalized_tag contains 'source-'
+    or normalized_tag contains 'brand-'
+    or normalized_tag contains 'category-'
+    or normalized_tag contains 'card-'
+    or normalized_tag contains 'skin-'
+    or normalized_tag == 'all'
+    or normalized_tag == 'featured'
+    or normalized_tag == 'launch edit'
+    or normalized_tag == 'rolang edit'
+    or normalized_tag == 'full catalog'
+  %}
+    {% assign hide_tag = true %}
+  {% endif %}
+
+  {% unless hide_tag %}
+    {% assign tag_label = tag | replace: '_', ' ' | replace: '-', ' ' | strip | capitalize %}
+    {% capture label_key %}|{{ tag_label | downcase }}|{% endcapture %}
+
+    {% unless rendered_labels contains label_key %}
+      {% capture tags_markup %}{{ tags_markup }}<span class="rolang-chip">{{ tag_label }}</span>{% endcapture %}
+      {% capture rendered_labels %}{{ rendered_labels }}{{ label_key }}{% endcapture %}
+      {% assign visible_tag_count = visible_tag_count | plus: 1 %}
+    {% endunless %}
+  {% endunless %}
+
+  {% if visible_tag_count >= tag_limit %}
+    {% break %}
+  {% endif %}
+{% endfor %}
+
+{% if tags_markup != blank %}
+  <div class="rolang-tag-row">
+    {{ tags_markup }}
+  </div>
+{% endif %}

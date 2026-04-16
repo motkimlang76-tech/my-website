@@ -1,6 +1,9 @@
 {% assign brand_name = settings.brand_name | default: shop.name %}
 {% assign support_email = settings.support_email | default: shop.email %}
 {% assign support_phone = settings.support_phone %}
+{% assign support_whatsapp_url = settings.support_whatsapp_url %}
+{% assign support_instagram_url = settings.support_instagram_url %}
+{% assign support_facebook_url = settings.support_facebook_url %}
 {% assign support_location = settings.support_location %}
 {% assign support_hours = settings.support_hours %}
 {% assign shipping_policy = shop.shipping_policy %}
@@ -8,6 +11,11 @@
 {% assign privacy_policy = shop.privacy_policy %}
 {% assign terms_policy = shop.terms_of_service %}
 {% assign has_policy_links = false %}
+{% assign footer_menu = section.settings.menu %}
+
+{% if footer_menu == blank and linklists['footer'] != blank and linklists['footer'].links.size > 0 %}
+  {% assign footer_menu = linklists['footer'] %}
+{% endif %}
 
 {% if shipping_policy.body != blank
   or refund_policy.body != blank
@@ -29,8 +37,8 @@
   </div>
 
   <nav class="rolang-footer-links" aria-label="Footer navigation">
-    {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
-      {% for link in section.settings.menu.links %}
+    {% if footer_menu != blank and footer_menu.links.size > 0 %}
+      {% for link in footer_menu.links %}
         <a
           href="{{ link.url }}"
           {% if link.current or link.active %}
@@ -105,6 +113,18 @@
   </div>
 
   <div class="rolang-footer-meta">
+    {% if support_whatsapp_url != blank or support_instagram_url != blank or support_facebook_url != blank %}
+      <strong class="rolang-footer-heading">Connect</strong>
+      {% if support_whatsapp_url != blank %}
+        <a href="{{ support_whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a>
+      {% endif %}
+      {% if support_instagram_url != blank %}
+        <a href="{{ support_instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+      {% endif %}
+      {% if support_facebook_url != blank %}
+        <a href="{{ support_facebook_url }}" target="_blank" rel="noopener">Facebook</a>
+      {% endif %}
+    {% endif %}
     <p>{{ section.settings.footer_note }}</p>
     {% if section.settings.show_payment_icons %}
       <div class="rolang-footer-payment">
@@ -140,13 +160,13 @@
       "type": "textarea",
       "id": "footer_copy",
       "label": "Footer copy",
-      "default": "Browse skincare products and collections with product details, cart, and checkout in one place."
+      "default": "Curated Korean skincare with secure checkout and product pages that are easy to compare."
     },
     {
       "type": "textarea",
       "id": "footer_note",
       "label": "Footer note",
-      "default": "Questions about products, orders, shipping, or returns? Use the support details and policy links below."
+      "default": "Questions about orders, shipping, or returns? Use the policy links and support details below."
     },
     {
       "type": "link_list",
