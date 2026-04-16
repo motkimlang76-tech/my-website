@@ -4,15 +4,37 @@
 {% assign support_instagram_url = settings.support_instagram_url %}
 {% assign support_facebook_url = settings.support_facebook_url %}
 {% assign announcement_text = settings.announcement_text %}
+{% assign show_announcement_bar = section.settings.show_announcement_bar %}
 {% assign announcement_link_label = section.settings.announcement_link_label %}
 {% assign announcement_link_url = section.settings.announcement_link_url %}
 {% assign shipping_policy = shop.shipping_policy %}
 {% assign refund_policy = shop.refund_policy %}
 {% assign has_announcement = false %}
+{% assign has_announcement_content = false %}
+{% assign has_search_link = false %}
+{% assign has_collections_link = false %}
 {% assign primary_menu = section.settings.menu %}
+{% assign collections_url_with_trailing_slash = routes.collections_url | append: '/' %}
 
 {% if primary_menu == blank and linklists['main-menu'] != blank and linklists['main-menu'].links.size > 0 %}
   {% assign primary_menu = linklists['main-menu'] %}
+{% endif %}
+
+{% if primary_menu != blank and primary_menu.links.size > 0 %}
+  {% for link in primary_menu.links %}
+    {% if link.url == routes.collections_url or link.url == collections_url_with_trailing_slash %}
+      {% assign has_collections_link = true %}
+    {% endif %}
+    {% if link.url contains routes.search_url %}
+      {% assign has_search_link = true %}
+    {% endif %}
+    {% if has_search_link and has_collections_link %}
+      {% break %}
+    {% endif %}
+  {% endfor %}
+{% else %}
+  {% assign has_search_link = true %}
+  {% assign has_collections_link = true %}
 {% endif %}
 
 {% if announcement_text != blank
@@ -23,6 +45,10 @@
   or support_instagram_url != blank
   or support_facebook_url != blank
 %}
+  {% assign has_announcement_content = true %}
+{% endif %}
+
+{% if show_announcement_bar and has_announcement_content %}
   {% assign has_announcement = true %}
 {% endif %}
 
@@ -33,13 +59,34 @@
         <span>{{ announcement_text }}</span>
       {% endif %}
       {% if support_whatsapp_url != blank %}
-        <a href="{{ support_whatsapp_url }}" target="_blank" rel="noopener">WhatsApp</a>
+        <a
+          href="{{ support_whatsapp_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Contact Rolang Beauty on WhatsApp (opens in a new tab)"
+        >
+          WhatsApp
+        </a>
       {% endif %}
       {% if support_instagram_url != blank %}
-        <a href="{{ support_instagram_url }}" target="_blank" rel="noopener">Instagram</a>
+        <a
+          href="{{ support_instagram_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Rolang Beauty on Instagram (opens in a new tab)"
+        >
+          Instagram
+        </a>
       {% endif %}
       {% if support_facebook_url != blank %}
-        <a href="{{ support_facebook_url }}" target="_blank" rel="noopener">Facebook</a>
+        <a
+          href="{{ support_facebook_url }}"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit Rolang Beauty on Facebook (opens in a new tab)"
+        >
+          Facebook
+        </a>
       {% endif %}
     </div>
 
@@ -48,7 +95,7 @@
         <a href="{{ shipping_policy.url }}">Shipping policy</a>
       {% endif %}
       {% if refund_policy.body != blank %}
-        <a href="{{ refund_policy.url }}">Returns</a>
+        <a href="{{ refund_policy.url }}">Returns &amp; refunds</a>
       {% endif %}
       {% if announcement_link_label != blank and announcement_link_url != blank %}
         <a href="{{ announcement_link_url }}">{{ announcement_link_label }}</a>
@@ -82,6 +129,17 @@
             <span>{{ link.title }}</span>
           </a>
         {% endfor %}
+        {% unless has_collections_link %}
+          <a
+            class="rolang-nav-link{% if request.page_type == 'list-collections' %} is-active{% endif %}"
+            href="{{ routes.collections_url }}"
+            {% if request.page_type == 'list-collections' %}
+              aria-current="page"
+            {% endif %}
+          >
+            <span>Collections</span>
+          </a>
+        {% endunless %}
       {% else %}
         <a
           class="rolang-nav-link{% if request.page_type == 'index' %} is-active{% endif %}"
@@ -123,15 +181,32 @@
     </div>
 
     <div class="rolang-header-actions">
+      {% unless has_search_link %}
+        <a
+          class="rolang-nav-link{% if request.page_type == 'search' %} is-active{% endif %}"
+          href="{{ routes.search_url }}"
+          aria-label="Search the catalog"
+          {% if request.page_type == 'search' %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span>Search</span>
+        </a>
+      {% endunless %}
+
       {% if shop.customer_accounts_enabled %}
-        <a class="rolang-icon-link" href="{{ routes.account_url }}" aria-label="Account">
+        <a class="rolang-icon-link" href="{{ routes.account_url }}" aria-label="View your account">
           {{ 'icon-account.svg' | inline_asset_content }}
         </a>
       {% endif %}
 
-      <a class="rolang-icon-link" href="{{ routes.cart_url }}" aria-label="Cart">
+      <a
+        class="rolang-icon-link"
+        href="{{ routes.cart_url }}"
+        aria-label="View cart{% if cart.item_count > 0 %}, {{ cart.item_count }} item{% unless cart.item_count == 1 %}s{% endunless %}{% endif %}"
+      >
         {% if cart.item_count > 0 %}
-          <span class="rolang-cart-count">{{ cart.item_count }}</span>
+          <span class="rolang-cart-count" aria-hidden="true">{{ cart.item_count }}</span>
         {% endif %}
         {{ 'icon-cart.svg' | inline_asset_content }}
       </a>
@@ -153,6 +228,12 @@
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_announcement_bar",
+      "label": "Show announcement bar",
+      "default": true
     },
     {
       "type": "text",

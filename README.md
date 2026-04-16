@@ -41,6 +41,7 @@ shopify theme dev --store rolangbeauty.myshopify.com
 - `scripts/export-shopify-products.mjs` generates the Shopify CSV import
 - `scripts/sync-shopify-launch.mjs` syncs the launch assortment into Shopify
 - `scripts/sync-shopify-draft-catalog.mjs` loads the remaining catalog into Shopify as draft products
+- `scripts/sync-shopify-live-catalog.mjs` prices and syncs the full live catalog with collection grouping
 
 ## Deploy
 

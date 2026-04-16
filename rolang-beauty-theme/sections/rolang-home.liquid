@@ -375,11 +375,11 @@
             <p class="rolang-subcopy">{{ section.settings.collection_highlight }}</p>
           {% endif %}
           {% if section.settings.collection_cta_label != blank and collection_cta_target != blank %}
-            <a class="rolang-inline-link" href="{{ collection_cta_target }}">
+            <a class="rolang-button-quiet" href="{{ collection_cta_target }}">
               {{ section.settings.collection_cta_label }}
             </a>
           {% elsif featured_collection != blank %}
-            <a class="rolang-inline-link" href="{{ featured_collection.url }}">View collection</a>
+            <a class="rolang-button-quiet" href="{{ featured_collection.url }}">View collection</a>
           {% endif %}
         </div>
       {% endif %}
@@ -409,7 +409,7 @@
                   {% endif %}
                 </div>
                 {% render 'product-tag-chips', product: product, limit: 3 %}
-                <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
+                <a class="rolang-button-quiet rolang-card-action" href="{{ product.url }}">View product</a>
               </div>
             </article>
           {% endfor %}
@@ -456,18 +456,18 @@
           </a>
         {% endif %}
         {% if support_instagram_url != blank %}
-          <a class="rolang-button-secondary" href="{{ support_instagram_url }}" target="_blank" rel="noopener">
+          <a class="rolang-button-quiet" href="{{ support_instagram_url }}" target="_blank" rel="noopener">
             Instagram
           </a>
         {% endif %}
         {% if support_facebook_url != blank %}
-          <a class="rolang-button-secondary" href="{{ support_facebook_url }}" target="_blank" rel="noopener">
+          <a class="rolang-button-quiet" href="{{ support_facebook_url }}" target="_blank" rel="noopener">
             Facebook
           </a>
         {% endif %}
         {% if section.settings.contact_link_label != blank and section.settings.contact_link_url != blank %}
           <a
-            class="{% if has_social_cta %}rolang-button-secondary{% else %}rolang-button{% endif %}"
+            class="{% if has_social_cta %}rolang-button-quiet{% else %}rolang-button-secondary{% endif %}"
             href="{{ section.settings.contact_link_url }}"
           >
             {{ section.settings.contact_link_label }}
@@ -539,7 +539,7 @@
       "type": "textarea",
       "id": "hero_highlights",
       "label": "Hero highlights (one per line)",
-      "default": "48 products live\nMalaysia + Cambodia support\nShopify checkout ready"
+      "default": "49 products live\nMalaysia + Cambodia support\nShopify checkout ready"
     },
     {
       "type": "text",
@@ -828,7 +828,7 @@
         {
           "type": "note",
           "settings": {
-            "text": "48 products added"
+            "text": "49 products added"
           }
         },
         {
@@ -846,7 +846,7 @@
         {
           "type": "stat",
           "settings": {
-            "value": "48 products",
+            "value": "49 products",
             "label": "ready to import into Shopify from the current guide"
           }
         },

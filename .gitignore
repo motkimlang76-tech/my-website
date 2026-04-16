@@ -8,6 +8,7 @@ coverage/
 .env.*
 shopify-import/rolang-launch-report.json
 shopify-import/rolang-draft-catalog-report.json
+shopify-import/rolang-live-catalog-report.json
 launch-action-items-local/
 .autopilot/
 docs/autopilot.md

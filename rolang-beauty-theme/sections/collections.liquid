@@ -3,6 +3,10 @@
     <p class="rolang-eyebrow">Collections</p>
     <h1>{{ 'collections.title' | t }}</h1>
     <p class="rolang-collection-copy">Shop the current Rolang Beauty assortment by brand, routine step, or skin concern.</p>
+    <div class="rolang-hero-actions">
+      <a class="rolang-button-quiet" href="{{ routes.search_url }}">Search the catalog</a>
+      <a class="rolang-button-secondary" href="{{ routes.all_products_collection_url }}">Browse all products</a>
+    </div>
   </div>
 
   {% paginate collections by section.settings.collections_per_page %}
@@ -12,31 +16,47 @@
           {% continue %}
         {% endif %}
 
-        {% assign collection_image = collection.featured_image %}
-        {% if collection_image == blank and collection.products_count > 0 %}
-          {% assign collection_image = collection.products.first.featured_image %}
+        {% assign collection_title = collection.title | strip %}
+        {% assign collection_mark = collection_title | slice: 0, 1 | upcase %}
+        {% assign collection_description = collection.description | strip_html | strip %}
+        {% assign collection_preview_titles = blank %}
+        {% if collection_description == blank %}
+          {% capture collection_preview_titles -%}
+            {%- for product in collection.products limit: 3 -%}
+              {{- product.title | strip -}}{%- unless forloop.last -%}, {% endunless %}
+            {%- endfor -%}
+          {%- endcapture %}
+          {% assign collection_preview_titles = collection_preview_titles | strip %}
         {% endif %}
+        {% capture collection_card_label %}
+          {{ collection_title }} collection, {{ collection.all_products_count }} products{% if collection_description != blank %}. {{ collection_description | truncatewords: 16 }}{% elsif collection_preview_titles != blank %}. Featuring {{ collection_preview_titles | truncate: 96 }}{% endif %}
+        {% endcapture %}
 
-        <a class="rolang-collection-list-card" href="{{ collection.url }}">
-          {% if collection_image %}
-            <div class="rolang-collection-list-card-image">
-              {% render 'image',
-                image: collection_image,
-                width: 720,
-                height: 720,
-                crop: 'center'
-              %}
+        <a
+          class="rolang-collection-list-card has-generated-poster"
+          href="{{ collection.url }}"
+          aria-label="{{ collection_card_label | strip | escape }}"
+        >
+          <div class="rolang-collection-list-card-image is-generated-poster" aria-hidden="true">
+            <span class="rolang-collection-poster-mark">{{ collection_mark }}</span>
+            <div class="rolang-collection-poster">
+              <span class="rolang-collection-poster-kicker">{{ collection.all_products_count }} products</span>
+              <strong>{{ collection_title }}</strong>
+              <span class="rolang-collection-poster-meta">Curated routine edit</span>
             </div>
-          {% endif %}
+          </div>
 
           <div class="rolang-collection-list-card-copy">
             <span class="rolang-product-meta">{{ collection.all_products_count }} products</span>
-            <strong>{{ collection.title }}</strong>
-            {% if collection.description != blank %}
-              <p>{{ collection.description | strip_html | truncatewords: 16 }}</p>
+            <strong>{{ collection_title }}</strong>
+            {% if collection_description != blank %}
+              <p>{{ collection_description | truncatewords: 16 }}</p>
+            {% elsif collection_preview_titles != blank %}
+              <p>Featuring {{ collection_preview_titles | truncate: 72 }}.</p>
             {% else %}
               <p>Browse the curated edit for this category.</p>
             {% endif %}
+            <span class="rolang-button-quiet rolang-card-action">View collection</span>
           </div>
         </a>
       {% endfor %}

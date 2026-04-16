@@ -54,7 +54,7 @@
           </div>
 
           <div class="rolang-cart-actions">
-            <button class="rolang-button-secondary" type="submit">Apply sort</button>
+            <button class="rolang-button-quiet" type="submit">Apply sort</button>
             {% if collection.handle != 'all' %}
               <a class="rolang-inline-link" href="{{ routes.all_products_collection_url }}">Browse all products</a>
             {% endif %}
@@ -72,14 +72,32 @@
           </div>
 
           <div class="rolang-cart-actions">
-            <a class="rolang-button" href="{{ routes.all_products_collection_url }}">Browse all products</a>
-            <a class="rolang-button-secondary" href="{{ routes.search_url }}">Search the catalog</a>
+            <a class="rolang-button-secondary" href="{{ routes.all_products_collection_url }}">Browse all products</a>
+            <a class="rolang-button-quiet" href="{{ routes.search_url }}">Search the catalog</a>
           </div>
         </div>
       </div>
     {% else %}
       <div class="rolang-product-grid">
         {% for product in collection.products %}
+          {% assign collection_card_variant = product.selected_or_first_available_variant %}
+          {% capture collection_card_availability %}
+            {% if product.available and collection_card_variant %}
+              {% if collection_card_variant.inventory_management != blank %}
+                {% if collection_card_variant.inventory_quantity > 0 %}
+                  In stock
+                {% elsif collection_card_variant.inventory_policy == 'continue' %}
+                  Available to order
+                {% else %}
+                  Currently sold out
+                {% endif %}
+              {% else %}
+                Available
+              {% endif %}
+            {% else %}
+              Currently sold out
+            {% endif %}
+          {% endcapture %}
           <article class="rolang-product-card">
             <div class="rolang-product-card-image">
               {% if product.featured_image %}
@@ -108,13 +126,13 @@
                 {% endif %}
               </div>
               <div class="rolang-detail-row">
-                <span class="rolang-detail-pill">{% if product.available %}In stock{% else %}Sold out{% endif %}</span>
-                {% if product.price_varies %}
+                <span class="rolang-detail-pill">{{ collection_card_availability | strip }}</span>
+                {% if product.variants.size > 1 %}
                   <span class="rolang-detail-pill">{{ product.variants.size }} options</span>
                 {% endif %}
               </div>
               {% render 'product-tag-chips', product: product, limit: 3 %}
-              <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
+              <a class="rolang-button-quiet rolang-card-action" href="{{ product.url }}">View product</a>
             </div>
           </article>
         {% endfor %}

@@ -29,7 +29,7 @@
         <p>Begin with a product type, then narrow down from the results page.</p>
         <div class="rolang-cart-actions">
           {% for term in suggested_searches %}
-            <a class="rolang-button-secondary" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term | capitalize }}</a>
+            <a class="rolang-button-quiet" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term | capitalize }}</a>
           {% endfor %}
         </div>
       </article>
@@ -40,7 +40,7 @@
         <p>If you are not looking for a specific term yet, jump to the full product grid or the collections index.</p>
         <div class="rolang-cart-actions">
           <a class="rolang-button-secondary" href="{{ routes.all_products_collection_url }}">All products</a>
-          <a class="rolang-button-secondary" href="{{ routes.collections_url }}">Collections</a>
+          <a class="rolang-button-quiet" href="{{ routes.collections_url }}">Collections</a>
         </div>
       </article>
     </div>
@@ -54,12 +54,12 @@
         <p>Try a product name, brand, or collection keyword, or switch to browsing while you refine the search.</p>
         <div class="rolang-cart-actions">
           {% for term in suggested_searches %}
-            <a class="rolang-button-secondary" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term | capitalize }}</a>
+            <a class="rolang-button-quiet" href="{{ routes.search_url }}?q={{ term | url_encode }}">{{ term | capitalize }}</a>
           {% endfor %}
         </div>
         <div class="rolang-cart-actions">
           <a class="rolang-button-secondary" href="{{ routes.all_products_collection_url }}">Browse all products</a>
-          <a class="rolang-button-secondary" href="{{ routes.collections_url }}">Browse collections</a>
+          <a class="rolang-button-quiet" href="{{ routes.collections_url }}">Browse collections</a>
         </div>
       </div>
     {% else %}
@@ -68,11 +68,24 @@
       </p>
 
       {% paginate search.results by 16 %}
-        <div class="rolang-search-grid">
-          {% for result in search.results %}
-            {% assign featured_image = result.featured_image | default: result.image %}
+        {% assign has_product_results = false %}
+        {% assign has_content_results = false %}
+        {% for result in search.results %}
+          {% if result.object_type == 'product' %}
+            {% assign has_product_results = true %}
+          {% else %}
+            {% assign has_content_results = true %}
+          {% endif %}
+        {% endfor %}
 
-            {% if result.object_type == 'product' %}
+        {% if has_product_results %}
+          <div class="rolang-search-grid">
+            {% for result in search.results %}
+              {% if result.object_type != 'product' %}
+                {% continue %}
+              {% endif %}
+
+              {% assign featured_image = result.featured_image | default: result.image %}
               <article class="rolang-product-card">
                 <div class="rolang-product-card-image">
                   {% if featured_image %}
@@ -85,10 +98,24 @@
                   <div class="rolang-price-row">
                     <span class="rolang-price">{{ result.price | money }}</span>
                   </div>
-                  <a class="rolang-inline-link" href="{{ result.url }}">View product</a>
+                  <a class="rolang-button-quiet rolang-card-action" href="{{ result.url }}">View product</a>
                 </div>
               </article>
-            {% else %}
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if has_content_results %}
+          {% if has_product_results %}
+            <p class="rolang-search-summary">Related pages and articles for “{{ search.terms | escape }}”.</p>
+          {% endif %}
+
+          <div class="rolang-search-grid">
+            {% for result in search.results %}
+              {% if result.object_type == 'product' %}
+                {% continue %}
+              {% endif %}
+
               {% assign result_type_label = result.object_type | replace: '_', ' ' | capitalize %}
               {% assign result_cta_label = 'Open result' %}
 
@@ -109,11 +136,11 @@
                 {% else %}
                   <p>Open this result to continue browsing the store.</p>
                 {% endif %}
-                <a class="rolang-inline-link" href="{{ result.url }}">{{ result_cta_label }}</a>
+                <a class="rolang-button-quiet rolang-card-action" href="{{ result.url }}">{{ result_cta_label }}</a>
               </article>
-            {% endif %}
-          {% endfor %}
-        </div>
+            {% endfor %}
+          </div>
+        {% endif %}
 
         {{ paginate | default_pagination }}
       {% endpaginate %}
