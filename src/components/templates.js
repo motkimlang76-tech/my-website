@@ -77,8 +77,10 @@ export function renderProjects(items) {
         (item.title.startsWith(`${brandName} `) ? item.title.slice(brandName.length + 1) : item.title);
       const ingredient = item.details?.find((detail) => /ingredient/i.test(detail.label))?.value ?? "";
       const help = item.details?.find((detail) => /help/i.test(detail.label))?.value ?? "";
-      const skinType = item.details?.find((detail) => /skin type/i.test(detail.label))?.value ?? "";
+      const skinType =
+        item.details?.find((detail) => /skin type|best for/i.test(detail.label))?.value ?? "All skin types";
       const skinTypes = (item.skinTypes ?? ["all"]).join(" ");
+      const productMeta = item.meta && item.meta !== "Price by message" ? item.meta : "";
 
       return `
         <article class="product-card" data-skin-types="${skinTypes}" data-product-id="${item.id}">
@@ -89,10 +91,13 @@ export function renderProjects(items) {
           <h3 class="product-name">${brandName}</h3>
           <div class="product-desc">${shortName}</div>
           <p class="product-details">
-            <strong>Ingredient:</strong> ${ingredient}<br />
-            <strong>Help:</strong> ${help}
+            <strong>Best ingredients:</strong> ${ingredient}<br />
+            <strong>What it helps with:</strong> ${help}
           </p>
-          <span class="skin-type">Best for: ${skinType}</span>
+          <div class="product-footer">
+            <span class="skin-type">Best for: ${skinType}</span>
+            ${productMeta ? `<span class="product-meta">${productMeta}</span>` : ""}
+          </div>
         </article>
       `;
     })

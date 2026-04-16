@@ -25,17 +25,21 @@ const PRODUCT_PRICING = Object.freeze({
   'SKIN1004 Tea-Trica Relief Ampoule': 82,
   'SKIN1004 Tone Brightening Capsule Ampoule': 89,
   'SKIN1004 Centella Light Cleansing Oil': 89,
+  'SKIN1004 Madagascar Centella Toning Toner': 69,
   'COSRX Advanced Snail 96 Mucin Essence': 85,
+  'COSRX Full Fit Propolis Synergy Toner': 79,
   'COSRX Low pH Good Morning Gel Cleanser': 59,
   'COSRX Aloe Soothing Sun Cream': 65,
   'COSRX BHA Blackhead Power Liquid': 79,
   'COSRX The Vitamin C 23 Serum': 89,
   'COSRX Acne Pimple Master Patch': 25,
+  'COSRX Ultimate Nourishing Rice Overnight Spa Mask': 75,
   'Isntree Hyaluronic Acid Watery Sun Gel': 79,
   'Isntree Green Tea Fresh Toner': 69,
   'Isntree Onion Newpair Sun Cream': 89,
   'Isntree Yam Root Vegan Milk Cleanser': 69,
   'ANUA Heartleaf Pore Control Cleansing Oil': 89,
+  'ANUA Heartleaf Quercetinol Pore Deep Cleansing Foam': 59,
   'ANUA Heartleaf 77% Soothing Toner': 89,
   'ANUA Heartleaf 77% Clear Pad': 89,
   'ANUA Heartleaf 80% Moisture Ampoule': 89,
@@ -55,6 +59,7 @@ const PRODUCT_PRICING = Object.freeze({
   'Medicube Triple Collagen Cream': 99,
   'Medicube PDRN Pink Niacinamide Toner': 89,
   'Medicube Zero Pore Pad 2.0': 99,
+  'Medicube Deep Vita C Pads': 95,
   'Medicube Deep Vita C Ampoule': 95,
   'Medicube Zero Pore Serum': 89,
   'Medicube Red Succinic Acid Serum': 85,
@@ -78,6 +83,7 @@ const LAUNCH_TITLES = new Set([
   'COSRX Low pH Good Morning Gel Cleanser',
   'COSRX Acne Pimple Master Patch',
   'Isntree Hyaluronic Acid Watery Sun Gel',
+  'ANUA Heartleaf Pore Control Cleansing Oil',
   'ANUA Heartleaf 77% Soothing Toner',
   'ANUA Peach 70% Niacinamide Serum',
   'Medicube Collagen Niacinamide Jelly Cream',
@@ -154,7 +160,17 @@ function escapeHtml(value) {
 
 function buildDescription(product) {
   const detailItems = (product.details ?? [])
-    .map((detail) => `<li><strong>${escapeHtml(detail.label)}:</strong> ${escapeHtml(detail.value)}</li>`)
+    .map((detail) => {
+      let label = detail.label;
+
+      if (/^key ingredient/i.test(label)) {
+        label = 'Best Ingredients';
+      } else if (/^best skin type/i.test(label)) {
+        label = 'Best For';
+      }
+
+      return `<li><strong>${escapeHtml(label)}:</strong> ${escapeHtml(detail.value)}</li>`;
+    })
     .join('');
 
   return [
@@ -195,6 +211,49 @@ function buildInventoryMode(overrides = {}) {
   return {
     ...inventoryMode,
     sellWhenOutOfStock: inventoryMode.inventoryPolicy === 'CONTINUE',
+  };
+}
+
+function serializeReport(report) {
+  return JSON.stringify(report, null, 2);
+}
+
+function normalizeReport(report) {
+  const { generatedAt: _generatedAt, ...rest } = report;
+  return serializeReport(rest);
+}
+
+function writeReportIfChanged(report) {
+  try {
+    const existingReport = JSON.parse(readFileSync(OUTPUT_PATH, 'utf8'));
+
+    if (normalizeReport(existingReport) === normalizeReport(report)) {
+      return false;
+    }
+  } catch (error) {
+    if (error?.code !== 'ENOENT' && !(error instanceof SyntaxError)) {
+      throw error;
+    }
+  }
+
+  writeFileSync(OUTPUT_PATH, `${serializeReport(report)}\n`, 'utf8');
+  return true;
+}
+
+function buildCollectionCoverage(products) {
+  const unassignedProducts = products
+    .filter((product) => product.collections.length === 0)
+    .map(({ id, title, handle }) => ({
+      id,
+      title,
+      handle,
+    }));
+
+  return {
+    totalProductCount: products.length,
+    assignedProductCount: products.length - unassignedProducts.length,
+    unassignedProductCount: unassignedProducts.length,
+    unassignedProducts,
   };
 }
 
@@ -603,6 +662,19 @@ async function upsertCollection(handle, config, productIds) {
     },
   };
 
+  if (productIds.length === 0) {
+    return {
+      id: existing?.id ?? null,
+      title: config.title,
+      handle,
+      productCount: 0,
+      skipped: true,
+      reason: existing
+        ? 'no_matching_products_existing_collection_left_unchanged'
+        : 'no_matching_products_new_collection_not_created',
+    };
+  }
+
   if (existing) {
     const updateData = await adminFetch(
       `
@@ -685,6 +757,7 @@ async function upsertCollection(handle, config, productIds) {
       title: config.title,
       handle,
       productCount: productIds.length,
+      skipped: false,
     };
   }
 
@@ -720,6 +793,7 @@ async function upsertCollection(handle, config, productIds) {
     title: config.title,
     handle,
     productCount: productIds.length,
+    skipped: false,
   };
 }
 
@@ -731,16 +805,24 @@ async function main() {
     savedProducts.push(saved);
   }
 
+  const collectionCoverage = buildCollectionCoverage(savedProducts);
   const collectionEntries = [];
+  const skippedCollections = [];
 
   for (const [handle, config] of Object.entries(COLLECTIONS)) {
     const productIds = savedProducts
       .filter((product) => product.collections.includes(handle))
       .map((product) => product.id);
 
-    if (productIds.length === 0) continue;
-
     const savedCollection = await upsertCollection(handle, config, productIds);
+    if (savedCollection.skipped) {
+      skippedCollections.push(savedCollection);
+
+      const scope = savedCollection.id ? 'left the existing collection unchanged' : 'did not create a new collection';
+      console.warn(`Skipping collection ${handle}: no matching products; ${scope}.`);
+      continue;
+    }
+
     collectionEntries.push(savedCollection);
   }
 
@@ -753,18 +835,34 @@ async function main() {
       ...buildInventoryMode(),
       productCount: savedProducts.length,
     },
+    collectionCoverage,
     products: savedProducts,
     collections: collectionEntries,
+    skippedCollections,
   };
 
-  writeFileSync(OUTPUT_PATH, `${JSON.stringify(report, null, 2)}\n`, 'utf8');
+  const reportWritten = writeReportIfChanged(report);
 
   console.log(`Synced ${savedProducts.length} live catalog products to ${STORE_DOMAIN}`);
   console.log(`Prepared ${collectionEntries.length} collections`);
+  console.log(`Skipped ${skippedCollections.length} empty collections without mutating Shopify`);
+  if (collectionCoverage.unassignedProductCount > 0) {
+    const previewTitles = collectionCoverage.unassignedProducts
+      .slice(0, 5)
+      .map((product) => product.title)
+      .join(', ');
+    const remainingCount = collectionCoverage.unassignedProductCount - Math.min(collectionCoverage.unassignedProductCount, 5);
+    const remainingLabel = remainingCount > 0 ? `, plus ${remainingCount} more` : '';
+    console.warn(`Products without a derived collection assignment: ${previewTitles}${remainingLabel}.`);
+  }
   console.log(
     `Inventory mode: tracked=${INVENTORY_SETTINGS.tracked}, inventoryPolicy=${INVENTORY_SETTINGS.inventoryPolicy}, requiresShipping=${INVENTORY_SETTINGS.requiresShipping}`,
   );
-  console.log(`Wrote report to ${OUTPUT_PATH.pathname}`);
+  if (reportWritten) {
+    console.log(`Wrote report to ${OUTPUT_PATH.pathname}`);
+  } else {
+    console.log(`Report contents unchanged; left ${OUTPUT_PATH.pathname} untouched`);
+  }
 }
 
 main().catch((error) => {
