@@ -66,7 +66,10 @@ function buildDescription(product) {
 }
 
 function buildTags(product) {
+  const sourceId = slugify(product.id ?? product.title);
   const tagValues = [
+    'source-static-catalog',
+    sourceId ? `source-id-${sourceId}` : null,
     `brand-${slugify(product.brand)}`,
     `category-${slugify(product.category)}`,
     ...(product.skinTypes ?? []).map((item) => `skin-${slugify(item)}`),

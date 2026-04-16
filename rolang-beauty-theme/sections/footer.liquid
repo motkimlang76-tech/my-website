@@ -1,4 +1,21 @@
 {% assign brand_name = settings.brand_name | default: shop.name %}
+{% assign support_email = settings.support_email | default: shop.email %}
+{% assign support_phone = settings.support_phone %}
+{% assign support_location = settings.support_location %}
+{% assign support_hours = settings.support_hours %}
+{% assign shipping_policy = shop.shipping_policy %}
+{% assign refund_policy = shop.refund_policy %}
+{% assign privacy_policy = shop.privacy_policy %}
+{% assign terms_policy = shop.terms_of_service %}
+{% assign has_policy_links = false %}
+
+{% if shipping_policy.body != blank
+  or refund_policy.body != blank
+  or privacy_policy.body != blank
+  or terms_policy.body != blank
+%}
+  {% assign has_policy_links = true %}
+{% endif %}
 
 <footer class="rolang-site-footer">
   <div class="rolang-footer-brand">
@@ -19,7 +36,29 @@
     {% else %}
       <a href="{{ routes.root_url }}">Home</a>
       <a href="{{ routes.all_products_collection_url }}">Products</a>
+      <a href="{{ routes.collections_url }}">Collections</a>
+      <a href="{{ routes.search_url }}">Search</a>
       <a href="{{ routes.cart_url }}">Cart</a>
+    {% endif %}
+  </div>
+
+  <div class="rolang-footer-policies">
+    <strong class="rolang-footer-heading">Policies</strong>
+    {% if has_policy_links %}
+      {% if shipping_policy.body != blank %}
+        <a href="{{ shipping_policy.url }}">Shipping policy</a>
+      {% endif %}
+      {% if refund_policy.body != blank %}
+        <a href="{{ refund_policy.url }}">Refund policy</a>
+      {% endif %}
+      {% if privacy_policy.body != blank %}
+        <a href="{{ privacy_policy.url }}">Privacy policy</a>
+      {% endif %}
+      {% if terms_policy.body != blank %}
+        <a href="{{ terms_policy.url }}">Terms of service</a>
+      {% endif %}
+    {% else %}
+      <p>Add Shopify policies in admin and they will appear here automatically.</p>
     {% endif %}
   </div>
 
@@ -31,6 +70,22 @@
           {{ type | payment_type_svg_tag }}
         {% endfor %}
       </div>
+    {% endif %}
+  </div>
+
+  <div class="rolang-footer-support">
+    <strong class="rolang-footer-heading">Support</strong>
+    {% if support_email != blank %}
+      <a href="mailto:{{ support_email }}">{{ support_email }}</a>
+    {% endif %}
+    {% if support_phone != blank %}
+      <a href="tel:{{ support_phone | replace: ' ', '' }}">{{ support_phone }}</a>
+    {% endif %}
+    {% if support_location != blank %}
+      <span>{{ support_location }}</span>
+    {% endif %}
+    {% if support_hours != blank %}
+      <p>{{ support_hours }}</p>
     {% endif %}
   </div>
 </footer>

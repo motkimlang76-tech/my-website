@@ -33,10 +33,80 @@ textarea {
   font: inherit;
 }
 
+:where(a, button, input, select, textarea, summary):focus-visible {
+  outline: 3px solid rgba(197, 113, 114, 0.32);
+  outline-offset: 3px;
+}
+
+.rolang-skip-link {
+  position: absolute;
+  top: 0.85rem;
+  left: 1rem;
+  z-index: 40;
+  padding: 0.8rem 1rem;
+  border-radius: 999px;
+  background: var(--rolang-ink);
+  color: #fff;
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1;
+  transform: translateY(-220%);
+  transition: transform 160ms ease;
+}
+
+.rolang-skip-link:focus,
+.rolang-skip-link:focus-visible {
+  transform: translateY(0);
+}
+
+.rolang-main-content:focus {
+  outline: none;
+}
+
 .shopify-section-group-header-group,
 .shopify-section-group-footer-group {
   position: relative;
   z-index: 10;
+}
+
+.rolang-announcement-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.85rem 1rem;
+  margin-top: 1rem;
+  border: 1px solid rgba(45, 34, 36, 0.08);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(12px);
+}
+
+.rolang-announcement-copy,
+.rolang-announcement-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.rolang-announcement-copy span,
+.rolang-announcement-copy a,
+.rolang-announcement-links a {
+  font-size: 0.92rem;
+}
+
+.rolang-announcement-copy span {
+  color: rgba(45, 34, 36, 0.76);
+  font-weight: 700;
+}
+
+.rolang-announcement-copy a,
+.rolang-announcement-links a {
+  text-decoration: none;
+  color: var(--rolang-rose-deep);
+  font-weight: 700;
 }
 
 .rolang-site-header {
@@ -112,22 +182,48 @@ textarea {
   text-decoration: none;
 }
 
-.rolang-nav-links a {
-  padding: 0.65rem 0.95rem;
+.rolang-nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.6rem;
+  padding: 0.65rem 1rem;
+  margin: 0;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.7);
+  background: rgba(255, 255, 255, 0.76);
   border: 1px solid rgba(45, 34, 36, 0.08);
+  color: rgba(45, 34, 36, 0.8);
+  font-size: 0.92rem;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
   transition:
     transform 160ms ease,
     background-color 160ms ease,
-    border-color 160ms ease;
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease;
 }
 
-.rolang-nav-links a:hover,
-.rolang-nav-links a:focus-visible {
+.rolang-nav-link:hover,
+.rolang-nav-link:focus-visible {
   transform: translateY(-1px);
-  background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(45, 34, 36, 0.16);
+  background: rgba(197, 113, 114, 0.12);
+  border-color: rgba(197, 113, 114, 0.22);
+  color: var(--rolang-rose-deep);
+  box-shadow: 0 12px 28px rgba(45, 34, 36, 0.08);
+}
+
+.rolang-nav-link span {
+  text-decoration: none;
+}
+
+.rolang-nav-link.is-active {
+  background: rgba(197, 113, 114, 0.16);
+  border-color: rgba(197, 113, 114, 0.26);
+  color: var(--rolang-rose-deep);
+  font-weight: 700;
 }
 
 .rolang-icon-link {
@@ -165,7 +261,7 @@ textarea {
 
 .rolang-site-footer {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.5rem;
   margin: 4rem 0 2rem;
   padding: 2rem 0 0;
@@ -174,10 +270,23 @@ textarea {
 
 .rolang-footer-brand,
 .rolang-footer-links,
+.rolang-footer-policies,
 .rolang-footer-meta {
   display: flex;
   flex-direction: column;
   gap: 0.7rem;
+}
+
+.rolang-footer-support {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.rolang-footer-heading {
+  font-family: var(--rolang-heading-font);
+  font-size: 1rem;
+  letter-spacing: 0.04em;
 }
 
 .rolang-footer-meta p {
@@ -197,6 +306,20 @@ textarea {
 
 .rolang-footer-links a {
   color: rgba(45, 34, 36, 0.8);
+}
+
+.rolang-footer-policies a,
+.rolang-footer-support a,
+.rolang-footer-support span {
+  color: rgba(45, 34, 36, 0.8);
+  text-decoration: none;
+}
+
+.rolang-footer-policies p,
+.rolang-footer-support p {
+  color: rgba(45, 34, 36, 0.72);
+  margin: 0;
+  line-height: 1.6;
 }
 
 .rolang-section-frame {
@@ -420,6 +543,17 @@ textarea {
   border-radius: var(--rolang-radius-sm);
   background: rgba(255, 255, 255, 0.78);
   border: 1px solid rgba(45, 34, 36, 0.06);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.rolang-showcase-card:hover,
+.rolang-showcase-card:focus-within {
+  transform: translateY(-2px);
+  box-shadow: 0 18px 36px rgba(45, 34, 36, 0.1);
+  border-color: rgba(197, 113, 114, 0.18);
 }
 
 .rolang-showcase-media {
@@ -571,6 +705,19 @@ textarea {
   overflow: hidden;
   background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(45, 34, 36, 0.08);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.rolang-product-card:hover,
+.rolang-product-card:focus-within,
+.rolang-collection-list-card:hover,
+.rolang-collection-list-card:focus-visible {
+  transform: translateY(-4px);
+  box-shadow: 0 24px 48px rgba(45, 34, 36, 0.12);
+  border-color: rgba(197, 113, 114, 0.18);
 }
 
 .rolang-product-card-image {
@@ -621,6 +768,12 @@ textarea {
   color: var(--rolang-rose-deep);
   text-decoration: none;
   font-weight: 700;
+}
+
+.rolang-inline-link:hover,
+.rolang-inline-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 0.18em;
 }
 
 .rolang-collection-placeholder {
@@ -701,6 +854,30 @@ textarea {
   font-size: 1.45rem;
 }
 
+.rolang-detail-row,
+.rolang-inline-link-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.rolang-detail-pill,
+.rolang-support-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.55rem 0.8rem;
+  border-radius: 999px;
+  background: rgba(248, 239, 233, 0.72);
+  border: 1px solid rgba(45, 34, 36, 0.08);
+  color: rgba(45, 34, 36, 0.82);
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.rolang-inline-link-row--muted {
+  margin-top: 1rem;
+}
+
 .rolang-rte {
   display: grid;
   gap: 1rem;
@@ -725,6 +902,24 @@ textarea {
 .rolang-cart-summary-body {
   display: grid;
   gap: 1rem;
+}
+
+.rolang-trust-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1.35rem;
+  border-radius: var(--rolang-radius-md);
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid rgba(45, 34, 36, 0.08);
+}
+
+.rolang-trust-list {
+  display: grid;
+  gap: 0.65rem;
+  margin: 0;
+  padding-left: 1.1rem;
+  color: rgba(45, 34, 36, 0.78);
+  line-height: 1.6;
 }
 
 .rolang-field-group {
@@ -954,9 +1149,12 @@ textarea {
   .rolang-hero,
   .rolang-product-template,
   .rolang-cart-shell,
-  .rolang-contact-card,
-  .rolang-site-footer {
+  .rolang-contact-card {
     grid-template-columns: 1fr;
+  }
+
+  .rolang-site-footer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   .rolang-product-grid {
@@ -976,6 +1174,11 @@ textarea {
 }
 
 @media (max-width: 760px) {
+  .rolang-announcement-bar {
+    border-radius: 24px;
+  }
+
+  .rolang-announcement-bar,
   .rolang-site-header {
     flex-direction: column;
     align-items: stretch;
@@ -1015,7 +1218,8 @@ textarea {
   .rolang-steps-grid,
   .rolang-stats-grid,
   .rolang-search-grid,
-  .rolang-collections-grid {
+  .rolang-collections-grid,
+  .rolang-site-footer {
     grid-template-columns: 1fr;
   }
 

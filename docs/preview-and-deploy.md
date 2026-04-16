@@ -21,7 +21,7 @@ Shopify theme preview:
 
 ```bash
 cd /path/to/rolang-beauty/rolang-beauty-theme
-shopify theme dev --store s1gxej-hs.myshopify.com
+shopify theme dev --store rolangbeauty.myshopify.com
 ```
 
 ## Edit The Content
@@ -58,5 +58,5 @@ The workflow copies only the site files into the Pages artifact, so notes in `do
 
 ```bash
 cd /path/to/rolang-beauty/rolang-beauty-theme
-shopify theme push --store s1gxej-hs.myshopify.com --live
+shopify theme push --store rolangbeauty.myshopify.com --live
 ```

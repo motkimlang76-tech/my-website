@@ -31,7 +31,7 @@ Shopify theme preview:
 
 ```bash
 cd /path/to/rolang-beauty/rolang-beauty-theme
-shopify theme dev --store s1gxej-hs.myshopify.com
+shopify theme dev --store rolangbeauty.myshopify.com
 ```
 
 ## Main Content Sources

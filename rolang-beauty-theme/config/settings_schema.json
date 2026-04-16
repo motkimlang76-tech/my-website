@@ -96,5 +96,51 @@
         "default": "Curated Korean skincare shop"
       }
     ]
+  },
+  {
+    "name": "Store support",
+    "settings": [
+      {
+        "type": "text",
+        "id": "support_email",
+        "label": "Support email",
+        "default": "motkimlang76@gmail.com"
+      },
+      {
+        "type": "text",
+        "id": "support_phone",
+        "label": "Support phone"
+      },
+      {
+        "type": "text",
+        "id": "support_location",
+        "label": "Support location",
+        "default": "Phnom Penh City, Cambodia"
+      },
+      {
+        "type": "text",
+        "id": "support_hours",
+        "label": "Support note",
+        "default": "Email support for product questions, order updates, and policy help."
+      },
+      {
+        "type": "text",
+        "id": "announcement_text",
+        "label": "Announcement text",
+        "default": "Orders open now from the first Rolang Beauty launch edit."
+      },
+      {
+        "type": "textarea",
+        "id": "shipping_note",
+        "label": "Shipping note",
+        "default": "Shipping rates and delivery windows are shown at checkout before payment is completed."
+      },
+      {
+        "type": "textarea",
+        "id": "returns_note",
+        "label": "Returns note",
+        "default": "Return and refund details are linked from the store policies and support channels."
+      }
+    ]
   }
 ]

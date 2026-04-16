@@ -15,7 +15,9 @@
       "type": "header",
       "settings": {
         "tagline": "Korean skincare launch edit",
-        "menu": ""
+        "menu": "",
+        "announcement_link_label": "Shop launch",
+        "announcement_link_url": "/collections/launch-edit"
       }
     }
   },

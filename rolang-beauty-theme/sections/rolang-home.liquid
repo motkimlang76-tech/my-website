@@ -5,7 +5,17 @@
   assign brand_blocks = section.blocks | where: 'type', 'brand'
   assign hero_products = section.settings.hero_products
   assign featured_collection = section.settings.featured_collection
-  assign panel_items = section.settings.panel_items | newline_to_br | split: '<br />'
+  assign panel_items_markup = section.settings.panel_items | replace: '\n', '<br />' | newline_to_br
+  assign panel_items = panel_items_markup | split: '<br />'
+  assign support_email = section.settings.contact_email | default: settings.support_email | default: shop.email
+  assign support_location = settings.support_location
+  assign support_hours = settings.support_hours
+  assign shipping_policy = shop.shipping_policy
+  assign refund_policy = shop.refund_policy
+  assign hero_highlights_markup = section.settings.hero_highlights | replace: '\n', '<br />' | newline_to_br
+  assign hero_highlights = hero_highlights_markup | split: '<br />'
+  assign trust_items_markup = section.settings.trust_items | replace: '\n', '<br />' | newline_to_br
+  assign trust_items = trust_items_markup | split: '<br />'
 %}
 
 <div class="rolang-section-frame">
@@ -34,6 +44,22 @@
             </a>
           {% endif %}
         </div>
+
+        {% if hero_highlights.size > 0 and hero_highlights.first != blank %}
+          <div class="rolang-hero-highlights">
+            {% if section.settings.hero_highlights_heading != blank %}
+              <p class="rolang-small-copy">{{ section.settings.hero_highlights_heading }}</p>
+            {% endif %}
+            <div class="rolang-chip-row rolang-chip-row--tight">
+              {% for highlight in hero_highlights %}
+                {% assign highlight_text = highlight | strip %}
+                {% if highlight_text != blank %}
+                  <span class="rolang-chip">{{ highlight_text }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
       </div>
 
       <aside class="rolang-hero-panel">
@@ -122,6 +148,31 @@
       </aside>
     </section>
 
+    {% if trust_items.size > 0 and trust_items.first != blank %}
+      <section class="rolang-trust-grid">
+        <div class="rolang-section-heading">
+          <p class="rolang-eyebrow">{{ section.settings.trust_eyebrow }}</p>
+          <h2>{{ section.settings.trust_heading }}</h2>
+          <p>{{ section.settings.trust_description }}</p>
+        </div>
+        <div class="rolang-trust-cards">
+          {% for item in trust_items %}
+            {% assign parts = item | split: '||' %}
+            {% assign trust_title = parts[0] | strip %}
+            {% assign trust_body = parts[1] | strip %}
+            {% if trust_title != blank %}
+              <article class="rolang-soft-card rolang-trust-card">
+                <strong>{{ trust_title }}</strong>
+                {% if trust_body != blank %}
+                  <p>{{ trust_body }}</p>
+                {% endif %}
+              </article>
+            {% endif %}
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
     {% if stat_blocks.size > 0 %}
       <section class="rolang-stats-grid">
         {% for block in stat_blocks %}
@@ -179,6 +230,24 @@
         <h2>{{ section.settings.collection_heading }}</h2>
         <p>{{ section.settings.collection_description }}</p>
       </div>
+      {% assign collection_cta_target = section.settings.collection_cta_url %}
+      {% if collection_cta_target == blank and featured_collection != blank %}
+        {% assign collection_cta_target = featured_collection.url %}
+      {% endif %}
+      {% if section.settings.collection_highlight != blank or section.settings.collection_cta_label != blank %}
+        <div class="rolang-collection-promo">
+          {% if section.settings.collection_highlight != blank %}
+            <p class="rolang-subcopy">{{ section.settings.collection_highlight }}</p>
+          {% endif %}
+          {% if section.settings.collection_cta_label != blank and collection_cta_target != blank %}
+            <a class="rolang-inline-link" href="{{ collection_cta_target }}">
+              {{ section.settings.collection_cta_label }}
+            </a>
+          {% elsif featured_collection != blank %}
+            <a class="rolang-inline-link" href="{{ featured_collection.url }}">View collection</a>
+          {% endif %}
+        </div>
+      {% endif %}
 
       {% if featured_collection != blank %}
         <div class="rolang-product-grid">
@@ -226,11 +295,33 @@
         <p class="rolang-eyebrow">{{ section.settings.contact_eyebrow }}</p>
         <h2>{{ section.settings.contact_heading }}</h2>
         <p>{{ section.settings.contact_description }}</p>
+
+        {% if support_location != blank or support_hours != blank %}
+          <div class="rolang-inline-link-row rolang-inline-link-row--muted">
+            {% if support_location != blank %}
+              <span class="rolang-support-pill">{{ support_location }}</span>
+            {% endif %}
+            {% if support_hours != blank %}
+              <span class="rolang-support-pill">{{ support_hours }}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        {% if shipping_policy.body != blank or refund_policy.body != blank %}
+          <div class="rolang-inline-link-row">
+            {% if shipping_policy.body != blank %}
+              <a class="rolang-inline-link" href="{{ shipping_policy.url }}">Shipping policy</a>
+            {% endif %}
+            {% if refund_policy.body != blank %}
+              <a class="rolang-inline-link" href="{{ refund_policy.url }}">Refund policy</a>
+            {% endif %}
+          </div>
+        {% endif %}
       </div>
       <div class="rolang-contact-actions">
-        {% if section.settings.contact_email != blank %}
-          <a class="rolang-button rolang-contact-email" href="mailto:{{ section.settings.contact_email }}">
-            {{ section.settings.contact_email }}
+        {% if support_email != blank %}
+          <a class="rolang-button rolang-contact-email" href="mailto:{{ support_email }}">
+            {{ support_email }}
           </a>
         {% endif %}
         {% if section.settings.contact_link_label != blank and section.settings.contact_link_url != blank %}
@@ -290,6 +381,18 @@
     },
     {
       "type": "text",
+      "id": "hero_highlights_heading",
+      "label": "Hero highlights heading",
+      "default": "Focused for your first order"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_highlights",
+      "label": "Hero highlights (one per line)",
+      "default": "Curated launch assortment\nShopify checkout ready\nSupport from Phnom Penh"
+    },
+    {
+      "type": "text",
       "id": "panel_eyebrow",
       "label": "Panel eyebrow",
       "default": "Starter set"
@@ -316,6 +419,30 @@
       "type": "product_list",
       "id": "hero_products",
       "label": "Hero products"
+    },
+    {
+      "type": "text",
+      "id": "trust_eyebrow",
+      "label": "Trust eyebrow",
+      "default": "ROLANG assurance"
+    },
+    {
+      "type": "text",
+      "id": "trust_heading",
+      "label": "Trust heading",
+      "default": "Why shop with Rolang Beauty"
+    },
+    {
+      "type": "textarea",
+      "id": "trust_description",
+      "label": "Trust description",
+      "default": "Each launch product includes clear descriptions, ingredient context, and direct support from the Rolang team."
+    },
+    {
+      "type": "textarea",
+      "id": "trust_items",
+      "label": "Trust items (title||description per line)",
+      "default": "Local support||Questions and order updates are handled by the Rolang team from Phnom Penh.\nFocused first drop||The launch stays intentionally tight so products are easier to compare and restock.\nPolicy-backed checkout||Shipping and return details stay linked from Shopify during checkout."
     },
     {
       "type": "text",
@@ -370,6 +497,23 @@
       "id": "collection_description",
       "label": "Collection description",
       "default": "Select a collection in the theme editor after you import products. The cards below will then show real product images, prices, and product pages."
+    },
+    {
+      "type": "text",
+      "id": "collection_highlight",
+      "label": "Collection highlight copy",
+      "default": "Launch edit curated for calming hydration, daily sunscreen, and treatment staples."
+    },
+    {
+      "type": "text",
+      "id": "collection_cta_label",
+      "label": "Collection CTA label",
+      "default": "View the launch collection"
+    },
+    {
+      "type": "url",
+      "id": "collection_cta_url",
+      "label": "Collection CTA URL"
     },
     {
       "type": "collection",

@@ -28,9 +28,13 @@
   </head>
 
   <body class="rolang-theme">
+    <a class="rolang-skip-link" href="#MainContent">Skip to content</a>
+
     {% sections 'header-group' %}
 
-    {{ content_for_layout }}
+    <main id="MainContent" class="rolang-main-content" tabindex="-1">
+      {{ content_for_layout }}
+    </main>
 
     {% sections 'footer-group' %}
   </body>

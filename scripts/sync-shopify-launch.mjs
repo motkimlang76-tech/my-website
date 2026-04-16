@@ -3,13 +3,21 @@ import os from 'node:os';
 import path from 'node:path';
 import { siteData } from '../src/data/site-data.js';
 
-const STORE_DOMAIN = process.env.SHOPIFY_STORE ?? 's1gxej-hs.myshopify.com';
+const STORE_DOMAIN = process.env.SHOPIFY_STORE ?? 'rolangbeauty.myshopify.com';
 const API_VERSION = process.env.SHOPIFY_API_VERSION ?? '2026-01';
+const ONLINE_STORE_PUBLICATION_ID =
+  process.env.SHOPIFY_ONLINE_STORE_PUBLICATION_ID ?? 'gid://shopify/Publication/337153851761';
 const RAW_BASE = 'https://raw.githubusercontent.com/motkimlang76-tech/rolang-beauty/main/';
 const STORE_CONFIG_PATH =
   process.env.SHOPIFY_STORE_CONFIG_PATH ??
   path.join(os.homedir(), 'Library/Preferences/shopify-cli-store-nodejs/config.json');
 const OUTPUT_PATH = new URL('../shopify-import/rolang-launch-report.json', import.meta.url);
+const INVENTORY_SETTINGS = Object.freeze({
+  tracked: false,
+  inventoryPolicy: 'CONTINUE',
+  requiresShipping: true,
+});
+let publicationAccessWarningShown = false;
 
 // Rounded MYR launch pricing based on current April 2026 market checks.
 const LAUNCH_PRODUCTS = [
@@ -153,21 +161,43 @@ function buildSku(product) {
   return `RB-${slugify(product.title).toUpperCase().replace(/-/g, '-')}`;
 }
 
+function buildInventoryMode(overrides = {}) {
+  const inventoryMode = { ...INVENTORY_SETTINGS, ...overrides };
+
+  return {
+    ...inventoryMode,
+    sellWhenOutOfStock: inventoryMode.inventoryPolicy === 'CONTINUE',
+  };
+}
+
 function loadStoreToken(storeDomain) {
   const config = JSON.parse(readFileSync(STORE_CONFIG_PATH, 'utf8'));
+  const candidates = [];
 
   for (const entry of Object.values(config)) {
     const sessionsByUserId = entry?.myshopify?.com?.sessionsByUserId;
     if (!sessionsByUserId) continue;
 
     for (const session of Object.values(sessionsByUserId)) {
-      if (session?.store !== storeDomain) continue;
       if (!(session.scopes ?? []).includes('write_products')) continue;
-      return session.accessToken;
+
+      if (session?.store === storeDomain) {
+        return session.accessToken;
+      }
+
+      candidates.push(session);
     }
   }
 
-  throw new Error(`No Shopify CLI store token with write_products scope found for ${storeDomain}.`);
+  if (candidates.length === 1) {
+    return candidates[0].accessToken;
+  }
+
+  const candidateStores = candidates.map((session) => session.store).filter(Boolean);
+
+  throw new Error(
+    `No Shopify CLI store token with write_products scope found for ${storeDomain}. Available token stores: ${candidateStores.join(', ') || 'none'}.`,
+  );
 }
 
 async function adminFetch(query, variables = {}) {
@@ -196,6 +226,53 @@ async function adminFetch(query, variables = {}) {
 function assertNoUserErrors(action, userErrors) {
   if (!userErrors?.length) return;
   throw new Error(`${action} failed: ${JSON.stringify(userErrors)}`);
+}
+
+async function publishToOnlineStore(id) {
+  try {
+    const data = await adminFetch(
+      `
+        mutation PublishToOnlineStore($id: ID!, $input: [PublicationInput!]!) {
+          publishablePublish(id: $id, input: $input) {
+            publishable {
+              ... on Product {
+                id
+              }
+              ... on Collection {
+                id
+              }
+            }
+            userErrors {
+              field
+              message
+            }
+          }
+        }
+      `,
+      {
+        id,
+        input: [{ publicationId: ONLINE_STORE_PUBLICATION_ID }],
+      },
+    );
+
+    assertNoUserErrors('publishablePublish', data.publishablePublish.userErrors);
+    return true;
+  } catch (error) {
+    const message = error instanceof Error ? error.message : String(error);
+
+    if (message.includes('write_publications') || message.includes('publishablePublish field')) {
+      if (!publicationAccessWarningShown) {
+        console.warn(
+          'Skipping Online Store publication because the current Shopify CLI token lacks write_publications. Products stay synced, but channel publishing still needs Shopify admin access.',
+        );
+        publicationAccessWarningShown = true;
+      }
+
+      return false;
+    }
+
+    throw error;
+  }
 }
 
 async function findProductByHandle(handle) {
@@ -353,6 +430,9 @@ async function upsertProduct(product, launchConfig) {
     throw new Error(`No default variant returned for ${product.title}.`);
   }
 
+  const inventoryMode = buildInventoryMode({
+    sku: buildSku(product),
+  });
   const variantData = await adminFetch(
     `
       mutation UpdateVariants($productId: ID!, $variants: [ProductVariantsBulkInput!]!) {
@@ -383,12 +463,12 @@ async function upsertProduct(product, launchConfig) {
         {
           id: variantId,
           price: launchConfig.price.toFixed(2),
-          inventoryPolicy: 'CONTINUE',
+          inventoryPolicy: inventoryMode.inventoryPolicy,
           taxable: true,
           inventoryItem: {
-            sku: buildSku(product),
-            tracked: false,
-            requiresShipping: true,
+            sku: inventoryMode.sku,
+            tracked: inventoryMode.tracked,
+            requiresShipping: inventoryMode.requiresShipping,
           },
         },
       ],
@@ -396,12 +476,14 @@ async function upsertProduct(product, launchConfig) {
   );
 
   assertNoUserErrors('productVariantsBulkUpdate', variantData.productVariantsBulkUpdate.userErrors);
+  await publishToOnlineStore(savedProduct.id);
 
   return {
     id: savedProduct.id,
     title: product.title,
     handle,
     price: launchConfig.price,
+    inventory: inventoryMode,
   };
 }
 
@@ -493,6 +575,8 @@ async function upsertCollection(handle, config, productIds) {
       assertNoUserErrors('collectionAddProducts', addData.collectionAddProducts.userErrors);
     }
 
+    await publishToOnlineStore(existing.id);
+
     return {
       id: existing.id,
       title: config.title,
@@ -526,6 +610,7 @@ async function upsertCollection(handle, config, productIds) {
   );
 
   assertNoUserErrors('collectionCreate', createData.collectionCreate.userErrors);
+  await publishToOnlineStore(createData.collectionCreate.collection.id);
 
   return {
     id: createData.collectionCreate.collection.id,
@@ -568,6 +653,12 @@ async function main() {
   const report = {
     store: STORE_DOMAIN,
     generatedAt: new Date().toISOString(),
+    onlineStorePublication:
+      publicationAccessWarningShown ? 'skipped_missing_write_publications_scope' : 'published',
+    inventoryMode: {
+      ...buildInventoryMode(),
+      productCount: savedProducts.length,
+    },
     products: savedProducts,
     collections: collectionEntries,
   };
@@ -576,6 +667,9 @@ async function main() {
 
   console.log(`Synced ${savedProducts.length} launch products to ${STORE_DOMAIN}`);
   console.log(`Prepared ${collectionEntries.length} collections`);
+  console.log(
+    `Inventory mode: tracked=${INVENTORY_SETTINGS.tracked}, inventoryPolicy=${INVENTORY_SETTINGS.inventoryPolicy}, requiresShipping=${INVENTORY_SETTINGS.requiresShipping}`,
+  );
   console.log(`Wrote report to ${OUTPUT_PATH.pathname}`);
 }
 

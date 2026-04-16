@@ -1,5 +1,51 @@
 {% assign brand_name = settings.brand_name | default: shop.name %}
 {% assign brand_tagline = settings.brand_tagline | default: section.settings.tagline %}
+{% assign support_email = settings.support_email | default: shop.email %}
+{% assign support_phone = settings.support_phone %}
+{% assign announcement_text = settings.announcement_text %}
+{% assign announcement_link_label = section.settings.announcement_link_label %}
+{% assign announcement_link_url = section.settings.announcement_link_url %}
+{% assign shipping_policy = shop.shipping_policy %}
+{% assign refund_policy = shop.refund_policy %}
+{% assign has_announcement = false %}
+
+{% if announcement_text != blank
+  or support_email != blank
+  or support_phone != blank
+  or shipping_policy.body != blank
+  or refund_policy.body != blank
+  or announcement_link_label != blank
+%}
+  {% assign has_announcement = true %}
+{% endif %}
+
+{% if has_announcement %}
+  <div class="rolang-announcement-bar">
+    <div class="rolang-announcement-copy">
+      {% if announcement_text != blank %}
+        <span>{{ announcement_text }}</span>
+      {% endif %}
+      {% if support_email != blank %}
+        <a href="mailto:{{ support_email }}">Email support</a>
+      {% endif %}
+      {% if support_phone != blank %}
+        <a href="tel:{{ support_phone | replace: ' ', '' }}">{{ support_phone }}</a>
+      {% endif %}
+    </div>
+
+    <div class="rolang-announcement-links">
+      {% if shipping_policy.body != blank %}
+        <a href="{{ shipping_policy.url }}">Shipping policy</a>
+      {% endif %}
+      {% if refund_policy.body != blank %}
+        <a href="{{ refund_policy.url }}">Returns</a>
+      {% endif %}
+      {% if announcement_link_label != blank and announcement_link_url != blank %}
+        <a href="{{ announcement_link_url }}">{{ announcement_link_label }}</a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
 
 <header class="rolang-site-header">
   <a class="rolang-brand" href="{{ routes.root_url }}">
@@ -16,12 +62,53 @@
     <div class="rolang-nav-links">
       {% if section.settings.menu != blank and section.settings.menu.links.size > 0 %}
         {% for link in section.settings.menu.links %}
-          <a href="{{ link.url }}">{{ link.title }}</a>
+          <a
+            class="rolang-nav-link{% if link.current or link.active %} is-active{% endif %}"
+            href="{{ link.url }}"
+            {% if link.current or link.active %}
+              aria-current="page"
+            {% endif %}
+          >
+            <span>{{ link.title }}</span>
+          </a>
         {% endfor %}
       {% else %}
-        <a href="{{ routes.root_url }}">Home</a>
-        <a href="{{ routes.all_products_collection_url }}">Products</a>
-        <a href="{{ routes.collections_url }}">Collections</a>
+        <a
+          class="rolang-nav-link{% if request.page_type == 'index' %} is-active{% endif %}"
+          href="{{ routes.root_url }}"
+          {% if request.page_type == 'index' %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span>Home</span>
+        </a>
+        <a
+          class="rolang-nav-link{% if request.page_type == 'collection' or request.page_type == 'product' %} is-active{% endif %}"
+          href="{{ routes.all_products_collection_url }}"
+          {% if request.page_type == 'collection' or request.page_type == 'product' %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span>Products</span>
+        </a>
+        <a
+          class="rolang-nav-link{% if request.page_type == 'list-collections' %} is-active{% endif %}"
+          href="{{ routes.collections_url }}"
+          {% if request.page_type == 'list-collections' %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span>Collections</span>
+        </a>
+        <a
+          class="rolang-nav-link{% if request.page_type == 'search' %} is-active{% endif %}"
+          href="{{ routes.search_url }}"
+          {% if request.page_type == 'search' %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span>Search</span>
+        </a>
       {% endif %}
     </div>
 
@@ -56,6 +143,17 @@
       "type": "link_list",
       "id": "menu",
       "label": "t:labels.menu"
+    },
+    {
+      "type": "text",
+      "id": "announcement_link_label",
+      "label": "Announcement link label",
+      "default": "Shop launch"
+    },
+    {
+      "type": "url",
+      "id": "announcement_link_url",
+      "label": "Announcement link URL"
     },
     {
       "type": "link_list",

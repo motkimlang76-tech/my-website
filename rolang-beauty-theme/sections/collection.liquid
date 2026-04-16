@@ -12,39 +12,114 @@
   </div>
 
   {% paginate collection.products by section.settings.products_per_page %}
-    <div class="rolang-product-grid">
-      {% for product in collection.products %}
-        <article class="rolang-product-card">
-          <div class="rolang-product-card-image">
-            {% if product.featured_image %}
-              {% render 'image',
-                image: product.featured_image,
-                url: product.url,
-                width: 640,
-                height: 640,
-                crop: 'center'
-              %}
+    {% assign current_sort = collection.sort_by | default: collection.default_sort_by %}
+
+    <div class="rolang-product-form-card">
+      <div class="rolang-product-form-fields">
+        <div>
+          <p class="rolang-eyebrow">Collection tools</p>
+          <p>
+            {% if paginate.items == 1 %}
+              1 product available in this collection.
+            {% else %}
+              {{ paginate.items }} products available in this collection.
+            {% endif %}
+          </p>
+        </div>
+
+        <form action="{{ request.path }}" method="get">
+          <div class="rolang-field-group">
+            <label for="SortBy-{{ section.id }}">Sort products</label>
+            <select id="SortBy-{{ section.id }}" name="sort_by">
+              {% for option in collection.sort_options %}
+                <option
+                  value="{{ option.value }}"
+                  {% if option.value == current_sort %}
+                    selected="selected"
+                  {% endif %}
+                >
+                  {{ option.name }}
+                </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="rolang-cart-actions">
+            <button class="rolang-button-secondary" type="submit">Apply sort</button>
+            {% if collection.handle != 'all' %}
+              <a class="rolang-inline-link" href="{{ routes.all_products_collection_url }}">Browse all products</a>
             {% endif %}
           </div>
-          <div class="rolang-product-card-copy">
-            <span class="rolang-product-meta">{{ product.vendor | default: shop.name }}</span>
-            <strong>{{ product.title }}</strong>
-            <div class="rolang-price-row">
-              <span class="rolang-price">{{ product.price | money }}</span>
-              {% if product.compare_at_price > product.price %}
-                <span class="rolang-compare-price">{{ product.compare_at_price | money }}</span>
+        </form>
+      </div>
+    </div>
+
+    {% if paginate.items == 0 %}
+      <div class="rolang-product-form-card">
+        <div class="rolang-product-form-fields">
+          <div>
+            <p class="rolang-eyebrow">Nothing here yet</p>
+            <p>This collection does not have any products yet. Browse the full catalog while it is being updated.</p>
+          </div>
+
+          <div class="rolang-cart-actions">
+            <a class="rolang-button" href="{{ routes.all_products_collection_url }}">Browse all products</a>
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <div class="rolang-product-grid">
+        {% for product in collection.products %}
+          <article class="rolang-product-card">
+            <div class="rolang-product-card-image">
+              {% if product.featured_image %}
+                {% render 'image',
+                  image: product.featured_image,
+                  url: product.url,
+                  width: 640,
+                  height: 640,
+                  crop: 'center'
+                %}
               {% endif %}
             </div>
-            <div class="rolang-tag-row">
-              {% for tag in product.tags limit: 3 %}
-                <span class="rolang-chip">{{ tag }}</span>
-              {% endfor %}
+            <div class="rolang-product-card-copy">
+              <span class="rolang-product-meta">{{ product.vendor | default: shop.name }}</span>
+              <strong>{{ product.title }}</strong>
+              <div class="rolang-price-row">
+                <span class="rolang-price">
+                  {% if product.price_varies %}
+                    From {{ product.price_min | money }}
+                  {% else %}
+                    {{ product.price | money }}
+                  {% endif %}
+                </span>
+                {% if product.compare_at_price > product.price %}
+                  <span class="rolang-compare-price">{{ product.compare_at_price | money }}</span>
+                {% endif %}
+              </div>
+              <div class="rolang-detail-row">
+                <span class="rolang-detail-pill">
+                  {% if product.available %}
+                    Available for checkout
+                  {% else %}
+                    Sold out
+                  {% endif %}
+                </span>
+                {% if product.price_varies %}
+                  <span class="rolang-detail-pill">{{ product.variants.size }} options</span>
+                {% endif %}
+              </div>
+              <div class="rolang-tag-row">
+                {% for tag in product.tags limit: 3 %}
+                  <span class="rolang-chip">{{ tag }}</span>
+                {% endfor %}
+              </div>
+              <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
             </div>
-            <a class="rolang-inline-link" href="{{ product.url }}">View product</a>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% endif %}
 
     {{ paginate | default_pagination }}
   {% endpaginate %}

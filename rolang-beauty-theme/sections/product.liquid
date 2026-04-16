@@ -1,4 +1,10 @@
 {% assign current_variant = product.selected_or_first_available_variant %}
+{% assign support_email = settings.support_email | default: shop.email %}
+{% assign support_location = settings.support_location %}
+{% assign shipping_note = settings.shipping_note %}
+{% assign returns_note = settings.returns_note %}
+{% assign shipping_policy = shop.shipping_policy %}
+{% assign refund_policy = shop.refund_policy %}
 
 <div class="rolang-product-template">
   <div class="rolang-product-gallery">
@@ -27,6 +33,22 @@
       <span class="rolang-price">{{ current_variant.price | money }}</span>
       {% if current_variant.compare_at_price > current_variant.price %}
         <span class="rolang-compare-price">{{ current_variant.compare_at_price | money }}</span>
+      {% endif %}
+    </div>
+
+    <div class="rolang-detail-row">
+      <span class="rolang-detail-pill">
+        {% if current_variant.available %}
+          Available for checkout
+        {% else %}
+          Currently sold out
+        {% endif %}
+      </span>
+      {% if current_variant.sku != blank %}
+        <span class="rolang-detail-pill">SKU {{ current_variant.sku }}</span>
+      {% endif %}
+      {% if product.type != blank %}
+        <span class="rolang-detail-pill">{{ product.type }}</span>
       {% endif %}
     </div>
 
@@ -93,6 +115,34 @@
           </div>
         </div>
       {% endform %}
+    </div>
+
+    <div class="rolang-trust-card">
+      <p class="rolang-eyebrow">Before you order</p>
+      <ul class="rolang-trust-list">
+        <li>Checkout and order confirmation are handled through Shopify.</li>
+        {% if shipping_note != blank %}
+          <li>{{ shipping_note }}</li>
+        {% endif %}
+        {% if returns_note != blank %}
+          <li>{{ returns_note }}</li>
+        {% endif %}
+        {% if support_location != blank %}
+          <li>Store support base: {{ support_location }}</li>
+        {% endif %}
+      </ul>
+
+      <div class="rolang-inline-link-row">
+        {% if shipping_policy.body != blank %}
+          <a class="rolang-inline-link" href="{{ shipping_policy.url }}">Shipping policy</a>
+        {% endif %}
+        {% if refund_policy.body != blank %}
+          <a class="rolang-inline-link" href="{{ refund_policy.url }}">Refund policy</a>
+        {% endif %}
+        {% if support_email != blank %}
+          <a class="rolang-inline-link" href="mailto:{{ support_email }}">Email support</a>
+        {% endif %}
+      </div>
     </div>
   </div>
 </div>

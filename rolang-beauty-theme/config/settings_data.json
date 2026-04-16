@@ -10,6 +10,13 @@
 {
   "current": {
     "brand_name": "ROLANG BEAUTY",
-    "brand_tagline": "Korean skincare launch edit"
+    "brand_tagline": "Korean skincare launch edit",
+    "support_email": "motkimlang76@gmail.com",
+    "support_phone": "",
+    "support_location": "Phnom Penh City, Cambodia",
+    "support_hours": "Email support for product questions, order updates, and policy help.",
+    "announcement_text": "Orders open now from the first Rolang Beauty launch edit.",
+    "shipping_note": "Available shipping options and rates are shown at checkout before payment is completed. Delivery estimates, when available, depend on the destination and carrier.",
+    "returns_note": "Return and refund details are linked from the store policies and support channels."
   }
 }

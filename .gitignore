@@ -7,3 +7,9 @@ coverage/
 .env
 .env.*
 shopify-import/rolang-launch-report.json
+launch-action-items-local/
+.autopilot/
+docs/autopilot.md
+scripts/autopilot-issue-sync.mjs
+scripts/autopilot-runner.mjs
+scripts/autopilot-watchdog.sh
